@@ -990,10 +990,135 @@ p {
   gap: 0.45rem;
 }
 
-.footer-logo {
-  height: 28px;
-  width: auto;
+.footer-wordmark {
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--teal);
 }
+
+/* Discover — Influenster-style circle collage */
+.discover {
+  background: linear-gradient(145deg, #006666 0%, #008080 45%, #009999 100%);
+  color: white;
+  padding: 4.5rem 0 5rem;
+  margin: 2rem 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.discover-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.95fr) 1.2fr;
+  gap: 2rem;
+  align-items: center;
+  min-height: 560px;
+}
+
+.discover-copy {
+  z-index: 2;
+  max-width: 420px;
+}
+
+.discover-copy h2 {
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  line-height: 1.08;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.75rem;
+  color: white;
+}
+
+.discover-sub {
+  font-size: 1.15rem;
+  opacity: 0.92;
+  margin: 0 0 1.75rem;
+}
+
+.btn-discover {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: #008080;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 0.9rem 1.8rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-discover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+}
+
+.discover-stores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.35rem;
+}
+
+.btn-store.dark {
+  background: #111;
+  color: white;
+  border-radius: 10px;
+  padding: 0.55rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.btn-store.dark small {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  opacity: 0.85;
+  line-height: 1;
+}
+
+.btn-store.dark svg {
+  width: 18px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.discover-collage {
+  position: relative;
+  height: 560px;
+  width: 100%;
+  min-height: 480px;
+}
+
+.discover-collage .bubble {
+  position: absolute;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+}
+
+.discover-collage .b1 { width: 118px; height: 118px; top: 4%; left: 8%; }
+.discover-collage .b2 { width: 92px; height: 92px; top: 2%; left: 38%; }
+.discover-collage .b3 { width: 140px; height: 140px; top: 8%; right: 18%; }
+.discover-collage .b4 { width: 78px; height: 78px; top: 18%; right: 2%; }
+.discover-collage .b5 { width: 200px; height: 200px; top: 28%; left: 18%; z-index: 2; }
+.discover-collage .b6 { width: 110px; height: 110px; top: 26%; right: 28%; }
+.discover-collage .b7 { width: 86px; height: 86px; top: 42%; right: 6%; }
+.discover-collage .b8 { width: 160px; height: 160px; bottom: 12%; left: 2%; }
+.discover-collage .b9 { width: 96px; height: 96px; bottom: 28%; left: 42%; }
+.discover-collage .b10 { width: 230px; height: 230px; bottom: -4%; right: 12%; z-index: 3; }
+.discover-collage .b11 { width: 100px; height: 100px; bottom: 8%; right: -2%; }
+.discover-collage .b12 { width: 88px; height: 88px; top: 48%; left: 0%; }
+.discover-collage .b13 { width: 72px; height: 72px; bottom: 36%; right: 38%; }
+.discover-collage .b14 { width: 84px; height: 84px; top: 0%; right: 36%; }
 
 /* Reveal on scroll */
 .reveal {
@@ -1009,6 +1134,26 @@ p {
 
 /* Responsive */
 @media (max-width: 960px) {
+  .discover-inner {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 1.5rem;
+  }
+
+  .discover-copy {
+    max-width: none;
+    text-align: center;
+  }
+
+  .discover-stores {
+    justify-content: center;
+  }
+
+  .discover-collage {
+    height: 420px;
+    margin: 0 -1rem;
+  }
+
   .nav-links {
     display: none;
   }
@@ -1060,6 +1205,18 @@ p {
 }
 
 @media (max-width: 560px) {
+  .discover {
+    padding: 3rem 0 3.5rem;
+  }
+
+  .discover-collage {
+    height: 340px;
+  }
+
+  .discover-collage .b5 { width: 150px; height: 150px; }
+  .discover-collage .b10 { width: 170px; height: 170px; }
+  .discover-collage .b8 { width: 120px; height: 120px; }
+
   .hero {
     padding-top: 1.5rem;
     min-height: auto;
