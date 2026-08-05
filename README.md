@@ -5,7 +5,7 @@ Marketing site for **CLocal** — video-first local discovery.
 **Live:** https://clocal.co.uk  
 **Repo:** https://github.com/Clickclick26/CLocal-Website
 
-## Brand colors
+## Brand colours
 
 - Vibrant Teal `#008080`
 - Bright Sage `#77DD77`
