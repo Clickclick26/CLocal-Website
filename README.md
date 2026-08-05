@@ -11,81 +11,87 @@ Marketing site for **CLocal** — video-first local discovery.
 - Bright Sage `#77DD77`
 - Intense Turquoise `#00FFFF`
 
-## Waitlist form (current: FormSubmit)
+## Waitlist form (ClickClick CRM + Resend)
 
-Submissions go to **hello@clocal.co.uk** via [FormSubmit.co](https://formsubmit.co) (classic HTML POST, then redirect back with `?waitlist=ok`).
+The form posts JSON to a **public** Supabase Edge Function in **clickclick-crm** (`waitlist-ingest`). That function:
+
+1. Saves / updates a CRM contact (`source=clocal-waitlist`, tags `clocal`, `waitlist`, roles)
+2. Writes a `waitlist_signups` audit row
+3. Sends a confirm email from **hello@clocal.co.uk** via **Resend**
+
+Public URL only lives in `config.js` (no API keys on GitHub Pages).
+
+```js
+window.CLOCAL_CONFIG = {
+  waitlistUrl: "https://<PROJECT_REF>.supabase.co/functions/v1/waitlist-ingest",
+};
+```
+
+Until `waitlistUrl` is filled, the form shows a short “email hello@…” message instead of posting.
+
+Full CRM deploy notes: `~/Projects/clickclick-crm/docs/clocal-waitlist-ingest.md`
 
 ### Soft validation (email + postcode)
 
 Client-side checks catch empty fields and obvious garbage only:
 
-- **Email:** format only — `local@domain.tld` (must have `@`, a dot in the domain, no spaces). **Any TLD allowed** (`.com`, `.video`, `.site`, etc.). Do **not** add disposable-domain / TLD blocklists — they false-block real addresses.
-- **Postcode:** loose UK format (outward + inward, e.g. `BT7 1NN`). Soft launch is South Belfast (BT7/BT9) but other UK codes are accepted. No postcode API.
-- **Newsletter:** checkbox default **on**. Posts `newsletter=yes` or `newsletter=no`.
+- **Email:** format only — `local@domain.tld` (must have `@`, a dot in the domain, no spaces). **Any TLD allowed**. Do **not** add disposable-domain / TLD blocklists.
+- **Postcode:** loose UK format (e.g. `BT7 1NN`). Other UK codes are accepted.
+- **Newsletter:** checkbox default **on**. Sent as `newsletter: true/false`.
+- **Honeypot:** `_honey` (hidden). Bots that fill it get a fake success.
 
-These checks are **not** a guarantee someone is real. The honeypot (`_honey`) helps with bots.
+### Kathryn setup checklist
 
-### Confirmation emails / newsletter (FormSubmit limits)
+Do these in order. Paste keys only in the dashboards named below — **never in chat or git**.
 
-FormSubmit only forwards the waitlist form to **hello@clocal.co.uk**. It does **not** send a proper double-opt-in confirm to the signer.
+#### 1. Resend
 
-Success copy on the site is honest: we’ll email them when invited — not a fake “confirm your newsletter” we can’t deliver.
+1. Create account at [resend.com](https://resend.com) (free tier is fine).
+2. Add domain **clocal.co.uk**.
+3. Copy the DNS records Resend shows (SPF, DKIM, maybe a verify TXT).
 
-For real confirm-without-spam later: wire **ClickClick CRM**, Mailchimp, or similar with double opt-in, plus **SPF/DKIM** on `hello@clocal.co.uk` (or the sending domain).
+#### 2. 123reg DNS
 
-### One-time activation (required)
+1. Open **123reg** → **clocal.co.uk** → DNS.
+2. Add Resend’s records exactly.
+3. Keep the existing GitHub Pages **A** records for the website.
+4. If there is already one SPF TXT on `@`, merge into a single SPF (Resend docs explain how).
+5. Wait until Resend shows the domain **Verified**.
 
-FormSubmit will **not** forward waitlist emails until you activate once:
+#### 3. Supabase secrets (clickclick-crm project)
 
-1. Submit the waitlist once from **https://clocal.co.uk** (not a local `file://` page).
-2. Check **hello@clocal.co.uk** — including **Spam / Junk**. FormSubmit mail often lands there, especially on custom domains.
-3. Open the email and click **Activate Form**.
-4. After that, new sign-ups arrive at `hello@clocal.co.uk`. FormSubmit also keeps pending submissions for ~30 days and sends them after you activate.
+Dashboard → **Project Settings → Edge Functions → Secrets** (or CLI on your machine):
 
-### If the activation email never arrives
+- `RESEND_API_KEY` = key from Resend
+- `CLOCAL_MAIL_FROM` = `CLocal <hello@clocal.co.uk>`
 
-- Search the inbox for `formsubmit` / `Activate Form`.
-- Wait a few minutes and submit again from the live site (each attempt can resend activation).
-- **Alternate test:** temporarily change the form `action` (and only that) to a personal Gmail you control, submit once, activate there, then either keep that inbox or switch the action URL to the **random hash** FormSubmit puts in the activation email (hides your address and still delivers to the activated inbox).
-- Do **not** expect AJAX/`fetch` to fix a missing activation email — FormSubmit already says it sent one; delivery to business mail is the usual blocker.
+Service role / project URL are normally injected for Edge Functions. Do not put them in this repo.
 
-## Waitlist → ClickClick CRM (preferred next step)
+#### 4. Deploy CRM pieces
 
-**ClickClick CRM** is the custom app at `~/Projects/clickclick-crm` (Supabase + dialer). It is **not** HubSpot / Salesforce / Attio.
+From **clickclick-crm**:
 
-It already knows brand **CLocal** (`brands.id = clocal`). Contacts use `source` + `tags`; deals use `brand_id`.
+```bash
+supabase db push
+# or paste supabase/migrations/0008_waitlist_signups.sql in the SQL Editor
 
-There is **no public waitlist webhook yet**. Contacts are insertable only by logged-in CRM users (RLS). The static GitHub Pages site must **never** hold a Supabase service-role key.
-
-### Recommended shape
-
-1. In **clickclick-crm**, add a Supabase Edge Function, e.g. `waitlist-ingest`.
-2. Function secret (server-side only): `WAITLIST_INGEST_SECRET` — Kathryn pastes this in Supabase → Edge Functions → Secrets.
-3. Landing posts to that function URL with a public header secret (or signed token), **not** the DB service key.
-4. Function inserts a `contacts` row tagged as CLocal, then optionally emails `hello@clocal.co.uk`.
-
-### Suggested contact fields for CLocal waitlist
-
-| Field | Value |
-|-------|--------|
-| `source` | `clocal-waitlist` |
-| `tags` | `['clocal', 'waitlist', '<role>']` (Consumer / Creator / Business) |
-| `stage` | `new` |
-| `region` | infer from postcode when possible, else `belfast` / `other` |
-| `notes` | `postcode: …; roles: …` |
-| later deal `brand_id` | `clocal` |
-
-### Landing config (when the function exists)
-
-In `script.js`, replace FormSubmit with something like:
-
-```js
-const WAITLIST_URL = "https://<PROJECT_REF>.supabase.co/functions/v1/waitlist-ingest";
-// Public ingest secret only — NEVER the service_role key.
-const WAITLIST_SECRET = "PASTE_PUBLIC_INGEST_SECRET_HERE";
+supabase functions deploy waitlist-ingest
 ```
 
-Until that function ships: keep FormSubmit, then CSV-import into CRM with `source=clocal-waitlist` and tag `clocal`.
+Confirm the function has **Verify JWT = off** (`supabase/config.toml`).
+
+#### 5. Point this landing site
+
+1. Copy the function URL: `https://<PROJECT_REF>.supabase.co/functions/v1/waitlist-ingest`
+2. Put it in `config.js` → `waitlistUrl`
+3. Commit + push this repo so GitHub Pages updates
+
+#### 6. Test
+
+1. Submit the form on https://clocal.co.uk with an inbox you control
+2. CRM → Contacts: `source=clocal-waitlist`, tags include `clocal` / `waitlist`
+3. Check the confirm email (and Spam once)
+4. Check Resend → Emails for delivery
 
 ## Preview locally
 
