@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CLocal — Find hidden gems near you</title>
-  <meta name="description" content="CLocal helps you love local. Watch real neighbourhood video, reserve complimentary shop invites, and get nearby LocalGem alerts. South Belfast early access." />
+  <meta name="description" content="CLocal helps you love local. Watch real neighbourhood video, reserve complimentary shop invites, and get nearby LocalGem alerts. South Belfast · invite-only early access." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -26,24 +26,60 @@
   </header>
 
   <main id="top">
-    <!-- HERO -->
-    <section class="hero">
+    <!-- HERO + WAITLIST (one first-viewport block) -->
+    <section class="hero" id="early-access">
       <div class="hero-copy">
-        <p class="hero-eyebrow">South Belfast soft launch</p>
+        <p class="hero-eyebrow">Invite-only · South Belfast</p>
         <h1>
           <span class="brand-hero">CLocal</span><br />
           Find<br />
           <span class="grad-text">hidden gems.</span>
         </h1>
         <p class="hero-lead">
-          Love local, properly. Watch real neighbourhood video.
-          Reserve complimentary shop invites. Get nearby alerts when a LocalGem is close.
+          Love local, properly — video, complimentary shop invites, and LocalGems near you.
         </p>
         <div class="hero-cta" id="coming-soon">
-          <a class="btn btn-pill" href="#early-access">Join the waitlist</a>
           <a class="btn btn-ghost" href="#how">How it works</a>
         </div>
-        <p class="hero-note">Early access · iPhone TestFlight &amp; web after you’re invited</p>
+
+        <div class="hero-waitlist">
+          <h2 class="hero-form-title">Join the waitlist</h2>
+          <p class="hero-form-lead">
+            Invite-only for South Belfast. Join below — if you’re invited, you’ll get access next.
+          </p>
+          <form class="invite-form" id="invite-form">
+            <label class="sr-only" for="invite-name">Name</label>
+            <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+            <label class="sr-only" for="invite-email">Email</label>
+            <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
+            <label class="sr-only" for="invite-postcode">Postcode</label>
+            <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
+            <fieldset class="role-field">
+              <legend>Join as…</legend>
+              <p class="role-helper">Pick how you’ll use CLocal.</p>
+              <label class="role-option">
+                <input type="radio" name="role" value="Consumer" required />
+                <span>Consumer</span>
+              </label>
+              <label class="role-option">
+                <input type="radio" name="role" value="Creator" />
+                <span>Creator</span>
+              </label>
+              <label class="role-option">
+                <input type="radio" name="role" value="Business" />
+                <span>Business</span>
+              </label>
+            </fieldset>
+            <button class="btn btn-pill large" type="submit">Join the waitlist</button>
+          </form>
+          <p class="form-status" id="invite-status" role="status" hidden></p>
+          <p class="hero-note">After you’re invited: iPhone TestFlight or web access.</p>
+          <div class="trust">
+            <span>Private &amp; secure</span>
+            <span>Invite-only</span>
+            <span>South Belfast first</span>
+          </div>
+        </div>
       </div>
 
       <div class="hero-visual">
@@ -54,7 +90,7 @@
             <div class="phone-brand" aria-hidden="true">
               <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
               <p class="phone-brand-hand">Love Local</p>
-              <p class="phone-brand-line">Hidden gems<br />near you</p>
+              <p class="phone-brand-line">South Belfast<br />invite-only</p>
             </div>
           </div>
         </div>
@@ -68,68 +104,13 @@
       </div>
     </section>
 
-    <!-- EARLY ACCESS / WAITLIST -->
-    <section class="finale" id="early-access">
-      <div class="finale-copy">
-        <p class="eyebrow">south belfast · soft launch</p>
-        <h2>Join the waitlist.<br /><span class="grad-text">Love local.</span></h2>
-        <p>
-          Early access for South Belfast. Join below — if you’re invited, we’ll send
-          a TestFlight link (iPhone) or web access, and help you set up nearby LocalGem alerts.
-        </p>
-        <form class="invite-form" id="invite-form">
-          <label class="sr-only" for="invite-name">Name</label>
-          <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
-          <label class="sr-only" for="invite-email">Email</label>
-          <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
-          <label class="sr-only" for="invite-postcode">Postcode</label>
-          <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
-          <fieldset class="role-field">
-            <legend>I am a…</legend>
-            <label class="role-option">
-              <input type="radio" name="role" value="Consumer" required />
-              <span>Consumer</span>
-            </label>
-            <label class="role-option">
-              <input type="radio" name="role" value="Creator" />
-              <span>Creator</span>
-            </label>
-            <label class="role-option">
-              <input type="radio" name="role" value="Business" />
-              <span>Business</span>
-            </label>
-          </fieldset>
-          <button class="btn btn-pill large" type="submit">Join the waitlist</button>
-        </form>
-        <p class="form-status" id="invite-status" role="status" hidden></p>
-        <div class="trust">
-          <span>Private &amp; secure</span>
-          <span>Invite-only early access</span>
-          <span>South Belfast first</span>
-        </div>
-      </div>
-      <div class="finale-phone" aria-hidden="true">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
-            <div class="phone-brand phone-brand-finale">
-              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
-              <p class="phone-brand-hand">Love Local</p>
-              <p class="phone-brand-line">South Belfast<br />early access</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- PROBLEMS / EMPATHY -->
     <section class="familiar" id="problems">
       <p class="eyebrow">sound familiar?</p>
       <h2>We’ve all been there.</h2>
       <p class="section-lead">
         You want somewhere that feels like your city — not the same three spots, not a
-        star rating that tells you nothing, and not another tacky “claim your voucher” app.
+        star rating that tells you nothing, and not another tacky deal app with generic offers.
       </p>
       <div class="quote-row">
         <article class="quote">
@@ -141,8 +122,8 @@
           <p>The real hidden gems are there — they’re just hard to find when everything looks the same online.</p>
         </article>
         <article class="quote">
-          <p class="hand">“Cheap discount apps feel tacky.”</p>
-          <p>You want a considered shop invite — complimentary, reserved, worth showing up for. Not bargain-bin energy.</p>
+          <p class="hand">“Tacky deal apps miss the point.”</p>
+          <p>You want a considered shop invite — complimentary, reserved, worth showing up for. Not generic offers.</p>
         </article>
       </div>
     </section>
@@ -232,7 +213,7 @@
         <article>
           <div class="benefit-icon turquoise">◉</div>
           <h3>Nearby LocalGems</h3>
-          <p>Timed LocalGems on the map. Phone alerts when you’re close (TestFlight early access).</p>
+          <p>Timed LocalGems on the map. Phone alerts when you’re close (invite-only early access).</p>
         </article>
         <article>
           <div class="benefit-icon teal">⌖</div>
@@ -272,6 +253,7 @@
             <li>Grow a community that actually visits</li>
             <li>Earn reach for showing up weekly</li>
           </ul>
+          <p class="who-note">South Belfast early access first.</p>
           <a class="who-cta" href="#early-access" data-role="Creator">Join the waitlist</a>
         </article>
         <article class="who-card business">
@@ -282,6 +264,7 @@
             <li>Reach neighbours who are actually nearby</li>
             <li>Scan passes at the till</li>
           </ul>
+          <p class="who-note">South Belfast early access first.</p>
           <a class="who-cta" href="#early-access" data-role="Business">Join the waitlist</a>
         </article>
       </div>

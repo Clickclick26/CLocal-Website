@@ -59,7 +59,7 @@ if (form && status) {
 
     const subject = encodeURIComponent("CLocal — join the waitlist");
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\nRole: ${role}\n\nI’d like to join the CLocal waitlist for South Belfast early access.`
+      `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\nRole: ${role}\n\nI’d like to join the CLocal waitlist for South Belfast invite-only early access.`
     );
     window.location.href = `mailto:hello@clocal.co.uk?subject=${subject}&body=${body}`;
 
