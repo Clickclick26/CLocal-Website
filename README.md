@@ -19,11 +19,19 @@ Submissions go to **hello@clocal.co.uk** via [FormSubmit.co](https://formsubmit.
 
 Client-side checks catch empty fields and obvious garbage only:
 
-- **Email:** simple `local@domain.tld` shape (must have `@`, a dot in the domain, no spaces). No Gmail-only list. No disposable-domain blocklist (new domains must still work).
-- **Postcode:** loose UK format (outward + inward, e.g. `BT7 1NN`). Soft launch is South Belfast (BT7/BT9) but other UK codes are accepted. No paid postcode API.
-- **Newsletter:** checkbox default **off** (GDPR opt-in). Posts `newsletter=yes` or `newsletter=no`.
+- **Email:** format only — `local@domain.tld` (must have `@`, a dot in the domain, no spaces). **Any TLD allowed** (`.com`, `.video`, `.site`, etc.). Do **not** add disposable-domain / TLD blocklists — they false-block real addresses.
+- **Postcode:** loose UK format (outward + inward, e.g. `BT7 1NN`). Soft launch is South Belfast (BT7/BT9) but other UK codes are accepted. No postcode API.
+- **Newsletter:** checkbox default **on**. Posts `newsletter=yes` or `newsletter=no`.
 
-These checks are **not** a guarantee someone is real. The honeypot (`_honey`) helps with bots. Real verification later = magic link / confirm email if needed.
+These checks are **not** a guarantee someone is real. The honeypot (`_honey`) helps with bots.
+
+### Confirmation emails / newsletter (FormSubmit limits)
+
+FormSubmit only forwards the waitlist form to **hello@clocal.co.uk**. It does **not** send a proper double-opt-in confirm to the signer.
+
+Success copy on the site is honest: we’ll email them when invited — not a fake “confirm your newsletter” we can’t deliver.
+
+For real confirm-without-spam later: wire **ClickClick CRM**, Mailchimp, or similar with double opt-in, plus **SPF/DKIM** on `hello@clocal.co.uk` (or the sending domain).
 
 ### One-time activation (required)
 

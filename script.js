@@ -20,10 +20,11 @@ const observer = new IntersectionObserver(
 
 revealEls.forEach((el) => observer.observe(el));
 
-const SUCCESS_COPY = "You’re on the waitlist. We’ll be in touch when invites go out.";
+const SUCCESS_COPY =
+  "You’re on the waitlist. We’ll email you when your invite is ready.";
 
 // Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.
-// Email: must look like local@domain.tld (no domain allow/block lists).
+// Email: format only (local@domain.tld). Any TLD OK — no disposable/domain blocklists.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // UK postcode shape (outward + inward), e.g. BT7 1NN. Soft launch is BT7/BT9 but other UK codes OK.
 const UK_POSTCODE_RE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/;
@@ -143,7 +144,7 @@ if (form && status) {
       event.preventDefault();
       setStatus(SUCCESS_COPY, "ok");
       form.reset();
-      if (newsletterValue) newsletterValue.value = "no";
+      if (newsletterValue) newsletterValue.value = "yes";
       return;
     }
 
