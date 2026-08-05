@@ -37,14 +37,14 @@ if (form && status) {
       return;
     }
 
-    const subject = encodeURIComponent("CLocal early access invite");
+    const subject = encodeURIComponent("CLocal — apply to be invited");
     const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\n\nPlease send my South Belfast early access invite.`
+      `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\n\nI’d like to apply for South Belfast early access.`
     );
     window.location.href = `mailto:hello@clocal.co.uk?subject=${subject}&body=${body}`;
 
     status.hidden = false;
     status.classList.remove("error");
-    status.textContent = "Opening your email app — send that message and we’ll invite you.";
+    status.textContent = "Opening your email app — send that message to apply.";
   });
 }

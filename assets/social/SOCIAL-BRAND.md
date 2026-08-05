@@ -68,12 +68,12 @@ Sound like the website:
   - Every visit puts money back into your neighbourhood.
 
 Don’t sound like:
-- Hard influencer hustle
+- Hard creator hustle / paid-promo spam
 - “Content creator grind”
 - Cold directory / Yellow Pages clone
 
 ## Photo vibe
 
-High-end local lifestyle — elegant, Gen Z influencer chic.
+High-end local lifestyle — elegant, Gen Z creator chic.
 Think: boutiques, mini designer bags, salon beauty, coffee, nights out, dining.
 Polished and elevated. Avoid hippie / rustic / sporty-studio clichés.
