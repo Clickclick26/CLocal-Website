@@ -1137,6 +1137,23 @@ p {
   color: var(--teal);
 }
 
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.15rem;
+}
+
+.footer-social a {
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.footer-social a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 /* Discover: Influenster-style circle collage */
 .discover {
   background: linear-gradient(145deg, #006666 0%, #008080 45%, #009999 100%);
