@@ -11,6 +11,12 @@ Marketing site for **CLocal** — video-first local discovery.
 - Bright Sage `#77DD77`
 - Intense Turquoise `#00FFFF`
 
+## Waitlist form (FormSubmit)
+
+Submissions go to **hello@clocal.co.uk** via [FormSubmit.co](https://formsubmit.co) (AJAX, no mailto).
+
+**One-time setup:** After the first real submit from the live site, FormSubmit emails `hello@clocal.co.uk`. Open that email and click the confirmation link. Until you do, new waitlist entries may not arrive.
+
 ## Preview locally
 
 ```bash

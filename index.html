@@ -47,7 +47,12 @@
           <p class="hero-form-lead">
             Invite-only for South Belfast. Join below. If you’re invited, you’ll get access next.
           </p>
-          <form class="invite-form" id="invite-form">
+          <form class="invite-form" id="invite-form" action="https://formsubmit.co/hello@clocal.co.uk" method="POST">
+            <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+            <input type="hidden" name="_subject" value="CLocal waitlist" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_next" value="https://clocal.co.uk/?waitlist=ok#early-access" />
             <label class="sr-only" for="invite-name">Name</label>
             <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
             <label class="sr-only" for="invite-email">Email</label>

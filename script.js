@@ -22,6 +22,7 @@ revealEls.forEach((el) => observer.observe(el));
 
 const form = document.getElementById("invite-form");
 const status = document.getElementById("invite-status");
+const FORMSUBMIT_URL = "https://formsubmit.co/ajax/hello@clocal.co.uk";
 
 /** @returns {string[]} */
 function getSelectedRoles() {
@@ -44,6 +45,17 @@ function selectWaitlistRole(role) {
   checkbox.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
+/**
+ * @param {string} message
+ * @param {"ok" | "error"} kind
+ */
+function setStatus(message, kind) {
+  if (!status) return;
+  status.hidden = false;
+  status.classList.toggle("error", kind === "error");
+  status.textContent = message;
+}
+
 document.querySelectorAll("[data-role]").forEach((el) => {
   el.addEventListener("click", () => {
     const role = el.getAttribute("data-role");
@@ -52,29 +64,67 @@ document.querySelectorAll("[data-role]").forEach((el) => {
 });
 
 if (form && status) {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
     const name = /** @type {HTMLInputElement} */ (form.elements.namedItem("name")).value.trim();
     const email = /** @type {HTMLInputElement} */ (form.elements.namedItem("email")).value.trim();
     const postcode = /** @type {HTMLInputElement} */ (form.elements.namedItem("postcode")).value.trim();
+    const honey = /** @type {HTMLInputElement | null} */ (form.elements.namedItem("_honey"));
     const roles = getSelectedRoles();
+    const submitBtn = form.querySelector('button[type="submit"]');
 
     if (!name || !email || !postcode || roles.length === 0) {
-      status.hidden = false;
-      status.classList.add("error");
-      status.textContent = "Please fill in name, email, postcode, and at least one role.";
+      setStatus("Please fill in name, email, postcode, and at least one role.", "error");
       return;
     }
 
-    const roleList = roles.join(", ");
-    const subject = encodeURIComponent("CLocal: join the waitlist");
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\nRole: ${roleList}\n\nI’d like to join the CLocal waitlist for South Belfast invite-only early access.`
-    );
-    window.location.href = `mailto:hello@clocal.co.uk?subject=${subject}&body=${body}`;
+    if (submitBtn instanceof HTMLButtonElement) {
+      submitBtn.disabled = true;
+    }
+    setStatus("Sending…", "ok");
 
-    status.hidden = false;
-    status.classList.remove("error");
-    status.textContent = "Opening your email app. Send that message to join the waitlist.";
+    try {
+      const response = await fetch(FORMSUBMIT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          postcode,
+          role: roles.join(", "),
+          _replyto: email,
+          _subject: "CLocal: join the waitlist",
+          _template: "table",
+          _captcha: "false",
+          _honey: honey ? honey.value : "",
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const detail =
+          typeof data === "object" && data && "message" in data
+            ? String(/** @type {{ message?: unknown }} */ (data).message)
+            : "";
+        throw new Error(detail || "Request failed");
+      }
+
+      form.reset();
+      setStatus("You’re on the waitlist. We’ll be in touch.", "ok");
+    } catch {
+      setStatus(
+        "Something went wrong. Please try again, or email hello@clocal.co.uk.",
+        "error"
+      );
+    } finally {
+      if (submitBtn instanceof HTMLButtonElement) {
+        submitBtn.disabled = false;
+      }
+    }
   });
 }
