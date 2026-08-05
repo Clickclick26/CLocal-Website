@@ -20,10 +20,9 @@
     <nav class="nav-links" aria-label="Primary">
       <a href="#problems">The problem</a>
       <a href="#how">How it works</a>
-      <a href="#inside">Inside the app</a>
       <a href="#who">Who it’s for</a>
     </nav>
-    <a class="btn btn-pill" href="#early-access">Apply to be invited</a>
+    <a class="btn btn-pill" href="#early-access">Join the waitlist</a>
   </header>
 
   <main id="top">
@@ -41,8 +40,8 @@
           Reserve complimentary shop invites. Get nearby alerts when a LocalGem is close.
         </p>
         <div class="hero-cta" id="coming-soon">
-          <a class="btn btn-pill" href="#early-access">Apply to be invited</a>
-          <a class="btn btn-ghost" href="#inside">See the app</a>
+          <a class="btn btn-pill" href="#early-access">Join the waitlist</a>
+          <a class="btn btn-ghost" href="#how">How it works</a>
         </div>
         <p class="hero-note">Early access · iPhone TestFlight &amp; web after you’re invited</p>
       </div>
@@ -51,13 +50,12 @@
         <div class="phone float">
           <div class="phone-notch"></div>
           <div class="phone-screen">
-            <img
-              class="phone-shot"
-              src="assets/screens/home-invites.png"
-              alt="CLocal home — complimentary shop invites and Hot Now"
-              width="1024"
-              height="665"
-            />
+            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
+            <div class="phone-brand" aria-hidden="true">
+              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
+              <p class="phone-brand-hand">Love Local</p>
+              <p class="phone-brand-line">Hidden gems<br />near you</p>
+            </div>
           </div>
         </div>
         <div class="notif pop">
@@ -103,7 +101,7 @@
             Video-first local discovery. Hidden gems. Love Local.
             Complimentary shop invites you reserve — then experience in person.
           </p>
-          <a class="btn btn-discover" href="#early-access">Apply to be invited</a>
+          <a class="btn btn-discover" href="#early-access">Join the waitlist</a>
         </div>
 
         <div class="discover-collage" aria-hidden="true">
@@ -131,24 +129,27 @@
       <h2>Simple enough to <span class="grad-text">actually use.</span></h2>
       <div class="step-cards">
         <article class="step-card">
-          <div class="step-shot-wrap">
-            <img src="assets/screens/home-hot-now.png" alt="Hot Now stories on CLocal" />
+          <div class="step-mark" aria-hidden="true">
+            <span class="step-mark-icon">▶</span>
+            <span class="step-mark-label">Watch</span>
           </div>
           <h3>Watch local video</h3>
           <p>Scroll Hot Now and the feed — people who film local spots, real neighbourhood places.</p>
           <span class="step-num">1</span>
         </article>
         <article class="step-card">
-          <div class="step-shot-wrap">
-            <img src="assets/screens/home-invites.png" alt="Complimentary shop invites" />
+          <div class="step-mark" aria-hidden="true">
+            <span class="step-mark-icon">◇</span>
+            <span class="step-mark-label">Reserve</span>
           </div>
           <h3>Reserve a shop invite</h3>
           <p>Complimentary invites from local hosts. Save your pass in My Gifts. Show it at the till.</p>
           <span class="step-num">2</span>
         </article>
         <article class="step-card">
-          <div class="step-shot-wrap">
-            <img src="assets/screens/map-wide.png" alt="CLocal map with nearby LocalGems" />
+          <div class="step-mark" aria-hidden="true">
+            <span class="step-mark-icon">◉</span>
+            <span class="step-mark-label">Nearby</span>
           </div>
           <h3>Get nearby LocalGem alerts</h3>
           <p>On the phone, map pings help you remember CLocal when a LocalGem is close.</p>
@@ -186,41 +187,10 @@
       </div>
     </section>
 
-    <!-- INSIDE THE APP — real screenshots -->
-    <section class="mural" id="inside" aria-label="App screenshots">
-      <p class="eyebrow">inside the app</p>
-      <h2>The real product. <span class="grad-text">Not mock fluff.</span></h2>
-      <p class="section-lead">Screens from CLocal today — home, invites, and map.</p>
-      <div class="shot-row">
-        <figure class="shot-card">
-          <div class="shot-frame">
-            <img src="assets/screens/home-hot-now.png" alt="CLocal home with Hot Now stories" />
-          </div>
-          <figcaption>
-            <strong>Home</strong>
-            <span>Hot Now stories &amp; local video</span>
-          </figcaption>
-        </figure>
-        <figure class="shot-card">
-          <div class="shot-frame">
-            <img src="assets/screens/home-invites.png" alt="Complimentary shop invites on home" />
-          </div>
-          <figcaption>
-            <strong>Shop invites</strong>
-            <span>Reserve a complimentary pass</span>
-          </figcaption>
-        </figure>
-        <figure class="shot-card">
-          <div class="shot-frame">
-            <img src="assets/screens/map-wide.png" alt="Map with LocalGem pins" />
-          </div>
-          <figcaption>
-            <strong>Map</strong>
-            <span>LocalGems near you</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
+    <!--
+      Inside the app gallery (real phone screenshots) — hidden until better assets arrive.
+      When ready: restore #inside section + nav link, and swap .phone-brand blocks for <img class="phone-shot"> assets.
+    -->
 
     <!-- WHO -->
     <section class="who" id="who">
@@ -262,9 +232,9 @@
     <section class="finale" id="early-access">
       <div class="finale-copy">
         <p class="eyebrow">south belfast · soft launch</p>
-        <h2>Apply to be invited.<br /><span class="grad-text">Love local.</span></h2>
+        <h2>Join the waitlist.<br /><span class="grad-text">Love local.</span></h2>
         <p>
-          Early access for South Belfast. Apply below — if you’re invited, we’ll send
+          Early access for South Belfast. Join below — if you’re invited, we’ll send
           a TestFlight link (iPhone) or web access, and help you set up nearby LocalGem alerts.
         </p>
         <form class="invite-form" id="invite-form">
@@ -274,7 +244,22 @@
           <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
           <label class="sr-only" for="invite-postcode">Postcode</label>
           <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
-          <button class="btn btn-pill large" type="submit">Apply to be invited</button>
+          <fieldset class="role-field">
+            <legend>I am a…</legend>
+            <label class="role-option">
+              <input type="radio" name="role" value="Consumer" required />
+              <span>Consumer</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="Creator" />
+              <span>Creator</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="Business" />
+              <span>Business</span>
+            </label>
+          </fieldset>
+          <button class="btn btn-pill large" type="submit">Join the waitlist</button>
         </form>
         <p class="form-status" id="invite-status" role="status" hidden></p>
         <div class="trust">
@@ -287,13 +272,12 @@
         <div class="phone">
           <div class="phone-notch"></div>
           <div class="phone-screen">
-            <img
-              class="phone-shot"
-              src="assets/screens/home-consumer.png"
-              alt=""
-              width="1024"
-              height="665"
-            />
+            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
+            <div class="phone-brand phone-brand-finale">
+              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
+              <p class="phone-brand-hand">Love Local</p>
+              <p class="phone-brand-line">South Belfast<br />early access</p>
+            </div>
           </div>
         </div>
       </div>
