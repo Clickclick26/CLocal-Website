@@ -68,6 +68,61 @@
       </div>
     </section>
 
+    <!-- EARLY ACCESS / WAITLIST -->
+    <section class="finale" id="early-access">
+      <div class="finale-copy">
+        <p class="eyebrow">south belfast · soft launch</p>
+        <h2>Join the waitlist.<br /><span class="grad-text">Love local.</span></h2>
+        <p>
+          Early access for South Belfast. Join below — if you’re invited, we’ll send
+          a TestFlight link (iPhone) or web access, and help you set up nearby LocalGem alerts.
+        </p>
+        <form class="invite-form" id="invite-form">
+          <label class="sr-only" for="invite-name">Name</label>
+          <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+          <label class="sr-only" for="invite-email">Email</label>
+          <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
+          <label class="sr-only" for="invite-postcode">Postcode</label>
+          <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
+          <fieldset class="role-field">
+            <legend>I am a…</legend>
+            <label class="role-option">
+              <input type="radio" name="role" value="Consumer" required />
+              <span>Consumer</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="Creator" />
+              <span>Creator</span>
+            </label>
+            <label class="role-option">
+              <input type="radio" name="role" value="Business" />
+              <span>Business</span>
+            </label>
+          </fieldset>
+          <button class="btn btn-pill large" type="submit">Join the waitlist</button>
+        </form>
+        <p class="form-status" id="invite-status" role="status" hidden></p>
+        <div class="trust">
+          <span>Private &amp; secure</span>
+          <span>Invite-only early access</span>
+          <span>South Belfast first</span>
+        </div>
+      </div>
+      <div class="finale-phone" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
+            <div class="phone-brand phone-brand-finale">
+              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
+              <p class="phone-brand-hand">Love Local</p>
+              <p class="phone-brand-line">South Belfast<br />early access</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- PROBLEMS / EMPATHY -->
     <section class="familiar" id="problems">
       <p class="eyebrow">sound familiar?</p>
@@ -229,61 +284,6 @@
           </ul>
           <a class="who-cta" href="#early-access" data-role="Business">Join the waitlist</a>
         </article>
-      </div>
-    </section>
-
-    <!-- EARLY ACCESS -->
-    <section class="finale" id="early-access">
-      <div class="finale-copy">
-        <p class="eyebrow">south belfast · soft launch</p>
-        <h2>Join the waitlist.<br /><span class="grad-text">Love local.</span></h2>
-        <p>
-          Early access for South Belfast. Join below — if you’re invited, we’ll send
-          a TestFlight link (iPhone) or web access, and help you set up nearby LocalGem alerts.
-        </p>
-        <form class="invite-form" id="invite-form">
-          <label class="sr-only" for="invite-name">Name</label>
-          <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
-          <label class="sr-only" for="invite-email">Email</label>
-          <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
-          <label class="sr-only" for="invite-postcode">Postcode</label>
-          <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
-          <fieldset class="role-field">
-            <legend>I am a…</legend>
-            <label class="role-option">
-              <input type="radio" name="role" value="Consumer" required />
-              <span>Consumer</span>
-            </label>
-            <label class="role-option">
-              <input type="radio" name="role" value="Creator" />
-              <span>Creator</span>
-            </label>
-            <label class="role-option">
-              <input type="radio" name="role" value="Business" />
-              <span>Business</span>
-            </label>
-          </fieldset>
-          <button class="btn btn-pill large" type="submit">Join the waitlist</button>
-        </form>
-        <p class="form-status" id="invite-status" role="status" hidden></p>
-        <div class="trust">
-          <span>Private &amp; secure</span>
-          <span>Invite-only early access</span>
-          <span>South Belfast first</span>
-        </div>
-      </div>
-      <div class="finale-phone" aria-hidden="true">
-        <div class="phone">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
-            <div class="phone-brand phone-brand-finale">
-              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
-              <p class="phone-brand-hand">Love Local</p>
-              <p class="phone-brand-line">South Belfast<br />early access</p>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   </main>

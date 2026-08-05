@@ -281,10 +281,10 @@ p {
   grid-template-columns: 1.05fr 0.95fr;
   gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
-  padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) 2rem;
   max-width: 1180px;
   margin: 0 auto;
-  min-height: min(88vh, 820px);
+  min-height: min(72vh, 680px);
 }
 
 .hero-sub {
@@ -987,7 +987,7 @@ p {
   background: #007777;
 }
 
-/* FINALE */
+/* WAITLIST (sits right under the hero) */
 .finale {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -996,10 +996,11 @@ p {
   text-align: left;
   background: linear-gradient(145deg, rgba(0, 128, 128, 0.08), rgba(119, 221, 119, 0.15), rgba(0, 255, 255, 0.12));
   border-radius: 40px;
-  margin: 2rem clamp(1rem, 4vw, 2.5rem) 3rem;
+  margin: 0.5rem clamp(1rem, 4vw, 2.5rem) 3.5rem;
   max-width: none;
   width: min(1180px, calc(100% - 2rem));
   padding: clamp(2rem, 5vw, 3.5rem);
+  scroll-margin-top: 5.5rem;
 }
 
 .finale .eyebrow {
