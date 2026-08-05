@@ -732,6 +732,21 @@ p {
   text-align: left;
 }
 
+.benefits-fomo {
+  margin: 2.5rem auto 0;
+  max-width: 34rem;
+  display: grid;
+  gap: 1.1rem;
+  justify-items: center;
+}
+
+.benefits-fomo p {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
 .benefit-grid article {
   background: white;
   border-radius: 28px;
