@@ -20,9 +20,14 @@ const observer = new IntersectionObserver(
 
 revealEls.forEach((el) => observer.observe(el));
 
+const FORMSUBMIT_URL = "https://formsubmit.co/ajax/hello@clocal.co.uk";
+const SUCCESS_COPY = "You’re on the waitlist. We’ll be in touch when invites go out.";
+const ERROR_COPY = "Sorry, that didn’t send. Please try again, or email hello@clocal.co.uk.";
+const ACTIVATE_COPY =
+  "Almost there. Check hello@clocal.co.uk and click FormSubmit’s confirmation link once. After that, new sign-ups will arrive by email.";
+
 const form = document.getElementById("invite-form");
 const status = document.getElementById("invite-status");
-const FORMSUBMIT_URL = "https://formsubmit.co/ajax/hello@clocal.co.uk";
 
 /** @returns {string[]} */
 function getSelectedRoles() {
@@ -56,6 +61,20 @@ function setStatus(message, kind) {
   status.textContent = message;
 }
 
+/** @param {unknown} data */
+function looksLikeActivation(data) {
+  const msg =
+    typeof data === "object" && data && "message" in data
+      ? String(/** @type {{ message?: unknown }} */ (data).message).toLowerCase()
+      : "";
+  return (
+    msg.includes("confirm") ||
+    msg.includes("activate") ||
+    msg.includes("activation") ||
+    msg.includes("check your email")
+  );
+}
+
 document.querySelectorAll("[data-role]").forEach((el) => {
   el.addEventListener("click", () => {
     const role = el.getAttribute("data-role");
@@ -64,6 +83,11 @@ document.querySelectorAll("[data-role]").forEach((el) => {
 });
 
 if (form && status) {
+  // Non-JS fallback: FormSubmit _next lands here after a classic POST.
+  if (new URLSearchParams(window.location.search).get("waitlist") === "ok") {
+    setStatus(SUCCESS_COPY, "ok");
+  }
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -79,8 +103,18 @@ if (form && status) {
       return;
     }
 
+    // Honeypot filled: pretend success, do not send.
+    if (honey && honey.value) {
+      setStatus(SUCCESS_COPY, "ok");
+      form.reset();
+      return;
+    }
+
+    const roleList = roles.join(", ");
+
     if (submitBtn instanceof HTMLButtonElement) {
       submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
     }
     setStatus("Sending…", "ok");
 
@@ -95,35 +129,41 @@ if (form && status) {
           name,
           email,
           postcode,
-          role: roles.join(", "),
+          roles: roleList,
+          role: roleList,
           _replyto: email,
-          _subject: "CLocal: join the waitlist",
+          _subject: "CLocal waitlist",
           _template: "table",
           _captcha: "false",
-          _honey: honey ? honey.value : "",
+          _honey: "",
         }),
       });
 
       const data = await response.json().catch(() => ({}));
+      const successFlag =
+        typeof data === "object" &&
+        data &&
+        "success" in data &&
+        (/** @type {{ success?: unknown }} */ (data).success === true ||
+          /** @type {{ success?: unknown }} */ (data).success === "true");
 
-      if (!response.ok) {
-        const detail =
-          typeof data === "object" && data && "message" in data
-            ? String(/** @type {{ message?: unknown }} */ (data).message)
-            : "";
-        throw new Error(detail || "Request failed");
+      if (looksLikeActivation(data)) {
+        setStatus(ACTIVATE_COPY, "ok");
+        return;
+      }
+
+      if (!response.ok || (data && "success" in /** @type {object} */ (data) && !successFlag)) {
+        throw new Error("Request failed");
       }
 
       form.reset();
-      setStatus("You’re on the waitlist. We’ll be in touch.", "ok");
+      setStatus(SUCCESS_COPY, "ok");
     } catch {
-      setStatus(
-        "Something went wrong. Please try again, or email hello@clocal.co.uk.",
-        "error"
-      );
+      setStatus(ERROR_COPY, "error");
     } finally {
       if (submitBtn instanceof HTMLButtonElement) {
         submitBtn.disabled = false;
+        submitBtn.textContent = "Join the waitlist";
       }
     }
   });
