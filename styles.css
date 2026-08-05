@@ -598,15 +598,23 @@ p {
   position: relative;
   background: white;
   border-radius: 32px;
-  padding: 1.25rem 1.25rem 2.5rem;
+  padding: 1.25rem 1.25rem 4.75rem;
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(0, 128, 128, 0.06);
   overflow: hidden;
 }
 
+.step-card h3,
+.step-card p {
+  position: relative;
+  z-index: 1;
+}
+
 .step-card p {
   color: var(--muted);
   font-size: 0.95rem;
+  padding-right: 0.35rem;
+  margin-bottom: 0;
 }
 
 .step-ui {
@@ -705,12 +713,15 @@ p {
 
 .step-num {
   position: absolute;
-  bottom: 0.35rem;
-  right: 1rem;
-  font-size: 4.5rem;
+  bottom: 0.15rem;
+  right: 0.9rem;
+  font-size: 4rem;
   font-weight: 800;
-  color: rgba(0, 128, 128, 0.08);
+  color: rgba(0, 128, 128, 0.06);
   line-height: 1;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* BENEFITS */
