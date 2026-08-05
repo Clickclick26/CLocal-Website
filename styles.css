@@ -194,6 +194,11 @@ p {
   white-space: nowrap;
 }
 
+.btn-pill.large {
+  padding: 0.95rem 1.6rem;
+  font-size: 1.05rem;
+}
+
 .btn-store {
   padding: 0.75rem 1.25rem;
   border-radius: 14px;
@@ -873,6 +878,13 @@ p {
   margin-bottom: 0.4rem;
 }
 
+.who-role-sub {
+  margin-top: -0.15rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
 .who-card.creator .who-role { color: #3d9a4a; }
 .who-card.business .who-role { color: #008b8b; }
 
@@ -997,7 +1009,7 @@ p {
   color: var(--teal);
 }
 
-/* Discover — Influenster-style circle collage */
+/* Discover: Influenster-style circle collage */
 .discover {
   background: linear-gradient(145deg, #006666 0%, #008080 45%, #009999 100%);
   color: white;

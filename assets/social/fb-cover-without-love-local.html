@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1640" />
+  <title>CLocal Facebook Cover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1640px;
+      height: 624px;
+      overflow: hidden;
+      font-family: "Nunito", system-ui, sans-serif;
+      background: #f4fbf8;
+    }
+    .cover {
+      position: relative;
+      width: 1640px;
+      height: 624px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 95% 75% at 10% -15%, rgba(119, 221, 119, 0.42), transparent 55%),
+        radial-gradient(ellipse 80% 60% at 95% 0%, rgba(0, 255, 255, 0.32), transparent 52%),
+        radial-gradient(ellipse 50% 40% at 70% 100%, rgba(0, 128, 128, 0.12), transparent 60%),
+        #f4fbf8;
+    }
+
+    /* Vertically centred with the phone — desktop profile pic sits below the cover */
+    .copy {
+      position: absolute;
+      left: 88px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      max-width: 720px;
+    }
+    .logo {
+      height: 48px;
+      width: auto;
+      display: block;
+      margin-bottom: 28px;
+    }
+    h1 {
+      font-weight: 800;
+      font-size: 56px;
+      line-height: 1.14;
+      letter-spacing: -0.025em;
+      color: #1a2e2e;
+      max-width: 700px;
+    }
+    .grad {
+      background: linear-gradient(120deg, #00a8a8 0%, #00d4d4 40%, #00ffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .love {
+      font-size: 0.72em;
+      letter-spacing: -0.01em;
+    }
+
+    .visual {
+      position: absolute;
+      right: 36px;
+      top: 24px;
+      width: 620px;
+      height: 580px;
+      z-index: 2;
+    }
+
+    .cluster {
+      position: absolute;
+      right: 20px;
+      top: 12px;
+      width: 460px;
+      height: 560px;
+    }
+    .phone {
+      position: absolute;
+      left: 150px;
+      top: 16px;
+      width: 248px;
+      height: auto;
+      z-index: 4;
+      transform: rotate(2.5deg);
+      filter: drop-shadow(0 24px 36px rgba(0, 128, 128, 0.3));
+    }
+    .phone img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid rgba(255,255,255,0.95);
+      box-shadow: 0 14px 32px rgba(0, 128, 128, 0.2);
+      z-index: 3;
+    }
+    .b1 {
+      width: 148px;
+      height: 148px;
+      left: 22px;
+      top: 48px;
+      z-index: 5;
+      object-position: 55% 45%;
+    }
+    .b2 {
+      width: 122px;
+      height: 122px;
+      left: 48px;
+      top: 340px;
+      z-index: 5;
+      object-position: center 40%;
+    }
+  </style>
+</head>
+<body>
+  <div class="cover">
+    <div class="copy">
+      <img class="logo" src="../clocal-logo.png" alt="CLocal" />
+      <h1>
+        Find <span class="grad">hidden gems.</span><br />
+        Video-first discovery.<br />
+        Get gifts and rewards.
+      </h1>
+    </div>
+
+    <div class="visual">
+      <div class="cluster">
+        <div class="phone">
+          <img src="raw/phone-with-app-straight.png" alt="CLocal app" />
+        </div>
+        <img class="bubble b1" src="raw/fb-matcha-cup.jpg" alt="" />
+        <img class="bubble b2" src="raw/fb-shopping-bags.jpg" alt="" />
+      </div>
+    </div>
+  </div>
+</body>
+</html>

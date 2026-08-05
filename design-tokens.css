@@ -1,0 +1,237 @@
+/* CLocal design tokens: source of truth from the landing page.
+   Colours, type, radii, shadows, gradients. Use as-is. */
+
+:root {
+  /* Brand */
+  --clocal-teal: #008080;
+  --clocal-sage: #77dd77;
+  --clocal-turquoise: #00ffff;
+
+  /* Neutrals */
+  --clocal-ink: #1a2e2e;
+  --clocal-muted: #5a7373;
+  --clocal-cream: #f4fbf8;
+  --clocal-white: #ffffff;
+  --clocal-card: rgba(255, 255, 255, 0.82);
+
+  /* Borders */
+  --clocal-border: rgba(0, 128, 128, 0.08);
+  --clocal-border-strong: rgba(0, 128, 128, 0.12);
+
+  /* Shadows (teal-tinted) */
+  --clocal-shadow: 0 20px 50px rgba(0, 128, 128, 0.12);
+  --clocal-shadow-soft: 0 10px 30px rgba(0, 128, 128, 0.1);
+  --clocal-shadow-cta: 0 10px 24px rgba(0, 128, 128, 0.28);
+
+  /* Radii */
+  --clocal-radius: 28px;
+  --clocal-radius-lg: 32px;
+  --clocal-radius-md: 16px;
+  --clocal-radius-sm: 14px;
+  --clocal-radius-pill: 999px;
+  --clocal-radius-icon: 16px;
+
+  /* Type */
+  --clocal-font: "Nunito", system-ui, sans-serif;
+  --clocal-font-hand: "Caveat", cursive;
+  --clocal-tracking-tight: -0.02em;
+  --clocal-leading-tight: 1.15;
+  --clocal-leading-body: 1.55;
+
+  /* Gradients */
+  --clocal-grad-text: linear-gradient(120deg, #008080 0%, #00b3b3 45%, #00ffff 100%);
+  --clocal-grad-cta: linear-gradient(135deg, #008080, #00b8b8);
+  --clocal-grad-app-icon: linear-gradient(135deg, #008080, #00e0e0);
+  --clocal-grad-page:
+    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(119, 221, 119, 0.28), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 5%, rgba(0, 255, 255, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 128, 128, 0.08), transparent 60%),
+    #f4fbf8;
+
+  /* Role accents */
+  --clocal-role-consumer: #008080;
+  --clocal-role-creator: #77dd77;
+  --clocal-role-business: #00ffff;
+
+  /* Washes */
+  --clocal-wash-sage: rgba(119, 221, 119, 0.35);
+  --clocal-wash-teal: rgba(0, 128, 128, 0.1);
+  --clocal-wash-turquoise: rgba(0, 255, 255, 0.22);
+}
+
+/* Base */
+.clocal-page {
+  font-family: var(--clocal-font);
+  color: var(--clocal-ink);
+  background: var(--clocal-grad-page);
+  line-height: var(--clocal-leading-body);
+}
+
+.clocal-h1 {
+  font-family: var(--clocal-font);
+  font-weight: 800;
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  letter-spacing: var(--clocal-tracking-tight);
+  line-height: var(--clocal-leading-tight);
+  margin: 0;
+}
+
+.clocal-h2 {
+  font-family: var(--clocal-font);
+  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  letter-spacing: var(--clocal-tracking-tight);
+  line-height: var(--clocal-leading-tight);
+  margin: 0;
+}
+
+.clocal-h3 {
+  font-family: var(--clocal-font);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: var(--clocal-tracking-tight);
+  line-height: var(--clocal-leading-tight);
+  margin: 0;
+}
+
+.clocal-body {
+  font-family: var(--clocal-font);
+  font-weight: 400;
+  font-size: 1.05rem;
+  color: var(--clocal-muted);
+  line-height: var(--clocal-leading-body);
+}
+
+.clocal-hand {
+  font-family: var(--clocal-font-hand);
+  font-weight: 600;
+  font-size: 1.55rem;
+  line-height: 1.25;
+  color: var(--clocal-ink);
+}
+
+.clocal-eyebrow {
+  font-family: var(--clocal-font);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  color: var(--clocal-teal);
+}
+
+.clocal-grad-text {
+  background: var(--clocal-grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Controls */
+.clocal-btn-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.7rem 1.25rem;
+  border: none;
+  border-radius: var(--clocal-radius-pill);
+  background: var(--clocal-grad-cta);
+  color: var(--clocal-white);
+  font-family: var(--clocal-font);
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: var(--clocal-shadow-cta);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clocal-btn-pill:hover {
+  transform: translateY(-2px);
+}
+
+.clocal-btn-ink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: var(--clocal-radius-sm);
+  background: var(--clocal-ink);
+  color: var(--clocal-white);
+  font-family: var(--clocal-font);
+  font-weight: 700;
+  box-shadow: var(--clocal-shadow-soft);
+  cursor: pointer;
+}
+
+.clocal-badge {
+  display: inline-block;
+  padding: 0.4rem 0.95rem;
+  border-radius: var(--clocal-radius-pill);
+  background: var(--clocal-wash-sage);
+  color: var(--clocal-teal);
+  font-family: var(--clocal-font);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.clocal-badge-soft {
+  background: var(--clocal-wash-teal);
+}
+
+.clocal-card {
+  background: var(--clocal-card);
+  border: 1px solid var(--clocal-border);
+  border-radius: var(--clocal-radius);
+  box-shadow: var(--clocal-shadow-soft);
+  backdrop-filter: blur(8px);
+}
+
+.clocal-nav {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--clocal-border);
+}
+
+.clocal-icon-tile {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--clocal-radius-icon);
+  display: grid;
+  place-items: center;
+}
+
+.clocal-icon-tile--consumer { background: var(--clocal-wash-teal); }
+.clocal-icon-tile--creator { background: var(--clocal-wash-sage); }
+.clocal-icon-tile--business { background: var(--clocal-wash-turquoise); }
+
+/* Motion */
+@keyframes clocal-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes clocal-pop-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.clocal-float {
+  animation: clocal-float 5.5s ease-in-out infinite;
+}
+
+.clocal-pop {
+  animation: clocal-pop-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.clocal-reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.clocal-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
