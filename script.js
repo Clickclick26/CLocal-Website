@@ -57,7 +57,7 @@ if (form && status) {
       return;
     }
 
-    const subject = encodeURIComponent("CLocal — join the waitlist");
+    const subject = encodeURIComponent("CLocal: join the waitlist");
     const body = encodeURIComponent(
       `Name: ${name}\nEmail: ${email}\nPostcode: ${postcode}\nRole: ${role}\n\nI’d like to join the CLocal waitlist for South Belfast invite-only early access.`
     );
@@ -65,6 +65,6 @@ if (form && status) {
 
     status.hidden = false;
     status.classList.remove("error");
-    status.textContent = "Opening your email app — send that message to join the waitlist.";
+    status.textContent = "Opening your email app. Send that message to join the waitlist.";
   });
 }
