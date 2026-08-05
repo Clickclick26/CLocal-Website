@@ -23,6 +23,24 @@ revealEls.forEach((el) => observer.observe(el));
 const form = document.getElementById("invite-form");
 const status = document.getElementById("invite-status");
 
+/** @param {string} role */
+function selectWaitlistRole(role) {
+  if (!form || !role) return;
+  const radio = /** @type {HTMLInputElement | null} */ (
+    form.querySelector(`input[name="role"][value="${role}"]`)
+  );
+  if (!radio) return;
+  radio.checked = true;
+  radio.dispatchEvent(new Event("change", { bubbles: true }));
+}
+
+document.querySelectorAll("[data-role]").forEach((el) => {
+  el.addEventListener("click", () => {
+    const role = el.getAttribute("data-role");
+    if (role) selectWaitlistRole(role);
+  });
+});
+
 if (form && status) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();

@@ -896,6 +896,8 @@ p {
 }
 
 .who-card {
+  display: flex;
+  flex-direction: column;
   background: white;
   border-radius: 28px;
   padding: 1.5rem;
@@ -931,6 +933,7 @@ p {
 .who-card.business .who-role { color: #008b8b; }
 
 .who-card ul {
+  flex: 1;
   margin: 0.85rem 0 0;
   padding-left: 1.1rem;
   color: var(--muted);
@@ -945,6 +948,43 @@ p {
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--teal);
+}
+
+.who-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.15rem;
+  padding: 0.7rem 1.1rem;
+  border-radius: 999px;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.who-cta:hover {
+  transform: translateY(-2px);
+  background: #007070;
+}
+
+.who-card.creator .who-cta {
+  background: #3d9a4a;
+}
+
+.who-card.creator .who-cta:hover {
+  background: #348540;
+}
+
+.who-card.business .who-cta {
+  background: #008b8b;
+}
+
+.who-card.business .who-cta:hover {
+  background: #007777;
 }
 
 /* FINALE */
