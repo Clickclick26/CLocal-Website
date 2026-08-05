@@ -56,9 +56,9 @@
             <label class="sr-only" for="invite-name">Name</label>
             <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
             <label class="sr-only" for="invite-email">Email</label>
-            <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" />
+            <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" inputmode="email" />
             <label class="sr-only" for="invite-postcode">Postcode</label>
-            <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 / BT9)" required autocomplete="postal-code" />
+            <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 1NN)" required autocomplete="postal-code" />
             <fieldset class="role-field">
               <legend>I am a…</legend>
               <p class="role-helper">Pick one or more. You can join as more than one.</p>
@@ -75,6 +75,12 @@
                 <span>Business</span>
               </label>
             </fieldset>
+            <!-- Newsletter: unchecked by default (opt-in). Hidden field always posts yes/no. -->
+            <input type="hidden" name="newsletter" id="newsletter-value" value="no" />
+            <label class="newsletter-option" for="invite-newsletter">
+              <input id="invite-newsletter" type="checkbox" />
+              <span>Email me CLocal news and invites</span>
+            </label>
             <button class="btn btn-pill large" type="submit">Join the waitlist</button>
           </form>
           <p class="form-status" id="invite-status" role="status" hidden></p>

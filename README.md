@@ -15,6 +15,16 @@ Marketing site for **CLocal** — video-first local discovery.
 
 Submissions go to **hello@clocal.co.uk** via [FormSubmit.co](https://formsubmit.co) (classic HTML POST, then redirect back with `?waitlist=ok`).
 
+### Soft validation (email + postcode)
+
+Client-side checks catch empty fields and obvious garbage only:
+
+- **Email:** simple `local@domain.tld` shape (must have `@`, a dot in the domain, no spaces). No Gmail-only list. No disposable-domain blocklist (new domains must still work).
+- **Postcode:** loose UK format (outward + inward, e.g. `BT7 1NN`). Soft launch is South Belfast (BT7/BT9) but other UK codes are accepted. No paid postcode API.
+- **Newsletter:** checkbox default **off** (GDPR opt-in). Posts `newsletter=yes` or `newsletter=no`.
+
+These checks are **not** a guarantee someone is real. The honeypot (`_honey`) helps with bots. Real verification later = magic link / confirm email if needed.
+
 ### One-time activation (required)
 
 FormSubmit will **not** forward waitlist emails until you activate once:

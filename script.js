@@ -22,6 +22,12 @@ revealEls.forEach((el) => observer.observe(el));
 
 const SUCCESS_COPY = "You’re on the waitlist. We’ll be in touch when invites go out.";
 
+// Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.
+// Email: must look like local@domain.tld (no domain allow/block lists).
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// UK postcode shape (outward + inward), e.g. BT7 1NN. Soft launch is BT7/BT9 but other UK codes OK.
+const UK_POSTCODE_RE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/;
+
 const form = document.getElementById("invite-form");
 const status = document.getElementById("invite-status");
 
@@ -57,6 +63,27 @@ function setStatus(message, kind) {
   status.textContent = message;
 }
 
+/** @param {string} value */
+function isValidEmail(value) {
+  return EMAIL_RE.test(value);
+}
+
+/**
+ * Uppercase and put one space before the inward code (last 3 chars).
+ * @param {string} value
+ * @returns {string}
+ */
+function normalizePostcode(value) {
+  const compact = value.toUpperCase().replace(/\s+/g, "");
+  if (compact.length < 5) return compact;
+  return `${compact.slice(0, -3)} ${compact.slice(-3)}`;
+}
+
+/** @param {string} value */
+function isValidUkPostcode(value) {
+  return UK_POSTCODE_RE.test(value.toUpperCase().trim());
+}
+
 document.querySelectorAll("[data-role]").forEach((el) => {
   el.addEventListener("click", () => {
     const role = el.getAttribute("data-role");
@@ -71,16 +98,44 @@ if (form && status) {
   }
 
   form.addEventListener("submit", (event) => {
-    const name = /** @type {HTMLInputElement} */ (form.elements.namedItem("name")).value.trim();
-    const email = /** @type {HTMLInputElement} */ (form.elements.namedItem("email")).value.trim();
-    const postcode = /** @type {HTMLInputElement} */ (form.elements.namedItem("postcode")).value.trim();
+    const nameInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("name"));
+    const emailInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("email"));
+    const postcodeInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("postcode"));
     const honey = /** @type {HTMLInputElement | null} */ (form.elements.namedItem("_honey"));
+    const newsletterBox = /** @type {HTMLInputElement | null} */ (
+      document.getElementById("invite-newsletter")
+    );
+    const newsletterValue = /** @type {HTMLInputElement | null} */ (
+      document.getElementById("newsletter-value")
+    );
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const postcodeRaw = postcodeInput.value.trim();
     const roles = getSelectedRoles();
 
-    if (!name || !email || !postcode || roles.length === 0) {
+    if (!name || !email || !postcodeRaw || roles.length === 0) {
       event.preventDefault();
       setStatus("Please fill in name, email, postcode, and at least one role.", "error");
       return;
+    }
+
+    if (!isValidEmail(email)) {
+      event.preventDefault();
+      setStatus("Please enter a real email address (like name@example.com).", "error");
+      return;
+    }
+
+    if (!isValidUkPostcode(postcodeRaw)) {
+      event.preventDefault();
+      setStatus("Please enter a UK postcode (e.g. BT7 1NN).", "error");
+      return;
+    }
+
+    // Write cleaned values so FormSubmit gets them.
+    emailInput.value = email;
+    postcodeInput.value = normalizePostcode(postcodeRaw);
+    if (newsletterValue) {
+      newsletterValue.value = newsletterBox && newsletterBox.checked ? "yes" : "no";
     }
 
     // Honeypot filled: pretend success, do not send.
@@ -88,6 +143,7 @@ if (form && status) {
       event.preventDefault();
       setStatus(SUCCESS_COPY, "ok");
       form.reset();
+      if (newsletterValue) newsletterValue.value = "no";
       return;
     }
 

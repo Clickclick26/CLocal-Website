@@ -1586,6 +1586,24 @@ p {
   height: 1.05rem;
 }
 
+.newsletter-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1.35;
+}
+
+.newsletter-option input {
+  accent-color: var(--teal);
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+
 .invite-form .btn {
   justify-self: start;
   border: none;
