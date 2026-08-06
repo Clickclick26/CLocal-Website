@@ -1,0 +1,6 @@
+# Minimal config for deploying waitlist-ingest from this repo.
+# Project ref (ClickClick CRM Supabase): gapybapywpdogexibtgj
+
+[functions.waitlist-ingest]
+# Public form posts — no user JWT.
+verify_jwt = false

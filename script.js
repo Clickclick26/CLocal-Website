@@ -32,6 +32,13 @@ const UK_POSTCODE_RE = /^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/;
 const form = document.getElementById("invite-form");
 const status = document.getElementById("invite-status");
 
+/** @returns {string} */
+function getWaitlistUrl() {
+  const cfg = window.CLOCAL_CONFIG;
+  if (!cfg || typeof cfg.waitlistUrl !== "string") return "";
+  return cfg.waitlistUrl.trim();
+}
+
 /** @returns {string[]} */
 function getSelectedRoles() {
   if (!form) return [];
@@ -93,12 +100,13 @@ document.querySelectorAll("[data-role]").forEach((el) => {
 });
 
 if (form && status) {
-  // FormSubmit _next lands here after a successful classic POST.
+  // Legacy FormSubmit redirect success (?waitlist=ok) — keep for old links.
   if (new URLSearchParams(window.location.search).get("waitlist") === "ok") {
     setStatus(SUCCESS_COPY, "ok");
   }
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
+    const waitlistUrl = getWaitlistUrl();
     const nameInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("name"));
     const emailInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("email"));
     const postcodeInput = /** @type {HTMLInputElement} */ (form.elements.namedItem("postcode"));
@@ -113,6 +121,8 @@ if (form && status) {
     const email = emailInput.value.trim();
     const postcodeRaw = postcodeInput.value.trim();
     const roles = getSelectedRoles();
+    const newsletterOn = !!(newsletterBox && newsletterBox.checked);
+    const postcode = normalizePostcode(postcodeRaw);
 
     if (!name || !email || !postcodeRaw || roles.length === 0) {
       event.preventDefault();
@@ -132,11 +142,10 @@ if (form && status) {
       return;
     }
 
-    // Write cleaned values so FormSubmit gets them.
     emailInput.value = email;
-    postcodeInput.value = normalizePostcode(postcodeRaw);
+    postcodeInput.value = postcode;
     if (newsletterValue) {
-      newsletterValue.value = newsletterBox && newsletterBox.checked ? "yes" : "no";
+      newsletterValue.value = newsletterOn ? "yes" : "no";
     }
 
     // Honeypot filled: pretend success, do not send.
@@ -148,7 +157,56 @@ if (form && status) {
       return;
     }
 
-    // Classic FormSubmit POST (no AJAX). Do not disable the button — that can cancel the native submit.
+    // Primary path: waitlist robot (config.js URL). On failure → FormSubmit backup.
+    if (waitlistUrl) {
+      event.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) submitBtn.setAttribute("disabled", "disabled");
+      setStatus("Sending…", "ok");
+
+      try {
+        const res = await fetch(waitlistUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            postcode,
+            roles,
+            newsletter: newsletterOn,
+            _honey: honey ? honey.value : "",
+          }),
+        });
+        let data = {};
+        try {
+          data = await res.json();
+        } catch {
+          data = {};
+        }
+        if (!res.ok) {
+          throw new Error(
+            typeof data.error === "string"
+              ? data.error
+              : "Something went wrong. Please try again."
+          );
+        }
+        setStatus(SUCCESS_COPY, "ok");
+        form.reset();
+        if (newsletterValue) newsletterValue.value = "yes";
+        if (newsletterBox) newsletterBox.checked = true;
+        if (submitBtn) submitBtn.removeAttribute("disabled");
+        return;
+      } catch (err) {
+        console.warn("Waitlist robot failed; falling back to FormSubmit.", err);
+        setStatus("Sending…", "ok");
+        if (submitBtn) submitBtn.removeAttribute("disabled");
+        // Native FormSubmit POST (form action). Do not keep button disabled.
+        HTMLFormElement.prototype.submit.call(form);
+        return;
+      }
+    }
+
+    // No robot URL — classic FormSubmit POST.
     setStatus("Sending…", "ok");
   });
 }
