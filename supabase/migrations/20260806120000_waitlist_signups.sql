@@ -22,8 +22,12 @@ create index if not exists waitlist_signups_created_at_idx
 
 alter table public.waitlist_signups enable row level security;
 
--- No public policies: only service role (Edge Function) reads/writes.
--- Logged-in CRM users can be granted select later via a policy if needed.
+-- Edge Function uses the service_role key (bypasses RLS). Still needs table GRANTs.
+grant select, insert, update, delete on table public.waitlist_signups to service_role;
+grant select, insert, update, delete on table public.waitlist_signups to postgres;
+
+-- No anon/authenticated policies: public site talks only to the Edge Function.
+-- Logged-in CRM users can get a select policy later if needed.
 
 comment on table public.waitlist_signups is
   'CLocal landing waitlist. Robot saves here and emails from hello@ via Titan SMTP.';
