@@ -331,6 +331,14 @@ Deno.serve(async (req) => {
   }
 
   // Signup is saved even if mail failed — user still sees success.
-  // Kathryn can resend later from CRM once send UI exists.
-  return json(200, { ok: true }, origin);
+  // During setup, surface mail status so we can fix Titan quickly.
+  return json(
+    200,
+    {
+      ok: true,
+      mail: confirmStatus,
+      mailError: confirmError,
+    },
+    origin,
+  );
 });
