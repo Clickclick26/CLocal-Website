@@ -15,7 +15,7 @@
  */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
+import nodemailer from "npm:nodemailer@6.9.16";
 
 const ALLOWED_ORIGINS = new Set([
   "https://clocal.co.uk",
@@ -103,36 +103,41 @@ async function sendMail(opts: {
   text: string;
   html: string;
 }): Promise<void> {
-  const host = Deno.env.get("TITAN_SMTP_HOST") || "smtp.titan.email";
-  const port = Number(Deno.env.get("TITAN_SMTP_PORT") || "465");
-  const user = Deno.env.get("TITAN_SMTP_USER") || "";
+  const host = (Deno.env.get("TITAN_SMTP_HOST") || "smtp.titan.email").trim();
+  const port = Number((Deno.env.get("TITAN_SMTP_PORT") || "465").trim());
+  const user = (Deno.env.get("TITAN_SMTP_USER") || "").trim();
   const pass = Deno.env.get("TITAN_SMTP_PASS") || "";
   const from =
-    Deno.env.get("CLOCAL_MAIL_FROM") || "CLocal <hello@clocal.co.uk>";
+    (Deno.env.get("CLOCAL_MAIL_FROM") || "CLocal <hello@clocal.co.uk>").trim();
 
   if (!user || !pass) {
     throw new Error("Mail is not set up yet. Missing Titan mailbox secrets.");
   }
 
-  const client = new SMTPClient({
-    connection: {
-      hostname: host,
-      port,
-      tls: true,
-      auth: { username: user, password: pass },
-    },
+  const secure = port === 465;
+  const transporter = nodemailer.createTransport({
+    host,
+    port,
+    secure,
+    auth: { user, pass },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 20000,
   });
 
   try {
-    await client.send({
+    await transporter.sendMail({
       from,
       to: opts.to,
       subject: opts.subject,
-      content: opts.text,
+      text: opts.text,
       html: opts.html,
     });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    throw new Error(`SMTP ${host}:${port} as ${user} — ${msg}`);
   } finally {
-    await client.close();
+    transporter.close();
   }
 }
 
