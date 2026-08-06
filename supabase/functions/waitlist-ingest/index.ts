@@ -244,7 +244,16 @@ Deno.serve(async (req) => {
 
   if (saveError) {
     console.error("waitlist save failed", saveError);
-    return json(500, { error: "Could not save your signup. Please try again." }, origin);
+    // Temporary detail so we can finish setup; remove once stable.
+    return json(
+      500,
+      {
+        error: "Could not save your signup. Please try again.",
+        detail: saveError.message,
+        code: saveError.code ?? null,
+      },
+      origin,
+    );
   }
 
   const signupId = saved?.id as string | undefined;
