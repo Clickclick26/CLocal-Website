@@ -85,7 +85,7 @@ const observer = new IntersectionObserver(
 revealEls.forEach((el) => observer.observe(el));
 
 const SUCCESS_COPY =
-  "You’re on the waitlist, and in with a chance to win one of several £50 Brunch vouchers we’ve got up for grabs. We’ll email you when your invite is ready.";
+  "You’re on the waitlist, and in with a chance to win one of several vouchers for brunch at General Merchants. We’ll email you when your invite is ready.";
 
 // Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.
 // Email: format only (local@domain.tld). Any TLD OK — no disposable/domain blocklists.
