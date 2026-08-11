@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLocal support</title>
+  <meta name="description" content="Send a support message to the CLocal team." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="support-page">
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="nav-brand" href="/" aria-label="CLocal home">
+      <img class="brand-logo" src="assets/clocal-logo.png" alt="CLocal" width="140" height="40" />
+    </a>
+    <a class="btn btn-pill" href="/#early-access">Join the waitlist</a>
+  </header>
+
+  <main class="support-main">
+    <p class="hero-eyebrow">Support</p>
+    <h1 class="support-title">Tell us what’s wrong</h1>
+    <p class="support-lead">
+      Send a short ticket. It goes to the CLocal team at hello@clocal.co.uk. We’ll reply by email.
+    </p>
+
+    <form
+      class="invite-form support-form"
+      id="support-form"
+      action="https://formsubmit.co/hello@clocal.co.uk"
+      method="POST"
+    >
+      <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="_subject" value="CLocal support ticket" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_next" value="https://clocal.co.uk/support.html?sent=ok" />
+
+      <label class="sr-only" for="support-name">Name</label>
+      <input id="support-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+
+      <label class="sr-only" for="support-email">Email</label>
+      <input
+        id="support-email"
+        name="email"
+        type="email"
+        placeholder="Email (so we can reply)"
+        required
+        autocomplete="email"
+        inputmode="email"
+      />
+
+      <fieldset class="role-field">
+        <legend>I am a…</legend>
+        <label class="role-option">
+          <input type="radio" name="role" value="Consumer" checked />
+          <span>Consumer</span>
+        </label>
+        <label class="role-option">
+          <input type="radio" name="role" value="Creator" />
+          <span>Creator</span>
+        </label>
+        <label class="role-option">
+          <input type="radio" name="role" value="Business" />
+          <span>Business</span>
+        </label>
+        <label class="role-option">
+          <input type="radio" name="role" value="Other" />
+          <span>Other</span>
+        </label>
+      </fieldset>
+
+      <label class="sr-only" for="support-subject">Subject</label>
+      <input id="support-subject" name="subject" type="text" placeholder="Subject (short)" required maxlength="120" />
+
+      <label class="sr-only" for="support-message">Message</label>
+      <textarea
+        id="support-message"
+        name="message"
+        placeholder="What happened? What did you try?"
+        required
+        rows="6"
+        maxlength="4000"
+      ></textarea>
+
+      <button class="btn btn-pill large" type="submit">Send ticket</button>
+    </form>
+
+    <p class="form-status" id="support-status" role="status" hidden></p>
+    <p class="hero-note">
+      Already in the app? Profile → Help also sends a ticket you can track in Admin → Ticket centre.
+    </p>
+  </main>
+
+  <footer class="footer">
+    <p><a href="/">← Back to CLocal</a></p>
+    <p>© <span id="year"></span> CLocal. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

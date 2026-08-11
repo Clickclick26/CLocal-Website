@@ -21,7 +21,7 @@ const observer = new IntersectionObserver(
 revealEls.forEach((el) => observer.observe(el));
 
 const SUCCESS_COPY =
-  "You’re on the waitlist. We’ll email you when your invite is ready.";
+  "You’re on the waitlist, and in with a chance of a £50 General Merchants voucher. We’ll email you when your invite is ready.";
 
 // Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.
 // Email: format only (local@domain.tld). Any TLD OK — no disposable/domain blocklists.
@@ -150,5 +150,68 @@ if (form && status) {
 
     // Classic FormSubmit POST (no AJAX). Do not disable the button — that can cancel the native submit.
     setStatus("Sending…", "ok");
+  });
+}
+
+// Support ticket page (support.html) — same FormSubmit pattern as waitlist.
+const SUPPORT_OK =
+  "Ticket sent. We’ll reply by email as soon as we can.";
+
+const supportForm = document.getElementById("support-form");
+const supportStatus = document.getElementById("support-status");
+
+if (supportForm && supportStatus) {
+  /** @param {string} message @param {"ok"|"error"} kind */
+  function setSupportStatus(message, kind) {
+    supportStatus.hidden = false;
+    supportStatus.textContent = message;
+    supportStatus.classList.toggle("error", kind === "error");
+  }
+
+  if (new URLSearchParams(window.location.search).get("sent") === "ok") {
+    setSupportStatus(SUPPORT_OK, "ok");
+    supportForm.reset();
+    const firstRole = /** @type {HTMLInputElement | null} */ (
+      supportForm.querySelector('input[name="role"][value="Consumer"]')
+    );
+    if (firstRole) firstRole.checked = true;
+  }
+
+  supportForm.addEventListener("submit", (event) => {
+    const honey = /** @type {HTMLInputElement | null} */ (
+      supportForm.querySelector('input[name="_honey"]')
+    );
+    const email = /** @type {HTMLInputElement | null} */ (
+      supportForm.querySelector("#support-email")
+    );
+    const subject = /** @type {HTMLInputElement | null} */ (
+      supportForm.querySelector("#support-subject")
+    );
+    const message = /** @type {HTMLTextAreaElement | null} */ (
+      supportForm.querySelector("#support-message")
+    );
+
+    if (email && !EMAIL_RE.test(email.value.trim())) {
+      event.preventDefault();
+      setSupportStatus("Enter a real email so we can reply.", "error");
+      return;
+    }
+    if (subject && subject.value.trim().length < 3) {
+      event.preventDefault();
+      setSupportStatus("Add a short subject.", "error");
+      return;
+    }
+    if (message && message.value.trim().length < 10) {
+      event.preventDefault();
+      setSupportStatus("Tell us a bit more in the message.", "error");
+      return;
+    }
+    if (honey && honey.value) {
+      event.preventDefault();
+      setSupportStatus(SUPPORT_OK, "ok");
+      supportForm.reset();
+      return;
+    }
+    setSupportStatus("Sending…", "ok");
   });
 }

@@ -45,7 +45,8 @@
         <div class="hero-waitlist">
           <h2 class="hero-form-title">Join the waitlist</h2>
           <p class="hero-form-lead">
-            Invite-only for South Belfast. Join below. If you’re invited, you’ll get access next.
+            Invite-only for South Belfast. Join below, and you’re also in with a chance of a £50 General Merchants voucher.
+            If you’re invited, you’ll get access next.
           </p>
           <form class="invite-form" id="invite-form" action="https://formsubmit.co/hello@clocal.co.uk" method="POST">
             <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
@@ -53,6 +54,12 @@
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
             <input type="hidden" name="_next" value="https://clocal.co.uk/?waitlist=ok#early-access" />
+            <!-- FormSubmit's built-in autoresponse — sends this to the signer's own
+                 `email` field immediately. Not a substitute for the real invite email
+                 (still manual/CRM-driven, see README "Confirmation emails" section),
+                 just closes the "did that actually go through?" silence right after
+                 submitting. Honest: doesn't claim an invite, just confirms the join. -->
+            <input type="hidden" name="_autoresponse" value="Thanks, you're on the CLocal waitlist for South Belfast. That also enters you for a chance to win a £50 General Merchants voucher (18+, T&Cs apply). We'll email you again when your invite is ready." />
             <label class="sr-only" for="invite-name">Name</label>
             <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
             <label class="sr-only" for="invite-email">Email</label>
@@ -84,11 +91,11 @@
             <button class="btn btn-pill large" type="submit">Join the waitlist</button>
           </form>
           <p class="form-status" id="invite-status" role="status" hidden></p>
-          <p class="hero-note">After you’re invited: iPhone TestFlight or web access.</p>
+          <p class="hero-note">After you’re invited: iPhone TestFlight or web access. Prize draw: 18+. Full rules on the site before we announce a winner.</p>
           <div class="trust">
             <span>Private &amp; secure</span>
             <span>Invite-only</span>
-            <span>South Belfast · invite-only</span>
+            <span>South Belfast</span>
           </div>
         </div>
       </div>
@@ -223,7 +230,7 @@
         <article>
           <div class="benefit-icon turquoise">◉</div>
           <h3>Nearby LocalGems</h3>
-          <p>Timed LocalGems on the map. Phone alerts when you’re close (invite-only early access).</p>
+          <p>Timed LocalGems on the map. Phone alerts when you’re close, on the app (invite-only early access).</p>
         </article>
         <article>
           <div class="benefit-icon teal">⌖</div>
@@ -234,7 +241,7 @@
       <div class="benefits-fomo">
         <p>
           Early access is invite-only in South Belfast. Locals already in hear about Hidden Gems and complimentary gift invites first.
-          Join the waitlist so you’re among them when invites go out.
+          Join the waitlist to be one of the first through the door.
         </p>
         <a class="btn btn-pill" href="#early-access">Join the waitlist</a>
       </div>
@@ -296,6 +303,7 @@
       <nav class="footer-social" aria-label="Social media">
         <a href="https://www.instagram.com/clocal_app/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.facebook.com/profile.php?id=61592855575524" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a class="footer-quiet" href="support.html">Help</a>
       </nav>
     </div>
     <p>© <span id="year"></span> CLocal. All rights reserved.</p>

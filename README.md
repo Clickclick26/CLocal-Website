@@ -15,6 +15,21 @@ Marketing site for **CLocal** — video-first local discovery.
 
 Submissions go to **hello@clocal.co.uk** via [FormSubmit.co](https://formsubmit.co) (classic HTML POST, then redirect back with `?waitlist=ok`).
 
+## Support tickets (website)
+
+Quiet page: **https://clocal.co.uk/support.html** (also footer → **Help**).
+
+- Same FormSubmit inbox: **hello@clocal.co.uk** (subject `CLocal support ticket`)
+- `noindex` so it stays out of search
+- First submit may need FormSubmit “Activate Form” email (same as waitlist)
+
+### In-app tickets (signed-in)
+
+- Profile → **Help** → writes to Supabase `support_tickets`
+- You read them in the app: **Admin → Ticket centre**
+
+Website tickets = email. App tickets = Ticket centre.
+
 ### Soft validation (email + postcode)
 
 Client-side checks catch empty fields and obvious garbage only:
@@ -27,11 +42,11 @@ These checks are **not** a guarantee someone is real. The honeypot (`_honey`) he
 
 ### Confirmation emails / newsletter (FormSubmit limits)
 
-FormSubmit only forwards the waitlist form to **hello@clocal.co.uk**. It does **not** send a proper double-opt-in confirm to the signer.
+FormSubmit forwards the waitlist form to **hello@clocal.co.uk**, and (as of 2026-08-08) also fires its built-in `_autoresponse` field back to the signer's own `email` — a one-line "you're on the list" ack, sent immediately, no backend needed. It is **not** a proper double-opt-in confirm, and it is **not** the real invite email — that's still manual/CRM-driven, same as before.
 
 Success copy on the site is honest: we’ll email them when invited — not a fake “confirm your newsletter” we can’t deliver.
 
-For real confirm-without-spam later: wire **ClickClick CRM**, Mailchimp, or similar with double opt-in, plus **SPF/DKIM** on `hello@clocal.co.uk` (or the sending domain).
+For real confirm-without-spam later, and for the actual invite send: wire **ClickClick CRM**, Mailchimp, or similar with double opt-in, plus **SPF/DKIM** on `hello@clocal.co.uk` (or the sending domain).
 
 ### One-time activation (required)
 
