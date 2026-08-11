@@ -114,6 +114,7 @@ a {
 h1, h2, h3 {
   line-height: 1.15;
   letter-spacing: -0.02em;
+  color: var(--accent);
 }
 
 h1 {
