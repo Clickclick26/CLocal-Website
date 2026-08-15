@@ -190,6 +190,28 @@ function selectWaitlistRole(role) {
   if (!checkbox) return;
   checkbox.checked = true;
   checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+  // Pre-selecting from a "Who it's for" card should be visible, not hidden
+  // inside a collapsed dropdown.
+  const roleField = /** @type {HTMLDetailsElement | null} */ (
+    document.getElementById("role-field")
+  );
+  if (roleField) roleField.open = true;
+}
+
+// Keep the collapsed "I am a…" summary in sync with what's actually checked,
+// so closing the dropdown doesn't hide the selection.
+const roleSummaryText = document.getElementById("role-summary-text");
+
+function updateRoleSummary() {
+  if (!roleSummaryText) return;
+  const roles = getSelectedRoles();
+  roleSummaryText.textContent = roles.length ? `I am a… ${roles.join(", ")}` : "I am a…";
+}
+
+if (form) {
+  form.querySelectorAll('input[name="role"]').forEach((el) => {
+    el.addEventListener("change", updateRoleSummary);
+  });
 }
 
 /**
@@ -282,6 +304,7 @@ if (form && status) {
       showSnackbar(SUCCESS_COPY, "ok");
       form.reset();
       if (newsletterValue) newsletterValue.value = "yes";
+      updateRoleSummary();
     }
 
     // Honeypot filled: pretend success, send nothing.
