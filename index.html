@@ -104,7 +104,21 @@
       </div>
 
       <div class="hero-visual">
-        <div class="phone float">
+        <!-- Side phones: real screenshots of the live app (home feed + map), not mockups.
+             Hidden under 960px — see media query — the centre phone carries mobile alone. -->
+        <div class="phone phone-side phone-side-left float" aria-hidden="true">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img class="phone-real-shot" src="assets/app-screens/home-feed.jpg" alt="" />
+          </div>
+        </div>
+        <div class="phone phone-side phone-side-right float" aria-hidden="true">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <img class="phone-real-shot" src="assets/app-screens/map.jpg" alt="" />
+          </div>
+        </div>
+        <div class="phone phone-centre float">
           <div class="phone-notch"></div>
           <div class="phone-screen">
             <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->

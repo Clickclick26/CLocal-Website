@@ -442,6 +442,52 @@ p {
   position: relative;
 }
 
+/* Three-phone hero: brand card centred in front, two real app screenshots
+   fanned out behind it (home feed left, map right). Side phones are
+   absolutely positioned against .hero-visual (the sticky ancestor) so the
+   centre phone can stay in normal grid-centred flow like before. */
+.phone-centre {
+  width: min(230px, 60vw);
+  z-index: 3;
+}
+
+.phone-side {
+  position: absolute;
+  top: 6%;
+  width: min(185px, 48vw);
+  z-index: 1;
+  animation-name: floatSide;
+  animation-duration: 5.5s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.phone-side-left {
+  left: -8%;
+  --tilt: -11deg;
+  --tilt-peak: -9deg;
+}
+
+.phone-side-right {
+  right: -8%;
+  --tilt: 9deg;
+  --tilt-peak: 11deg;
+  animation-delay: 0.9s;
+}
+
+.phone-real-shot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+@keyframes floatSide {
+  0%, 100% { transform: translateY(0) rotate(var(--tilt)); }
+  50% { transform: translateY(-10px) rotate(var(--tilt-peak)); }
+}
+
 .phone-notch {
   position: absolute;
   top: 18px;
@@ -562,6 +608,7 @@ p {
   position: absolute;
   top: 12%;
   right: 4%;
+  z-index: 4;
   display: flex;
   align-items: center;
   gap: 0.65rem;
@@ -1414,6 +1461,16 @@ p {
     min-height: 380px;
     position: relative;
     top: auto;
+  }
+
+  /* Side phones (real screenshots) crowd out the single-column mobile
+     layout — keep just the centred brand phone, at its original size. */
+  .phone-side {
+    display: none;
+  }
+
+  .phone-centre {
+    width: min(280px, 72vw);
   }
 
   .notif {
