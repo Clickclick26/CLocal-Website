@@ -37,62 +37,6 @@ body {
   overflow-x: hidden;
 }
 
-/* CLocal-branded animated cursor. A native CSS `cursor: url(...)` can't be
-   animated or rendered above ~32-128px crisply (browsers cap/scale it as a
-   tiny OS-level bitmap) — so instead we hide the real cursor and follow the
-   pointer with this DOM element, which can be full quality and genuinely
-   animated (smooth trailing follow, a hover pop on links). Only on devices
-   with a real mouse (`pointer: fine`); touch devices keep native behaviour
-   untouched, and #cursor-pin is simply never created there. See script.js.
-   `!important` on the root rule intentionally beats any `cursor: pointer`
-   a link/button would normally show — the pin *is* the pointer here; the
-   hover-pop animation is what signals "clickable" instead. */
-@media (pointer: fine) {
-  html.has-custom-cursor,
-  html.has-custom-cursor * {
-    cursor: none !important;
-  }
-}
-
-.cursor-pin {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: auto;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate3d(-100px, -100px, 0) translate(-50%, -78%);
-  filter: drop-shadow(0 6px 10px rgba(27, 58, 92, 0.45));
-  transition: opacity 0.15s ease, filter 0.15s ease;
-}
-
-.cursor-pin img {
-  display: block;
-  width: 100%;
-  height: auto;
-  transform-origin: 50% 78%;
-  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cursor-pin.is-hovering img {
-  transform: scale(1.22) rotate(-6deg);
-}
-
-.cursor-pin.is-pressed img {
-  transform: scale(0.88);
-}
-
-.cursor-pin.is-hidden {
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cursor-pin img {
-    transition: none;
-  }
-}
-
 .page-glow {
   pointer-events: none;
   position: fixed;
@@ -427,7 +371,7 @@ p {
   top: 5.5rem;
   display: grid;
   place-items: center;
-  min-height: 480px;
+  min-height: 560px;
 }
 
 .phone {
@@ -447,14 +391,14 @@ p {
    absolutely positioned against .hero-visual (the sticky ancestor) so the
    centre phone can stay in normal grid-centred flow like before. */
 .phone-centre {
-  width: min(230px, 60vw);
+  width: clamp(150px, 34vw, 230px);
   z-index: 3;
 }
 
 .phone-side {
   position: absolute;
-  top: 6%;
-  width: min(185px, 48vw);
+  top: 16%;
+  width: clamp(108px, 24vw, 185px);
   z-index: 1;
   animation-name: floatSide;
   animation-duration: 5.5s;
@@ -463,13 +407,13 @@ p {
 }
 
 .phone-side-left {
-  left: -8%;
+  left: -4%;
   --tilt: -11deg;
   --tilt-peak: -9deg;
 }
 
 .phone-side-right {
-  right: -8%;
+  right: -4%;
   --tilt: 9deg;
   --tilt-peak: 11deg;
   animation-delay: 0.9s;
@@ -1458,19 +1402,9 @@ p {
   }
 
   .hero-visual {
-    min-height: 380px;
+    min-height: 360px;
     position: relative;
     top: auto;
-  }
-
-  /* Side phones (real screenshots) crowd out the single-column mobile
-     layout — keep just the centred brand phone, at its original size. */
-  .phone-side {
-    display: none;
-  }
-
-  .phone-centre {
-    width: min(280px, 72vw);
   }
 
   .notif {
