@@ -1239,10 +1239,10 @@ p {
 }
 
 .footer-wordmark {
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
-  color: var(--teal);
+  height: 32px;
+  width: auto;
+  display: block;
+  margin-bottom: 0.25rem;
 }
 
 .footer-social {
