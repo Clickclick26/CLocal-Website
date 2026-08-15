@@ -1241,7 +1241,7 @@ p {
 .footer-wordmark {
   height: 32px;
   width: auto;
-  display: block;
+  align-self: flex-start;
   margin-bottom: 0.25rem;
 }
 
