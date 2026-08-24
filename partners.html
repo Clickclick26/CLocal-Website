@@ -42,6 +42,11 @@
       </p>
     </div>
 
+    <div class="role-photos">
+      <img src="assets/partners/local-business-customers-celebrating.jpg" alt="Customers celebrating together at a local independent business" loading="lazy" />
+      <img src="assets/partners/local-salon-beauty-treatment.jpg" alt="A local salon giving a customer a beauty treatment" loading="lazy" />
+    </div>
+
     <div class="benefit-grid">
       <article>
         <div class="benefit-icon teal">◐</div>
@@ -88,10 +93,16 @@
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="_next" value="https://clocal.co.uk/?waitlist=ok#early-access" />
           <input type="hidden" name="_autoresponse" value="Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn." />
-          <label class="sr-only" for="invite-name">Name</label>
-          <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
-          <label class="sr-only" for="invite-email">Email</label>
-          <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" inputmode="email" />
+          <div class="form-row">
+            <div>
+              <label class="sr-only" for="invite-name">Name</label>
+              <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+            </div>
+            <div>
+              <label class="sr-only" for="invite-email">Email</label>
+              <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" inputmode="email" />
+            </div>
+          </div>
           <label class="sr-only" for="invite-postcode">Postcode</label>
           <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 1NN)" required autocomplete="postal-code" />
           <details class="role-field" id="role-field" open>
