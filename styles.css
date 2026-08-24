@@ -610,6 +610,26 @@ p {
   text-align: center;
 }
 
+.backed-by {
+  position: relative;
+  z-index: 1;
+  padding: 3rem clamp(1rem, 4vw, 2.5rem) 4.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.backed-by .section-lead {
+  margin-bottom: 0;
+}
+
+.backed-by a {
+  color: var(--teal);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .quote-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
