@@ -1777,6 +1777,49 @@ p {
   font-size: 0.92em;
 }
 
+/* Creator / Partner detail pages — single-column versions of the same
+   sections used on the homepage (eyebrow+h1+lead, benefit-grid, waitlist
+   card), just centred and without the two-phone hero-visual. */
+.role-page-main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1rem, 4vw, 2.5rem) 4rem;
+}
+
+.role-hero {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+
+.role-hero h1 {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  margin: 0.35rem 0 0.75rem;
+}
+
+.role-hero .section-lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.role-signature {
+  text-align: center;
+  margin: 2.5rem 0;
+}
+
+.role-signature .hand {
+  font-size: 1.75rem;
+}
+
+.role-waitlist-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+.role-waitlist-wrap .hero-waitlist {
+  width: 100%;
+}
+
 /* Quiet support ticket page — linked from footer Help only */
 .support-page .support-main {
   max-width: 32rem;

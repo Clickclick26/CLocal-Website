@@ -91,7 +91,7 @@ async function submitWaitlist(payload) {
       _subject: "CLocal waitlist",
       _template: "table",
       _autoresponse:
-        "Thanks, you're on the CLocal waitlist for South Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when your invite is ready.",
+        "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn.",
       name: payload.name,
       email: payload.email,
       postcode: payload.postcode,
@@ -148,6 +148,9 @@ if (form) {
   form.querySelectorAll('input[name="role"]').forEach((el) => {
     el.addEventListener("change", updateRoleSummary);
   });
+  // Pages that pre-check a role in HTML (e.g. creators.html, partners.html)
+  // need the summary text synced on load too, not just on change.
+  updateRoleSummary();
 }
 
 /**
