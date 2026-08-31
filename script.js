@@ -23,16 +23,16 @@ revealEls.forEach((el) => observer.observe(el));
 const SUCCESS_COPY =
   "You’re on the waitlist, and in with a chance to win one of several vouchers for brunch at General Merchants. We’ll email you when your invite is ready.";
 
-// ClickClick CRM (Supabase) waitlist ingest — upserts a CRM contact
-// (source=clocal-waitlist) and sends the confirm email via Resend.
-// See ~/Projects/clickclick-crm/docs/clocal-waitlist-ingest.md.
-// Public project URL, safe to ship client-side (no secrets here — the
-// service-role key and Resend key stay server-side in Supabase secrets).
+// Both endpoints fire on every signup (see submitWaitlist).
+// 1. ClickClick CRM (Supabase) ingest — upserts a CRM contact
+//    (source=clocal-waitlist). Its Resend confirm email needs clocal.co.uk
+//    verified in Resend (not done yet), but the contact write happens
+//    regardless. See ~/Projects/clickclick-crm/docs/clocal-waitlist-ingest.md.
+//    Public project URL, safe to ship client-side (no secrets here).
 const WAITLIST_URL =
   "https://gapybapywpdogexibtgj.supabase.co/functions/v1/waitlist-ingest";
-// Backup path only: if the CRM function isn't deployed yet (or errors),
-// still get the lead to hello@clocal.co.uk via FormSubmit so nothing is lost
-// while Kathryn finishes the Resend/Supabase setup.
+// 2. FormSubmit — emails hello@clocal.co.uk on every signup. Activated and
+//    working; this is the send that must succeed.
 const FORMSUBMIT_AJAX_URL = "https://formsubmit.co/ajax/hello@clocal.co.uk";
 
 // Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.
@@ -68,39 +68,82 @@ function showSnackbar(message, kind) {
 }
 
 /**
- * Submit the waitlist to the CRM ingest function; fall back to FormSubmit
- * (email-only, no CRM entry) if that function is unreachable or erroring.
- * @param {{name: string, email: string, postcode: string, roles: string[], newsletter: boolean}} payload
+ * Waitlist submit — fires BOTH paths on every signup, in parallel:
+ *   1. CRM ingest  → files a contact in ClickClick CRM (source=clocal-waitlist)
+ *   2. FormSubmit  → emails hello@clocal.co.uk
+ *
+ * They're independent and both should always run. The email is the one
+ * that MUST land, so only its failure surfaces an error to the user.
+ *
+ * The CRM function often responds 500 today because its Resend confirm-mail
+ * step isn't set up (clocal.co.uk not verified in Resend) — but it writes
+ * the contact row BEFORE that step, so a non-ok response there is not a
+ * real failure and must not block the signup or hide the email path.
+ *
+ * History: from 2026-08-12 to 2026-08-30 the CRM call ran first and a 200
+ * from it skipped FormSubmit entirely — which silently stopped every signup
+ * email (last one landed 12 Aug). Both-in-parallel since 2026-08-30.
+ *
+ * @param {{name: string, email: string, postcode: string, roles: string[], newsletter: boolean, referredBy?: string, utm?: Record<string,string>}} payload
  */
 async function submitWaitlist(payload) {
-  try {
-    const res = await fetch(WAITLIST_URL, {
+  const utm = payload.utm || {};
+  const [crm, mail] = await Promise.allSettled([
+    fetch(WAITLIST_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    });
-    if (res.ok) return;
-  } catch (err) {
-    // Network error, CORS, or function not deployed yet — try the backup below.
+    }),
+    fetch(FORMSUBMIT_AJAX_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: "CLocal waitlist",
+        _template: "table",
+        _autoresponse:
+          "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn.",
+        name: payload.name,
+        email: payload.email,
+        postcode: payload.postcode,
+        role: payload.roles.join(", "),
+        newsletter: payload.newsletter ? "yes" : "no",
+        referred_by: payload.referredBy || "",
+        utm_source: utm.utm_source || "",
+        utm_medium: utm.utm_medium || "",
+        utm_campaign: utm.utm_campaign || "",
+        utm_content: utm.utm_content || "",
+        utm_term: utm.utm_term || "",
+      }),
+    }),
+  ]);
+
+  // CRM is best-effort — log, don't fail the signup over it.
+  if (crm.status === "rejected" || !crm.value.ok) {
+    console.warn(
+      "Waitlist CRM ingest didn't confirm (contact may still have been saved):",
+      crm.status === "rejected" ? crm.reason : crm.value.status,
+    );
   }
 
-  const fallback = await fetch(FORMSUBMIT_AJAX_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({
-      _subject: "CLocal waitlist",
-      _template: "table",
-      _autoresponse:
-        "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn.",
-      name: payload.name,
-      email: payload.email,
-      postcode: payload.postcode,
-      role: payload.roles.join(", "),
-      newsletter: payload.newsletter ? "yes" : "no",
-    }),
-  });
-  if (!fallback.ok) {
-    throw new Error(`Waitlist submit failed (${fallback.status})`);
+  // The email to hello@clocal.co.uk has to land. FormSubmit's ajax endpoint
+  // answers HTTP 200 even when it rejected the submit (form not activated,
+  // spam-flagged, etc.), so check the JSON body's success flag too.
+  if (mail.status === "rejected") {
+    throw mail.reason instanceof Error
+      ? mail.reason
+      : new Error("Waitlist email send failed");
+  }
+  if (!mail.value.ok) {
+    throw new Error(`Waitlist email send failed (${mail.value.status})`);
+  }
+  let mailJson = null;
+  try {
+    mailJson = await mail.value.clone().json();
+  } catch (_) {
+    /* non-JSON body — fall back to the HTTP status check above */
+  }
+  if (mailJson && String(mailJson.success) === "false") {
+    throw new Error(`FormSubmit rejected the submit: ${mailJson.message || "unknown"}`);
   }
 }
 
@@ -236,11 +279,31 @@ if (form && status) {
 
     const postcode = normalizePostcode(postcodeRaw);
     const newsletter = Boolean(newsletterBox && newsletterBox.checked);
+    const referredBy = new URLSearchParams(window.location.search).get("ref") || "";
+    // Ad/campaign attribution — read once at submit time so it survives any
+    // in-page navigation between landing and signing up.
+    const utmParams = new URLSearchParams(window.location.search);
+    const utm = {
+      utm_source: utmParams.get("utm_source") || "",
+      utm_medium: utmParams.get("utm_medium") || "",
+      utm_campaign: utmParams.get("utm_campaign") || "",
+      utm_content: utmParams.get("utm_content") || "",
+      utm_term: utmParams.get("utm_term") || "",
+    };
     if (newsletterValue) newsletterValue.value = newsletter ? "yes" : "no";
 
     function markSubmitted() {
       setStatus(SUCCESS_COPY, "ok");
       showSnackbar(SUCCESS_COPY, "ok");
+      // Meta Pixel: fire the standard Lead event on a real, confirmed signup.
+      if (window.fbq) {
+        window.fbq("track", "Lead", {
+          content_name: "waitlist_signup",
+          utm_source: utm.utm_source,
+          utm_campaign: utm.utm_campaign,
+          utm_content: utm.utm_content,
+        });
+      }
       form.reset();
       if (newsletterValue) newsletterValue.value = "yes";
       updateRoleSummary();
@@ -253,7 +316,7 @@ if (form && status) {
     }
 
     setStatus("Sending…", "ok");
-    submitWaitlist({ name, email, postcode, roles, newsletter })
+    submitWaitlist({ name, email, postcode, roles, newsletter, referredBy, utm })
       .then(markSubmitted)
       .catch((err) => {
         console.error("Waitlist submit failed:", err);
@@ -261,8 +324,44 @@ if (form && status) {
           "Sorry, something went wrong sending that. Please try again or email hello@clocal.co.uk.",
           "error"
         );
+        // Breakage alert: the normal path just failed for a real person, so
+        // (a) tell Kathryn it's broken and (b) get the lead's details into
+        // her inbox anyway so the signup isn't lost. Best-effort — if
+        // FormSubmit itself is the outage this can't get through either,
+        // which is what the external daily canary (GitHub Action) is for.
+        reportWaitlistFailure({ name, email, postcode, roles, newsletter, referredBy }, err);
       });
   });
+}
+
+/**
+ * Fire-and-forget alert to hello@clocal.co.uk that a waitlist submit failed,
+ * carrying the lead's details and the error so nothing is lost and the
+ * breakage is visible immediately.
+ * @param {{name: string, email: string, postcode: string, roles: string[], newsletter: boolean}} payload
+ * @param {unknown} err
+ */
+function reportWaitlistFailure(payload, err) {
+  try {
+    fetch(FORMSUBMIT_AJAX_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: "⚠️ CLocal waitlist submit FAILED — check the form",
+        _template: "table",
+        error: String(err && /** @type {Error} */ (err).message ? /** @type {Error} */ (err).message : err),
+        page: location.href,
+        when: new Date().toISOString(),
+        name: payload.name,
+        email: payload.email,
+        postcode: payload.postcode,
+        role: payload.roles.join(", "),
+        newsletter: payload.newsletter ? "yes" : "no",
+      }),
+    }).catch(() => {});
+  } catch (_) {
+    /* never let the alert throw */
+  }
 }
 
 // Support ticket page (support.html) — same FormSubmit pattern as waitlist.
