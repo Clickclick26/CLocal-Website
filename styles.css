@@ -1829,6 +1829,27 @@ p {
   font-size: 1.75rem;
 }
 
+.guide-prose {
+  max-width: 640px;
+  margin: 0 auto 2rem;
+}
+
+.guide-prose h2 {
+  font-size: 1.25rem;
+  margin: 1.75rem 0 0.6rem;
+}
+
+.guide-prose p,
+.guide-prose li {
+  color: var(--ink, #1a2e2e);
+  line-height: 1.65;
+}
+
+.guide-prose ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.2rem;
+}
+
 .role-waitlist-wrap {
   display: flex;
   justify-content: center;
