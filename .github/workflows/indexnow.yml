@@ -1,0 +1,22 @@
+name: Ping search engines
+
+# Tells Bing (and others on IndexNow) that CLocal consumer pages exist.
+# Free. No Instagram. No filming. No group spam.
+
+on:
+  schedule:
+    - cron: "10 7 * * *"
+  workflow_dispatch: {}
+  push:
+    paths:
+      - "sitemap.xml"
+      - "*.html"
+      - "scripts/ping_indexnow.py"
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Submit sitemap to IndexNow
+        run: python3 scripts/ping_indexnow.py
