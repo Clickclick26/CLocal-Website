@@ -1920,6 +1920,47 @@ p {
   outline-offset: 1px;
 }
 
+/* Legal pages (privacy, terms) — reuses .support-main width/centering */
+.legal-main {
+  color: var(--ink, #1a2e2e);
+}
+.legal-main h1 {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0.35rem 0 0.5rem;
+}
+.legal-main h2 {
+  font-family: "Nunito", system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 1.9rem 0 0.5rem;
+}
+.legal-main p,
+.legal-main li {
+  line-height: 1.6;
+  color: var(--ink, #1a2e2e);
+}
+.legal-main p {
+  margin: 0 0 1rem;
+}
+.legal-main ul {
+  margin: 0 0 1rem;
+  padding-left: 1.25rem;
+}
+.legal-main li {
+  margin: 0 0 0.5rem;
+}
+.legal-main .legal-meta {
+  color: var(--muted, #6b7c7c);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+.legal-main a {
+  color: var(--teal, #008080);
+}
+
 @media (max-width: 900px) {
   .shot-row {
     grid-template-columns: 1fr;
