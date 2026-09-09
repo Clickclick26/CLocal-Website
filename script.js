@@ -33,6 +33,16 @@ const WAITLIST_URL =
   "https://gapybapywpdogexibtgj.supabase.co/functions/v1/waitlist-ingest";
 // 2. FormSubmit — emails hello@clocal.co.uk on every signup. Activated and
 //    working; this is the send that must succeed.
+//
+//    This URL, and the _subject/_template/_autoresponse fields below, live HERE
+//    and not in the markup. They used to sit in every page as action= plus hidden
+//    inputs, which put the endpoint, the auto-reply text and a _captcha="false"
+//    switch in public view-source. On 5 Sep 2026 a spam bot scraped exactly that
+//    and posted straight to FormSubmit ("John Doe", postcode "yes" — a value the
+//    checks below would have rejected), so nothing in this file ever ran. Keeping
+//    the endpoint out of the markup means an HTML-scraping bot finds no form to
+//    abuse, and can no longer hand FormSubmit a captcha-off switch. Do not move
+//    these back into the HTML.
 const FORMSUBMIT_AJAX_URL = "https://formsubmit.co/ajax/hello@clocal.co.uk";
 
 // Soft client checks only — not a guarantee. Honeypot helps bots; real proof = magic link later.

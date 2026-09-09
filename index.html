@@ -71,18 +71,15 @@
             Now taking the waitlist for South and East Belfast. Join below, and you’re also in with a chance to win one of several vouchers for brunch at General Merchants.
             We’ll email you when it’s your turn.
           </p>
-          <form class="invite-form" id="invite-form" action="https://formsubmit.co/hello@clocal.co.uk" method="POST">
+          <form class="invite-form" id="invite-form" method="POST">
             <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <input type="hidden" name="_subject" value="CLocal waitlist" />
-            <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_template" value="table" />
-            <input type="hidden" name="_next" value="https://clocal.co.uk/?waitlist=ok#early-access" />
-            <!-- FormSubmit's built-in autoresponse — sends this to the signer's own
-                 `email` field immediately. Not a substitute for the real invite email
-                 (still manual/CRM-driven, see README "Confirmation emails" section),
-                 just closes the "did that actually go through?" silence right after
-                 submitting. Honest: doesn't claim an invite, just confirms the join. -->
-            <input type="hidden" name="_autoresponse" value="Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn." />
+            <!-- No action= and no FormSubmit _fields here on purpose. script.js
+                 submits this form itself (submitWaitlist) and sets _subject,
+                 _template and _autoresponse in that payload. Anything left in this
+                 markup is readable by anyone viewing source, and form-spam bots
+                 scrape exactly that: on 5 Sep 2026 one posted straight to the
+                 endpoint it found here, skipping every check in script.js.
+                 Do not re-add them. -->
             <div class="form-row">
               <div>
                 <label class="sr-only" for="invite-name">Name</label>
