@@ -94,7 +94,7 @@ function showSnackbar(message, kind) {
  * from it skipped FormSubmit entirely — which silently stopped every signup
  * email (last one landed 12 Aug). Both-in-parallel since 2026-08-30.
  *
- * @param {{name: string, email: string, postcode: string, roles: string[], newsletter: boolean, referredBy?: string, utm?: Record<string,string>}} payload
+ * @param {{name: string, email: string, postcode: string, roles: string[], newsletter: boolean, referredBy?: string, utm?: Record<string,string>, subject?: string}} payload
  */
 async function submitWaitlist(payload) {
   const utm = payload.utm || {};
@@ -108,7 +108,10 @@ async function submitWaitlist(payload) {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify({
-        _subject: "CLocal waitlist",
+        // Which page the signup came from — set per form via data-form-subject
+        // (see the submit handler). Without it every page’s email said the same
+        // thing, so there was no way to tell which page pulls signups.
+        _subject: payload.subject || "CLocal waitlist",
         _template: "table",
         _autoresponse:
           "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn.",
@@ -326,7 +329,8 @@ if (form && status) {
     }
 
     setStatus("Sending…", "ok");
-    submitWaitlist({ name, email, postcode, roles, newsletter, referredBy, utm })
+    const subject = form.dataset.formSubject || "CLocal waitlist";
+    submitWaitlist({ name, email, postcode, roles, newsletter, referredBy, utm, subject })
       .then(markSubmitted)
       .catch((err) => {
         console.error("Waitlist submit failed:", err);
