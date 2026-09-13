@@ -1,2 +1,25 @@
 .DS_Store
 *.log
+.env
+.env.*
+
+# This repo is a PUBLIC GitHub Pages site (clocal.co.uk) -- every file
+# tracked here becomes a real, live, crawlable URL the instant it's
+# pushed, whether or not it was meant to be public. Found the hard way
+# 2026-09-13: 13 internal Supabase security scripts, a plaintext demo
+# password, and a Flutter theme file sat live on clocal.co.uk for weeks
+# because nothing here blocked them and a broad `git add -A` swept them
+# in alongside real website changes. Never commit any of the below to
+# this repo -- if you need to reference them, keep them outside this
+# folder entirely (e.g. in the CLocal app repo, which is private).
+supabase/
+*.sql
+*access-code*
+*password*
+clocal_theme.dart
+CLAUDE_SESSION*.md
+
+# Draft ad creative and mocks -- large, unreleased, not meant to be
+# public yet. Sits alongside real site files in assets/, so a broad
+# `git add -A` will sweep it in unless this stays here.
+assets/ads/

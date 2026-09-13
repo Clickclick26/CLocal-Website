@@ -1,0 +1,31 @@
+#!/bin/sh
+# Blocks a commit that would put an internal/secret-looking file onto the
+# live public site (clocal.co.uk is served straight from this repo -- see
+# .gitignore for the 2026-09-13 incident this exists because of).
+#
+# One-time setup per clone (not automatic -- git doesn't run hooks from a
+# tracked folder on its own):
+#   git config core.hooksPath .githooks
+
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+blocked=0
+pattern='(^|/)(supabase/paste/|.*\.sql$|.*access-code.*|.*password.*|clocal_theme\.dart$|CLAUDE_SESSION.*\.md$)'
+
+echo "$staged" | grep -Eqi "$pattern" && {
+  echo ""
+  echo "BLOCKED: this commit stages a file that looks like an internal/secret"
+  echo "reference file, not a real website file. This repo is PUBLIC and every"
+  echo "tracked file becomes a live URL on clocal.co.uk the moment it's pushed."
+  echo ""
+  echo "Files matched:"
+  echo "$staged" | grep -Ei "$pattern" | sed 's/^/  - /'
+  echo ""
+  echo "If this really belongs on the site, rename it so it doesn't match the"
+  echo "pattern above. Otherwise keep it out of this repo entirely."
+  blocked=1
+}
+
+[ "$blocked" = "1" ] && exit 1
+exit 0
