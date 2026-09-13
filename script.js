@@ -1,5 +1,36 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+// Campaign attribution, captured on arrival.
+//
+// Runs on every page, before anyone touches the form. A visitor who lands on
+// a tagged link and then browses to another page before signing up would
+// otherwise lose the tags entirely — the submit handler only ever saw the URL
+// of the page the form is on. Stash on arrival, read back at submit.
+//
+// Only writes when the URL actually carries tags, so ordinary in-site
+// navigation can't blank an earlier arrival. sessionStorage, not local: the
+// attribution should die with the tab rather than credit a signup next week
+// to a link clicked today.
+(() => {
+  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  const params = new URLSearchParams(window.location.search);
+  /** @type {Record<string,string>} */
+  const found = {};
+  let any = false;
+  for (const key of keys) {
+    const value = params.get(key) || "";
+    if (value) any = true;
+    found[key] = value;
+  }
+  if (!any) return;
+  try {
+    sessionStorage.setItem("clocal_utm", JSON.stringify(found));
+  } catch {
+    // Private mode or blocked storage. Attribution falls back to
+    // same-page-only, exactly as it behaved before. Never break the page.
+  }
+})();
+
 const revealEls = document.querySelectorAll(
   ".quote, .step-card, .benefit-grid article, .who-card"
 );
@@ -293,16 +324,58 @@ if (form && status) {
     const postcode = normalizePostcode(postcodeRaw);
     const newsletter = Boolean(newsletterBox && newsletterBox.checked);
     const referredBy = new URLSearchParams(window.location.search).get("ref") || "";
-    // Ad/campaign attribution — read once at submit time so it survives any
-    // in-page navigation between landing and signing up.
+    // Ad/campaign attribution.
+    //
+    // Reading window.location.search at submit time only works if the visitor
+    // signs up on the very page the tagged link landed them on. It does NOT
+    // survive a real page change — land on index.html?utm_source=facebook,
+    // click through to creators.html or a neighbourhood page, sign up there,
+    // and every utm field arrives blank. The tags are on the URL the visitor
+    // arrived at, not the one they submit from.
+    //
+    // So: stash whatever tags the visitor arrived with in sessionStorage the
+    // first time we see them, and fall back to that at submit time. The URL
+    // still wins when it has tags, so a second tagged link within the same
+    // session re-attributes rather than being ignored. sessionStorage (not
+    // local) means it dies with the tab, which is the right lifetime — a
+    // signup a week later shouldn't still be credited to today's Facebook post.
+    const UTM_KEYS = /** @type {const} */ ([
+      "utm_source",
+      "utm_medium",
+      "utm_campaign",
+      "utm_content",
+      "utm_term",
+    ]);
+    const UTM_STORE_KEY = "clocal_utm";
     const utmParams = new URLSearchParams(window.location.search);
-    const utm = {
-      utm_source: utmParams.get("utm_source") || "",
-      utm_medium: utmParams.get("utm_medium") || "",
-      utm_campaign: utmParams.get("utm_campaign") || "",
-      utm_content: utmParams.get("utm_content") || "",
-      utm_term: utmParams.get("utm_term") || "",
-    };
+
+    /** @type {Record<string,string>} */
+    let storedUtm = {};
+    try {
+      storedUtm = JSON.parse(sessionStorage.getItem(UTM_STORE_KEY) || "{}");
+    } catch {
+      storedUtm = {};
+    }
+
+    /** @type {Record<string,string>} */
+    const utm = {};
+    let sawTagInUrl = false;
+    for (const key of UTM_KEYS) {
+      const fromUrl = utmParams.get(key) || "";
+      if (fromUrl) sawTagInUrl = true;
+      utm[key] = fromUrl || storedUtm[key] || "";
+    }
+
+    // Only overwrite the stash when this URL actually carried tags, so a
+    // plain in-site navigation can't wipe the arrival attribution.
+    if (sawTagInUrl) {
+      try {
+        sessionStorage.setItem(UTM_STORE_KEY, JSON.stringify(utm));
+      } catch {
+        // Private mode / blocked storage — attribution degrades to
+        // same-page-only, which is what it was before. Never break a signup.
+      }
+    }
     if (newsletterValue) newsletterValue.value = newsletter ? "yes" : "no";
 
     function markSubmitted() {
