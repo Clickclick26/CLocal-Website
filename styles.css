@@ -320,7 +320,23 @@ p {
   scroll-margin-top: 5.5rem;
 }
 
+/* .hero has three children: copy, film, form. Auto-placement would drop the
+   form into row 2 column 1 and leave the film in row 1 only, so the film is
+   pinned across both rows and the form under the copy - which is exactly
+   where they both sat when the form was nested inside .hero-copy. */
+.hero-copy {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.hero-visual {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
 .hero-waitlist {
+  grid-column: 1;
+  grid-row: 2;
   margin-top: 1.5rem;
   padding: 1.35rem 1.35rem 1.25rem;
   border-radius: 28px;
@@ -1564,20 +1580,22 @@ p {
      the one thing that actually sells CLocal sat below the fold, under a form
      somebody has no reason to fill in yet.
 
-     .hero-copy carries no styling of its own, it is only a column wrapper for
-     the desktop grid, so display:contents can dissolve it on mobile and let
-     its children be ordered against the film directly. Reads headline, lead,
-     film, then the form - watch it, then join. Desktop is untouched. */
-  .hero-copy {
-    display: contents;
+     All three are real grid items, so plain `order` does it. The first go at
+     this used display:contents to dissolve .hero-copy, which works in the
+     emulator but is exactly the kind of thing older iOS Safari lays out
+     differently - and there is no reason to risk it for a result ordinary
+     ordering gives. Everything is one column here, so the row/column pins
+     above are cleared too or they would fight the order. */
+  .hero-copy,
+  .hero-visual,
+  .hero-waitlist {
+    grid-column: 1;
+    grid-row: auto;
   }
 
-  .hero-find { order: 1; }
-  .hero-lead,
-  .hero-sub { order: 2; }
-  .hero-cta { order: 3; }
-  .hero-visual { order: 4; }
-  .hero-waitlist { order: 5; }
+  .hero-copy { order: 1; }
+  .hero-visual { order: 2; }
+  .hero-waitlist { order: 3; }
 
   /* The film is 16:9, so it sets its own height. The old 360px floor was
      there to hold space for the phones and now only adds a gap under it. */

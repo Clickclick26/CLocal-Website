@@ -53,68 +53,6 @@
           <a class="btn btn-ghost" href="#how">How it works</a>
         </div>
 
-        <div class="hero-waitlist">
-          <h2 class="hero-form-title">Join the waitlist</h2>
-          <p class="hero-form-lead">
-            Now taking the waitlist for South and East Belfast. Join below, and you’re also in with a chance to win one of several vouchers for brunch at General Merchants.
-            We’ll email you when it’s your turn.
-          </p>
-          <form class="invite-form" id="invite-form" method="POST" data-form-subject="CLocal waitlist">
-            <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
-            <!-- No action= and no FormSubmit _fields here on purpose. script.js
-                 submits this form itself (submitWaitlist) and sets _subject,
-                 _template and _autoresponse in that payload. Anything left in this
-                 markup is readable by anyone viewing source, and form-spam bots
-                 scrape exactly that: on 5 Sep 2026 one posted straight to the
-                 endpoint it found here, skipping every check in script.js.
-                 Do not re-add them. -->
-            <div class="form-row">
-              <div>
-                <label class="sr-only" for="invite-name">Name</label>
-                <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
-              </div>
-              <div>
-                <label class="sr-only" for="invite-email">Email</label>
-                <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" inputmode="email" />
-              </div>
-            </div>
-            <label class="sr-only" for="invite-postcode">Postcode</label>
-            <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 1NN)" required autocomplete="postal-code" />
-            <details class="role-field" id="role-field" open>
-              <summary class="role-summary">
-                <span id="role-summary-text">I am a…</span>
-                <span class="role-summary-caret" aria-hidden="true"></span>
-              </summary>
-              <p class="role-helper">Pick one or more. You can join as more than one.</p>
-              <label class="role-option">
-                <input type="checkbox" name="role" value="Consumer" checked />
-                <span>Consumer</span>
-              </label>
-              <label class="role-option">
-                <input type="checkbox" name="role" value="Creator" />
-                <span>Creator</span>
-              </label>
-              <label class="role-option">
-                <input type="checkbox" name="role" value="Business" />
-                <span>Business</span>
-              </label>
-            </details>
-            <!-- Newsletter: checked by default. Hidden field always posts yes/no. -->
-            <input type="hidden" name="newsletter" id="newsletter-value" value="yes" />
-            <label class="newsletter-option" for="invite-newsletter">
-              <input id="invite-newsletter" type="checkbox" />
-              <span>Email me CLocal news and invites</span>
-            </label>
-            <button class="btn btn-pill large" type="submit">Join the waitlist</button>
-          </form>
-          <p class="form-status" id="invite-status" role="status" hidden></p>
-          <p class="hero-note">Prize draw: 18+. Full rules on the site before we announce a winner.</p>
-          <div class="trust">
-            <span>Private &amp; secure</span>
-            <span>Waitlist open</span>
-            <span>South and East Belfast</span>
-          </div>
-        </div>
       </div>
 
       <div class="hero-visual">
@@ -145,6 +83,76 @@
             <span class="hero-film-play-icon" aria-hidden="true"></span>
             <span class="hero-film-play-text">Watch the film<span>73 seconds, sound on</span></span>
           </button>
+        </div>
+      </div>
+
+      <!-- The waitlist form is a direct child of .hero, not nested inside
+           .hero-copy. It used to be nested, and stacking the film above it on
+           mobile then needed display:contents to dissolve the wrapper - a
+           technique older iOS Safari does not lay out reliably. As its own
+           grid item it can simply be ordered, which every browser does the
+           same way. On desktop it sits where it always did: column one, under
+           the copy, with the film spanning both rows on the right. -->
+      <div class="hero-waitlist">
+        <h2 class="hero-form-title">Join the waitlist</h2>
+        <p class="hero-form-lead">
+          Now taking the waitlist for South and East Belfast. Join below, and you’re also in with a chance to win one of several vouchers for brunch at General Merchants.
+          We’ll email you when it’s your turn.
+        </p>
+        <form class="invite-form" id="invite-form" method="POST" data-form-subject="CLocal waitlist">
+          <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <!-- No action= and no FormSubmit _fields here on purpose. script.js
+               submits this form itself (submitWaitlist) and sets _subject,
+               _template and _autoresponse in that payload. Anything left in this
+               markup is readable by anyone viewing source, and form-spam bots
+               scrape exactly that: on 5 Sep 2026 one posted straight to the
+               endpoint it found here, skipping every check in script.js.
+               Do not re-add them. -->
+          <div class="form-row">
+            <div>
+              <label class="sr-only" for="invite-name">Name</label>
+              <input id="invite-name" name="name" type="text" placeholder="Your name" required autocomplete="name" />
+            </div>
+            <div>
+              <label class="sr-only" for="invite-email">Email</label>
+              <input id="invite-email" name="email" type="email" placeholder="Email" required autocomplete="email" inputmode="email" />
+            </div>
+          </div>
+          <label class="sr-only" for="invite-postcode">Postcode</label>
+          <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 1NN)" required autocomplete="postal-code" />
+          <details class="role-field" id="role-field" open>
+            <summary class="role-summary">
+              <span id="role-summary-text">I am a…</span>
+              <span class="role-summary-caret" aria-hidden="true"></span>
+            </summary>
+            <p class="role-helper">Pick one or more. You can join as more than one.</p>
+            <label class="role-option">
+              <input type="checkbox" name="role" value="Consumer" checked />
+              <span>Consumer</span>
+            </label>
+            <label class="role-option">
+              <input type="checkbox" name="role" value="Creator" />
+              <span>Creator</span>
+            </label>
+            <label class="role-option">
+              <input type="checkbox" name="role" value="Business" />
+              <span>Business</span>
+            </label>
+          </details>
+          <!-- Newsletter: checked by default. Hidden field always posts yes/no. -->
+          <input type="hidden" name="newsletter" id="newsletter-value" value="yes" />
+          <label class="newsletter-option" for="invite-newsletter">
+            <input id="invite-newsletter" type="checkbox" />
+            <span>Email me CLocal news and invites</span>
+          </label>
+          <button class="btn btn-pill large" type="submit">Join the waitlist</button>
+        </form>
+        <p class="form-status" id="invite-status" role="status" hidden></p>
+        <p class="hero-note">Prize draw: 18+. Full rules on the site before we announce a winner.</p>
+        <div class="trust">
+          <span>Private &amp; secure</span>
+          <span>Waitlist open</span>
+          <span>South and East Belfast</span>
         </div>
       </div>
     </section>
