@@ -402,6 +402,110 @@ p {
   min-height: 560px;
 }
 
+/* ---- Hero film -------------------------------------------------------
+   The sales letter, in place of the three phones that used to sit here.
+   16:9, capped so it never outgrows the column, and it keeps the same
+   teal shadow the phones had so the hero still feels like one object.
+
+   The play control is our own, laid over the native one. The native poster
+   plus controls works, but a bare triangle tells nobody what they are about
+   to get; this says how long it is and that it has sound, which is the
+   difference between a click and a scroll past. Once it plays, the button
+   gets out of the way and the native controls take over - no point rebuilding
+   a scrubber that already exists and is accessible.
+   ------------------------------------------------------------------- */
+.hero-film {
+  position: relative;
+  width: min(620px, 100%);
+  aspect-ratio: 16 / 9;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0d1b1b;
+  box-shadow:
+    0 30px 60px rgba(0, 128, 128, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+.hero-film-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-film-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--white);
+  /* Dark enough that white type clears AA on any frame underneath. */
+  background: linear-gradient(
+    180deg,
+    rgba(10, 30, 30, 0.34),
+    rgba(10, 30, 30, 0.62)
+  );
+  transition: opacity 0.25s ease;
+}
+
+.hero-film.is-playing .hero-film-play {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-film-play-icon {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--white);
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero-film-play-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+  border-color: transparent transparent transparent var(--teal);
+}
+
+.hero-film-play-text {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+.hero-film-play-text span {
+  font-weight: 500;
+  font-size: 0.85rem;
+  opacity: 0.86;
+}
+
+.hero-film-play:hover .hero-film-play-icon,
+.hero-film-play:focus-visible .hero-film-play-icon {
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-film-play,
+  .hero-film-play-icon {
+    transition: none;
+  }
+}
+
 .phone {
   width: min(280px, 72vw);
   aspect-ratio: 9 / 19.2;
@@ -1450,9 +1554,49 @@ p {
   }
 
   .hero-visual {
-    min-height: 360px;
+    min-height: 0;
     position: relative;
     top: auto;
+  }
+
+  /* Stacked, the hero used to run headline -> lead -> button -> the whole
+     waitlist form -> film, which put the film about 1200px down: on a phone
+     the one thing that actually sells CLocal sat below the fold, under a form
+     somebody has no reason to fill in yet.
+
+     .hero-copy carries no styling of its own, it is only a column wrapper for
+     the desktop grid, so display:contents can dissolve it on mobile and let
+     its children be ordered against the film directly. Reads headline, lead,
+     film, then the form - watch it, then join. Desktop is untouched. */
+  .hero-copy {
+    display: contents;
+  }
+
+  .hero-find { order: 1; }
+  .hero-lead,
+  .hero-sub { order: 2; }
+  .hero-cta { order: 3; }
+  .hero-visual { order: 4; }
+  .hero-waitlist { order: 5; }
+
+  /* The film is 16:9, so it sets its own height. The old 360px floor was
+     there to hold space for the phones and now only adds a gap under it. */
+  .hero-film {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .hero-film-play {
+    gap: 12px;
+  }
+
+  .hero-film-play-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .hero-film-play-text {
+    font-size: 1rem;
   }
 
   .notif {

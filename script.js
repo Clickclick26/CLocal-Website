@@ -520,3 +520,56 @@ if (supportForm && supportStatus) {
     setSupportStatus("Sending…", "ok");
   });
 }
+
+/* ---- Hero film -------------------------------------------------------
+   The sales letter in the hero. Our own play control sits over the native
+   one until the film starts.
+
+   It is NOT autoplayed. The pitch is carried by a spoken voiceover, and
+   browsers refuse sound until a real user gesture, so an autoplay would run
+   the whole thing silently past someone once and then be gone. A click is
+   a gesture, so starting it this way is the only route to sound on.
+
+   Everything here is optional: if the markup is absent on a page, or the
+   file 404s, the block simply does nothing and the rest of the page is
+   unaffected.
+   ------------------------------------------------------------------- */
+(function heroFilm() {
+  var film = document.querySelector(".hero-film");
+  var video = document.getElementById("vsl");
+  var button = document.getElementById("vsl-play");
+  if (!film || !video || !button) return;
+
+  // The markup ships with `controls` so that with JavaScript off the film is
+  // still playable. With JS on we take them away until it starts, because a
+  // native control bar sitting under our own poster overlay is just two sets
+  // of buttons stacked on one another. They come back the moment it plays.
+  video.controls = false;
+
+  function reveal() {
+    film.classList.remove("is-playing");
+    video.controls = false;
+  }
+
+  button.addEventListener("click", function () {
+    film.classList.add("is-playing");
+    var started = video.play();
+    // Safari returns undefined rather than a promise on older versions.
+    if (started && typeof started.catch === "function") {
+      started.catch(function () {
+        // Autoplay policy or a missing file. Put the button back rather than
+        // leaving a dead poster with no way to try again.
+        reveal();
+      });
+    }
+  });
+
+  // Bring the invitation back whenever the film is not running, so someone
+  // who pauses or finishes still has something to click.
+  video.addEventListener("pause", reveal);
+  video.addEventListener("ended", reveal);
+  video.addEventListener("play", function () {
+    film.classList.add("is-playing");
+    video.controls = true;
+  });
+})();

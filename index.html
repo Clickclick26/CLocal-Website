@@ -118,30 +118,33 @@
       </div>
 
       <div class="hero-visual">
-        <!-- Side phones: real screenshots of the live app (home feed + map), not mockups.
-             Hidden under 960px — see media query — the centre phone carries mobile alone. -->
-        <div class="phone phone-side phone-side-left float" aria-hidden="true">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <img class="phone-real-shot" src="assets/app-screens/home-feed.jpg" alt="" />
-          </div>
-        </div>
-        <div class="phone phone-side phone-side-right float" aria-hidden="true">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <img class="phone-real-shot" src="assets/app-screens/map.jpg" alt="" />
-          </div>
-        </div>
-        <div class="phone phone-centre float">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <!-- TODO: swap phone-brand for real phone screenshot when Kathryn has better assets -->
-            <div class="phone-brand" aria-hidden="true">
-              <img class="phone-brand-logo" src="assets/clocal-logo.png" alt="" width="120" height="34" />
-              <p class="phone-brand-hand">Go Local</p>
-              <p class="phone-brand-line">South &amp; East Belfast<br />waitlist open</p>
-            </div>
-          </div>
+        <!-- Was three phones: two real app screenshots fanned behind a brand
+             card. Replaced 14 Sep 2026 with the sales letter, Kathryn's call -
+             the phones showed what the app looks like, the film says what it
+             is for, and the hero only gets one chance to do that.
+
+             Not autoplaying. The whole thing rests on a spoken voiceover, and
+             every browser blocks sound until a real click, so an autoplay
+             would run the film silently past somebody once and be gone. The
+             poster plus a play control means it starts when they choose it,
+             with the sound on. -->
+        <div class="hero-film">
+          <video
+            id="vsl"
+            class="hero-film-video"
+            poster="assets/video/clocal-vsl-poster.jpg"
+            preload="metadata"
+            playsinline
+            controls
+          >
+            <source src="assets/video/clocal-vsl.mp4" type="video/mp4" />
+            Your browser cannot play this video. CLocal is a video guide to the
+            independent places on your own streets in South and East Belfast.
+          </video>
+          <button class="hero-film-play" id="vsl-play" type="button">
+            <span class="hero-film-play-icon" aria-hidden="true"></span>
+            <span class="hero-film-play-text">Watch the film<span>73 seconds, sound on</span></span>
+          </button>
         </div>
       </div>
     </section>
