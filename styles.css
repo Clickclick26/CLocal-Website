@@ -1,3 +1,22 @@
+/* Safira March, by Din Studio. A high-contrast display serif.
+   Kathryn, 14 Sep 2026: she does not like Nunito on the H1 and buttons, it
+   reads as bubble writing at large sizes, and she wants "modern Gen Z chic".
+   She holds a commercial licence direct from the owner; the bundled file is
+   the personal-use build, which she has confirmed does not apply to her.
+   Recorded here so nobody removes it later thinking it is unlicensed.
+
+   Display only. Body copy stays Nunito: this face has very thin strokes and
+   tight apertures, so it is unreadable below roughly 28px and fails contrast
+   as body text. Never set paragraphs in it. */
+@font-face {
+  font-family: "Safira March";
+  /* woff2 first, 48KB against the 130KB original. Every browser that matters
+     supports it; the ttf stays as the fallback for anything ancient. */
+  src: url("assets/fonts/safira-march.woff2") format("woff2"),
+       url("assets/fonts/safira-march.ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+}
 :root {
   --teal: #008080;
   --accent: #1b3a5c;
@@ -11,6 +30,10 @@
   --shadow-soft: 0 10px 30px rgba(0, 128, 128, 0.1);
   --radius: 28px;
   --font: "Nunito", system-ui, sans-serif;
+  /* Headings only, h1/h2/h3. The buttons stay Nunito - Kathryn, 14 Sep 2026:
+     "dont change the button just try the heading". Body copy stays Nunito
+     too, which is also what the app uses. */
+  --display: "Safira March", "Nunito", system-ui, sans-serif;
   --hand: "Caveat", cursive;
 }
 
@@ -56,6 +79,7 @@ a {
 }
 
 h1, h2, h3 {
+  font-family: var(--display);
   line-height: 1.15;
   letter-spacing: -0.02em;
   color: var(--accent);
