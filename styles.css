@@ -340,20 +340,6 @@ p {
 .hero-visual {
   grid-column: 2;
   grid-row: 1;
-  /* Was sticky so the phones stayed in view down the long form. The form is
-     its own row now, so there is nothing to stick past. */
-  position: static;
-  top: auto;
-}
-
-.hero-copy,
-.hero-visual {
-  min-height: calc(100vh - 12rem);
-  min-height: calc(100svh - 12rem);
-  align-self: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .hero-waitlist {
@@ -436,12 +422,39 @@ p {
   height: 72px;
 }
 
+/* Row one of the hero: the copy and the film side by side, the same height,
+   each centring its own contents so the two read as one object rather than
+   two things sharing a row.
+
+   This rule used to be `position: sticky` + `min-height: 560px`, from when
+   the column held three phones and had a long form to stay beside. Both are
+   gone. It also sat LATER in the file than the placement rules above, so it
+   was quietly overriding them - the column was still sticky and still 560px
+   after being told otherwise. Everything that sizes row one now lives here,
+   in one place, below everything it has to beat.
+
+   The height tracks the viewport so the waitlist underneath starts off
+   screen. 7rem is what the sticky header plus the hero's own top padding
+   actually measure, so row one ends level with the fold and the grid gap
+   carries the form past it. Subtract more than that and the form climbs back
+   into view on a tall window: an earlier go used 12rem and did exactly that.
+
+   The 560px floor stops the film being squashed in a short window. svh with
+   a vh fallback, because mobile browsers measure vh against a hidden address
+   bar and overshoot. */
+.hero-copy,
 .hero-visual {
-  position: sticky;
-  top: 5.5rem;
-  display: grid;
-  place-items: center;
   min-height: 560px;
+  min-height: max(560px, calc(100vh - 7rem));
+  min-height: max(560px, calc(100svh - 7rem));
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-visual {
+  align-items: center;
 }
 
 /* ---- Hero film -------------------------------------------------------
