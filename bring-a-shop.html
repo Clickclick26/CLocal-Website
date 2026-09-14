@@ -15,23 +15,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '28558401590434489');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=28558401590434489&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
+  <!-- Analytics are consent-gated. Nothing tracking-related loads from this
+       markup: consent.js holds both the Meta Pixel and Microsoft Clarity and
+       starts them only if the visitor accepts. Do not put fbq or clarity back
+       inline here, it puts the site back in breach of its own privacy policy. -->
+  <script src="consent.js" defer></script>
 </head>
 <body>
   <div class="page-glow" aria-hidden="true"></div>
@@ -145,7 +133,7 @@
   <footer class="footer">
     <div class="footer-brand">
       <img class="footer-wordmark" src="assets/clocal-logo.png" alt="CLocal" width="120" height="34" />
-      <p>Go local. Find hidden gems. Complimentary invites. Nearby LocalGems.</p>
+      <p>Go local. Find hidden gems. Invites on the house. Nearby LocalGems.</p>
       <nav class="footer-social" aria-label="Social media">
         <a href="https://www.instagram.com/clocal_app/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.facebook.com/profile.php?id=61592855575524" target="_blank" rel="noopener noreferrer">Facebook</a>

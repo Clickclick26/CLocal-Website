@@ -306,10 +306,17 @@ if (form && status) {
     const postcodeRaw = postcodeInput.value.trim();
     const roles = getSelectedRoles();
 
-    if (!name || !email || !postcodeRaw || roles.length === 0) {
-      setStatus("Please fill in name, email, postcode, and at least one role.", "error");
+    // Role is NOT required. It used to be, and on index.html the role field was
+    // a <details> that rendered collapsed, so a visitor filled name, email and
+    // postcode, pressed Join, and was rejected by a field they never saw was a
+    // field. Every other page had it open with Consumer pre-ticked; the home
+    // page, the one the ads point at, did not (found 14 Sep 2026). Someone who
+    // tells us nothing is a consumer, which is what ~95% of them are anyway.
+    if (!name || !email || !postcodeRaw) {
+      setStatus("Please fill in your name, email and postcode.", "error");
       return;
     }
+    if (roles.length === 0) roles.push("Consumer");
 
     if (!isValidEmail(email)) {
       setStatus("Please enter a real email address (like name@example.com).", "error");

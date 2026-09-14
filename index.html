@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="facebook-domain-verification" content="7im7xgncwwzu5xtq7oszragxrw6u0k" />
   <title>CLocal: Find hidden gems near you</title>
-  <meta name="description" content="CLocal helps you go local. Watch real neighbourhood video, complimentary gift invites, and nearby LocalGem alerts. South and East Belfast · join the waitlist." />
+  <meta name="description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and nearby LocalGem alerts. South and East Belfast · join the waitlist." />
   <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-16.png?v=2" sizes="16x16" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
@@ -15,23 +15,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <!-- Meta Pixel Code -->
-  <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '28558401590434489');
-  fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=28558401590434489&ev=PageView&noscript=1"
-  /></noscript>
-  <!-- End Meta Pixel Code -->
+  <!-- Analytics are consent-gated. Nothing tracking-related loads from this
+       markup: consent.js holds both the Meta Pixel and Microsoft Clarity and
+       starts them only if the visitor accepts. Do not put fbq or clarity back
+       inline here, it puts the site back in breach of its own privacy policy. -->
+  <script src="consent.js" defer></script>
 </head>
 <body>
   <div class="page-glow" aria-hidden="true"></div>
@@ -92,14 +80,14 @@
             </div>
             <label class="sr-only" for="invite-postcode">Postcode</label>
             <input id="invite-postcode" name="postcode" type="text" placeholder="Postcode (e.g. BT7 1NN)" required autocomplete="postal-code" />
-            <details class="role-field" id="role-field">
+            <details class="role-field" id="role-field" open>
               <summary class="role-summary">
                 <span id="role-summary-text">I am a…</span>
                 <span class="role-summary-caret" aria-hidden="true"></span>
               </summary>
               <p class="role-helper">Pick one or more. You can join as more than one.</p>
               <label class="role-option">
-                <input type="checkbox" name="role" value="Consumer" />
+                <input type="checkbox" name="role" value="Consumer" checked />
                 <span>Consumer</span>
               </label>
               <label class="role-option">
@@ -114,7 +102,7 @@
             <!-- Newsletter: checked by default. Hidden field always posts yes/no. -->
             <input type="hidden" name="newsletter" id="newsletter-value" value="yes" />
             <label class="newsletter-option" for="invite-newsletter">
-              <input id="invite-newsletter" type="checkbox" checked />
+              <input id="invite-newsletter" type="checkbox" />
               <span>Email me CLocal news and invites</span>
             </label>
             <button class="btn btn-pill large" type="submit">Join the waitlist</button>
@@ -177,7 +165,7 @@
         </article>
         <article class="quote">
           <p class="hand">“Deal apps make it feel cheap.”</p>
-          <p>You want a considered complimentary gift invite. Worth showing up for. Not bargain-bin energy.</p>
+          <p>You want a considered invite, on the house. Worth showing up for. Not bargain-bin energy.</p>
         </article>
       </div>
     </section>
@@ -188,7 +176,7 @@
         <div class="discover-copy">
           <h2>So CLocal does it differently.</h2>
           <p class="discover-sub">
-            Video-first Hidden Gems. Support independents, earn complimentary Local Rewards, and meet local creators.
+            Video-first Hidden Gems. Support independents, earn Local Rewards, and meet local creators.
           </p>
           <a class="btn btn-discover" href="#early-access">Join the waitlist</a>
         </div>
@@ -198,12 +186,10 @@
           <img class="bubble b2" src="assets/discover/gym-fitness-class.jpg" alt="" />
           <img class="bubble b3" src="assets/discover/nightlife-lounge-friends.jpg" alt="" />
           <img class="bubble b4" src="assets/discover/local-shopping-bags.jpg" alt="" />
-          <img class="bubble b5" src="assets/discover/cafe-brunch-toast.jpg" alt="" />
           <img class="bubble b6" src="assets/discover/salon-beauty-session.jpg" alt="" />
           <img class="bubble b7" src="assets/discover/barbershop-beard-trim.jpg" alt="" />
           <img class="bubble b8" src="assets/discover/rooftop-celebration.jpg" alt="" />
           <img class="bubble b9" src="assets/discover/creator-filming-setup.jpg" alt="" />
-          <img class="bubble b10" src="assets/discover/patio-friends-drinks.jpg" alt="" />
           <img class="bubble b11" src="assets/discover/nightlife-dancing.jpg" alt="" />
           <img class="bubble b12" src="assets/discover/gym-medicine-ball.jpg" alt="" />
           <img class="bubble b13" src="assets/discover/casual-dining-burger.jpg" alt="" />
@@ -231,8 +217,8 @@
             <span class="step-mark-icon">◇</span>
             <span class="step-mark-label">Gift</span>
           </div>
-          <h3>Get a complimentary gift invite</h3>
-          <p>Complimentary invites from local hosts. Save your pass in My Gifts. Show it at the till.</p>
+          <h3>Get an invite, on the house</h3>
+          <p>Invites on the house from local hosts. Save your pass in My Gifts. Show it at the till.</p>
           <span class="step-num">2</span>
         </article>
         <article class="step-card">
@@ -270,8 +256,8 @@
         </article>
         <article>
           <div class="benefit-icon teal">◇</div>
-          <h3>Freebies and real perks</h3>
-          <p>Complimentary invites, queue-jump privileges, invites to events that never get advertised. Save your pass, show it at the till.</p>
+          <h3>Extras, on the house</h3>
+          <p>Invites on the house, queue-jump privileges, invites to events that never get advertised. Save your pass, show it at the till.</p>
         </article>
         <article>
           <div class="benefit-icon sage">◉</div>
@@ -286,7 +272,7 @@
       </div>
       <div class="benefits-fomo">
         <p>
-          The waitlist is open now in South and East Belfast. Locals already on it hear about Hidden Gems and complimentary gift invites first.
+          The waitlist is open now in South and East Belfast. Locals already on it hear about Hidden Gems and invites on the house first.
           Join the waitlist to be one of the first through the door.
         </p>
         <a class="btn btn-pill" href="#early-access">Join the waitlist</a>
@@ -309,7 +295,7 @@
           <h3>Find your next Hidden Gem first.</h3>
           <ul>
             <li>Watch local video and know where to go tonight</li>
-            <li>Save complimentary gift invites to My Gifts while early access lasts</li>
+            <li>Save invites on the house to My Gifts while early access lasts</li>
             <li>South and East Belfast waitlisters see LocalGems ahead of the crowd</li>
           </ul>
           <p class="who-note">Waitlist open for South and East Belfast.</p>
@@ -341,11 +327,17 @@
     </section>
 
     <!-- BACKED BY -->
+    <!-- Consumer-facing credential is BELFAST, not big brands. The L'Occitane /
+         Astrid & Miyu line moved out on 2026-09-13 (Bonnie): to an investor it
+         reads as proof, to someone in Belfast it reads as "we are not from here
+         and we work for big brands", which is the exact outsider suspicion this
+         section exists to kill. The global client work stays on partners.html
+         and in business outreach, where it does the right job. -->
     <section class="backed-by" id="backed-by">
       <p class="badge soft">built by ClickClick</p>
-      <h2>Backed by a team household names already work with.</h2>
+      <h2>Built in Belfast, by people who live here.</h2>
       <p class="section-lead">
-        CLocal comes from <a href="https://www.clickclick.video" target="_blank" rel="noopener noreferrer">ClickClick</a>, an award-winning Belfast studio that builds video marketing software and has created for brands including L’Occitane and Astrid &amp; Miyu. Now we’re bringing that same craft to hyperlocal, starting right here in Belfast.
+        CLocal comes from <a href="https://www.clickclick.video" target="_blank" rel="noopener noreferrer">ClickClick</a>, an award-winning Belfast studio that builds video software. We walk the same streets, queue in the same places, and started here on purpose — South and East Belfast first, not a national rollout that happens to reach us last.
       </p>
     </section>
   </main>
@@ -353,7 +345,7 @@
   <footer class="footer">
     <div class="footer-brand">
       <img class="footer-wordmark" src="assets/clocal-logo.png" alt="CLocal" width="120" height="34" />
-      <p>Go local. Find hidden gems. Complimentary invites. Nearby LocalGems.</p>
+      <p>Go local. Find hidden gems. Invites on the house. Nearby LocalGems.</p>
       <nav class="footer-social" aria-label="Social media">
         <a href="https://www.instagram.com/clocal_app/" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://www.facebook.com/profile.php?id=61592855575524" target="_blank" rel="noopener noreferrer">Facebook</a>

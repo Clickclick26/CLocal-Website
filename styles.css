@@ -84,7 +84,11 @@ p {
 }
 
 .grad-text {
-  background: linear-gradient(120deg, var(--teal) 0%, #00b3b3 45%, var(--turquoise) 100%);
+  /* Was: teal -> #00b3b3 -> var(--turquoise) #00FFFF. Cyan on white is
+     1.25:1 contrast, so headline text faded out on a phone in daylight,
+     worst at the end of the line. Darkened the ramp to clear WCAG 2.2 AA
+     3:1 for large text while keeping the teal-to-green brand read. */
+  background: linear-gradient(120deg, #006666 0%, #008080 45%, #009999 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -2004,4 +2008,66 @@ p {
     bottom: 1rem;
     font-size: 0.88rem;
   }
+}
+
+/* Cookie consent bar (added 14 Sep 2026, see consent.js).
+   Sits above the page but deliberately does not block it: a bar, not a
+   modal, because a full overlay on a waitlist page costs more signups than
+   the tracking is worth. Colours use the brand tokens so it does not read
+   as a bolted-on third-party widget. */
+.consent-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: min(680px, calc(100vw - 32px));
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 128, 128, 0.22);
+  box-shadow: 0 10px 34px rgba(26, 46, 46, 0.16);
+}
+.consent-copy {
+  margin: 0;
+  flex: 1 1 320px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #1a2e2e;
+}
+.consent-copy a { color: #006666; }
+.consent-actions {
+  display: flex;
+  gap: 10px;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.consent-btn {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.consent-no {
+  background: transparent;
+  color: #1a2e2e;
+  border-color: rgba(26, 46, 46, 0.35);
+}
+.consent-yes {
+  background: #008080;
+  color: #ffffff;
+}
+.consent-no:hover { background: rgba(26, 46, 46, 0.06); }
+.consent-yes:hover { background: #006666; }
+@media (max-width: 520px) {
+  .consent-bar { bottom: 10px; padding: 14px; }
+  .consent-actions { margin-left: 0; width: 100%; }
+  .consent-btn { flex: 1 1 auto; }
 }
