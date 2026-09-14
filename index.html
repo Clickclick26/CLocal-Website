@@ -49,8 +49,18 @@
         <p class="hero-lead">
           Video first discovery. Find local Hidden Gems. Support independent businesses and get rewarded for it, and meet local creators.
         </p>
+        <!-- Was "How it works" pointing at #how. Kathryn, 14 Sep 2026: this is
+             the only button above the fold, so it should ask for the one thing
+             the page wants. "How it works" is still reachable from the nav.
+             Points at #join, the waitlist block, rather than #early-access,
+             which every other waitlist link on this page uses - #early-access
+             is the hero section itself, so from inside the hero it scrolls
+             nowhere. #join is also the id the area pages already use for their
+             own waitlist sections, so the name is consistent across the site.
+             The block, not the bare #invite-form, or the heading above the
+             first field lands under the sticky header. -->
         <div class="hero-cta" id="coming-soon">
-          <a class="btn btn-ghost" href="#how">How it works</a>
+          <a class="btn btn-pill large" href="#join">Join the waitlist</a>
         </div>
 
       </div>
@@ -93,7 +103,7 @@
            grid item it can simply be ordered, which every browser does the
            same way. On desktop it sits where it always did: column one, under
            the copy, with the film spanning both rows on the right. -->
-      <div class="hero-waitlist">
+      <div class="hero-waitlist" id="join">
         <h2 class="hero-form-title">Join the waitlist</h2>
         <p class="hero-form-lead">
           Now taking the waitlist for South and East Belfast. Join below, and you’re also in with a chance to win one of several vouchers for brunch at General Merchants.

@@ -320,10 +320,18 @@ p {
   scroll-margin-top: 5.5rem;
 }
 
-/* .hero has three children: copy, film, form. Auto-placement would drop the
-   form into row 2 column 1 and leave the film in row 1 only, so the film is
-   pinned across both rows and the form under the copy - which is exactly
-   where they both sat when the form was nested inside .hero-copy. */
+/* .hero has three children: copy, film, form.
+
+   Row one is the pitch and nothing else: headline, lead and the one button,
+   with the film beside them, the pair centred against each other so they read
+   as a single object rather than two things that happen to share a row.
+   Kathryn, 14 Sep 2026: "make the waitlist below the fold and the head and
+   button align with the video better above the fold".
+
+   Row one is held to roughly a screen so the form lands under it rather than
+   competing with the film for the first viewport. svh, not vh, because mobile
+   browsers measure vh against the address bar being hidden and overshoot; the
+   fallback on the line above covers anything that predates svh. */
 .hero-copy {
   grid-column: 1;
   grid-row: 1;
@@ -331,12 +339,30 @@ p {
 
 .hero-visual {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 1;
+  /* Was sticky so the phones stayed in view down the long form. The form is
+     its own row now, so there is nothing to stick past. */
+  position: static;
+  top: auto;
+}
+
+.hero-copy,
+.hero-visual {
+  min-height: calc(100vh - 12rem);
+  min-height: calc(100svh - 12rem);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hero-waitlist {
-  grid-column: 1;
+  grid-column: 1 / -1;
   grid-row: 2;
+  max-width: 620px;
+  margin-inline: auto;
+  /* Clears the sticky header when the hero button jumps down to #join. */
+  scroll-margin-top: 6.5rem;
   margin-top: 1.5rem;
   padding: 1.35rem 1.35rem 1.25rem;
   border-radius: 28px;
@@ -1591,6 +1617,12 @@ p {
   .hero-waitlist {
     grid-column: 1;
     grid-row: auto;
+    /* The desktop rule holds row one to about a screen so the form falls
+       below the fold. Stacked, that would be three full screens before
+       anybody reaches the form, so it is cleared here. */
+    min-height: 0;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .hero-copy { order: 1; }
