@@ -572,4 +572,65 @@ if (supportForm && supportStatus) {
     film.classList.add("is-playing");
     video.controls = true;
   });
+
+  /* ---- How far people actually watch ------------------------------------
+     Clarity records that somebody visited. It cannot tell you whether the
+     film earned its place in the hero, and impressions are not the question -
+     the question is whether anyone gets past the first ten seconds.
+
+     Five marks: started, then a quarter, half, three quarters, finished.
+     Quarters rather than seconds so the numbers still mean the same thing if
+     the cut changes length; the current film is 73s, a recut to 35s would
+     make any fixed-second mark meaningless.
+
+     Each fires ONCE per page view. Without the guard, scrubbing backwards and
+     forwards past a mark would report one very engaged viewer as twenty, and
+     a drop-off funnel built on that is worse than no funnel.
+
+     Nothing here loads a tracker or holds a reference to one. It calls
+     whatever is already on the page, and only if the visitor accepted
+     cookies - consent.js is what decides that, and it is the only thing
+     allowed to. With consent declined both calls are simply skipped. */
+  var marks = { start: false, q1: false, q2: false, q3: false, done: false };
+
+  function track(name) {
+    // Clarity custom event. Shows up as a filter on Recordings, so you can
+    // watch only the sessions of people who reached a given mark.
+    try {
+      if (typeof window.clarity === "function") {
+        window.clarity("event", name);
+      }
+    } catch (e) {}
+    // Meta custom event, so the same behaviour can build an ad audience.
+    // Guarded separately: one being absent must not stop the other.
+    try {
+      if (typeof window.fbq === "function") {
+        window.fbq("trackCustom", name);
+      }
+    } catch (e) {}
+  }
+
+  video.addEventListener("play", function () {
+    if (marks.start) return;
+    marks.start = true;
+    track("vsl_play");
+  });
+
+  video.addEventListener("timeupdate", function () {
+    var total = video.duration;
+    if (!total || !isFinite(total)) return;
+    var p = video.currentTime / total;
+    if (p >= 0.25 && !marks.q1) { marks.q1 = true; track("vsl_25"); }
+    if (p >= 0.5 && !marks.q2) { marks.q2 = true; track("vsl_50"); }
+    if (p >= 0.75 && !marks.q3) { marks.q3 = true; track("vsl_75"); }
+  });
+
+  // `ended` rather than a 99% mark: a viewer who watches the lot and a viewer
+  // who drags the scrubber to the end are not the same person, and only the
+  // first fires this.
+  video.addEventListener("ended", function () {
+    if (marks.done) return;
+    marks.done = true;
+    track("vsl_complete");
+  });
 })();

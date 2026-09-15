@@ -22,6 +22,40 @@
   var PIXEL_ID = "28558401590434489";
   var CLARITY_ID = "yi96ipan1c";
 
+  /* Which version of the site a recording is of.
+     ------------------------------------------------------------------
+     Kathryn, 15 Sep 2026: "keep recordings of things even if i change
+     the site".
+
+     Recordings themselves are safe already - they live on Clarity's
+     servers, not here, so editing or deleting a page cannot remove one.
+     The thing that actually gets lost is knowing WHICH page a recording
+     shows. A month of recordings spanning three redesigns, all mixed
+     together with no way to tell them apart, is data nobody can draw a
+     conclusion from: a drop-off looks like a drop-off whether it was
+     the old layout or the new one.
+
+     Every session is therefore stamped with this value, and Clarity can
+     filter and segment on it. Recordings from before a change stay
+     readable as a group, and two versions can be compared instead of
+     averaged into mush.
+
+     BUMP THIS whenever the page changes in a way that would alter how
+     somebody uses it - a new hero, a moved form, a changed call to
+     action. Not for a typo or a colour. Date plus a short slug, so it
+     reads in a filter list without a lookup table. Keep the log below;
+     it is the only record of what each value meant. */
+  var SITE_VERSION = "2026-09-15-film-hero";
+
+  /* Version log, newest first:
+     2026-09-15-film-hero  Sales letter replaced the three phone mockups in
+                           the hero, hero button became "Join the waitlist"
+                           pointing at the form, waitlist moved below the
+                           fold on desktop, headings set in Safira March.
+     (before this)         Untagged. Anything with no site_version is the
+                           three-phone hero with the "How it works" button
+                           and the form in the first viewport. */
+
   function readChoice() {
     try { return window.localStorage.getItem(STORE_KEY); } catch (e) { return null; }
   }
@@ -49,6 +83,14 @@
       t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", CLARITY_ID);
+
+    // Stamp the session. Safe to call immediately: the snippet above defines
+    // window.clarity as a queue before the real script arrives, so this is
+    // held and replayed rather than lost. Wrapped anyway - a tag blocked by
+    // an ad blocker must never take the page down with it.
+    try {
+      window.clarity("set", "site_version", SITE_VERSION);
+    } catch (e) {}
   }
 
   function startTracking() {
