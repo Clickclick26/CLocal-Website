@@ -93,7 +93,25 @@
     } catch (e) {}
   }
 
+  /* Never track a local preview.
+     ------------------------------------------------------------------
+     15 Sep 2026: Clarity had 24 sessions and 21 of them were
+     http://localhost/index.html - a day of my own testing against a
+     dev server, recorded into the real project and drowning the three
+     genuine visits. Scroll depth and time-on-page were averages of a
+     robot reloading a page, which is worse than having no numbers,
+     because it looks like data.
+
+     Anything not served from the real domain is now skipped outright.
+     A preview is for checking the page works, and it should never cost
+     an entry in the analytics somebody makes decisions from. */
+  function isRealSite() {
+    var h = window.location.hostname;
+    return h === "clocal.co.uk" || h === "www.clocal.co.uk";
+  }
+
   function startTracking() {
+    if (!isRealSite()) return;
     loadMetaPixel();
     loadClarity();
   }
