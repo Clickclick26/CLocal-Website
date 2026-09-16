@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="facebook-domain-verification" content="7im7xgncwwzu5xtq7oszragxrw6u0k" />
   <title>CLocal: Find hidden gems near you</title>
-  <meta name="description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and nearby LocalGem alerts. South and East Belfast · join the waitlist." />
+  <meta name="description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and LocalGems on the map around you. South and East Belfast · join the waitlist." />
   <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-16.png?v=2" sizes="16x16" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
@@ -247,8 +247,16 @@
             <span class="step-mark-icon">◉</span>
             <span class="step-mark-label">Nearby</span>
           </div>
-          <h3>Get nearby LocalGem alerts</h3>
-          <p>On the phone, map pings help you remember CLocal when a LocalGem is close.</p>
+          <!-- "Alerts" and "pings" were an overclaim. Background nearby alerts
+               were cut from v1 on 10 Sep 2026 and need app.json permissions
+               restored; today the nearby behaviour works while the app is
+               open. Promising a push notification on the page people actually
+               sign up on is the worst place to do it. Kathryn, 16 Sep 2026:
+               switch this back to "ping" once CLocal is on the app stores and
+               background alerts are actually shipping - not before. See memory
+               clocal-nearby-alerts-copy. -->
+          <h3>LocalGems on the map around you</h3>
+          <p>Walk near one and it shows up, so you find the good thing while you're still on the street.</p>
           <span class="step-num">3</span>
         </article>
       </div>
