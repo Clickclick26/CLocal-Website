@@ -126,6 +126,18 @@ p {
   color: var(--accent);
 }
 
+/* Location line inside the hero h1. Sized in em so it always tracks the
+   clamped h1 size rather than needing its own breakpoints. */
+.hero-place {
+  display: block;
+  font-size: 0.34em;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  color: var(--teal);
+  margin-top: 0.5rem;
+}
+
 .brand-hero {
   display: block;
   font-size: 0.42em;

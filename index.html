@@ -6,6 +6,21 @@
   <meta name="facebook-domain-verification" content="7im7xgncwwzu5xtq7oszragxrw6u0k" />
   <title>CLocal: Find hidden gems near you</title>
   <meta name="description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and LocalGems on the map around you. South and East Belfast · join the waitlist." />
+  <link rel="canonical" href="https://clocal.co.uk/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CLocal" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:url" content="https://clocal.co.uk/" />
+  <meta property="og:title" content="CLocal: Find hidden gems near you" />
+  <meta property="og:description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and LocalGems on the map around you. South and East Belfast · join the waitlist." />
+  <meta property="og:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CLocal: find hidden gems in Belfast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CLocal: Find hidden gems near you" />
+  <meta name="twitter:description" content="CLocal helps you go local. Watch real neighbourhood video, invites on the house, and LocalGems on the map around you. South and East Belfast · join the waitlist." />
+  <meta name="twitter:image" content="https://clocal.co.uk/assets/social/og-card.png" />
   <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-16.png?v=2" sizes="16x16" />
   <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
@@ -20,6 +35,70 @@
        starts them only if the visitor accepts. Do not put fbq or clarity back
        inline here, it puts the site back in breach of its own privacy policy. -->
   <script src="consent.js" defer></script>
+  <!--
+    Structured data. The area pages each carry a small FAQPage block; this is
+    the site-level one and it only lives here, on the page search engines
+    treat as the site's root entity. @graph with @id references so Organization
+    is stated once and the other two point at it, rather than three loose
+    objects repeating the same company.
+
+    Deliberately NOT claimed here: no aggregateRating (there are no reviews to
+    count), no offers or price on the app, and no downloadUrl or store links
+    while CLocal is not on the app stores yet. Add the store URLs to
+    SoftwareApplication the day the listings go live, not before - a schema
+    claim that does not match the page is worse than no schema.
+  -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://clocal.co.uk/#organization",
+      "name": "CLocal",
+      "legalName": "Clickclick Video Marketing Ltd",
+      "url": "https://clocal.co.uk/",
+      "logo": "https://clocal.co.uk/assets/clocal-logo.png",
+      "image": "https://clocal.co.uk/assets/social/og-card.png",
+      "description": "CLocal is video-first local discovery. Independent businesses post their own stories, and people nearby find them.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Arthur House",
+        "addressLocality": "Belfast",
+        "postalCode": "BT1 4GB",
+        "addressCountry": "GB"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Belfast"
+      },
+      "sameAs": [
+        "https://www.clocal.app/",
+        "https://www.instagram.com/clocal_app/",
+        "https://www.facebook.com/profile.php?id=61592855575524"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://clocal.co.uk/#website",
+      "url": "https://clocal.co.uk/",
+      "name": "CLocal",
+      "inLanguage": "en-GB",
+      "publisher": { "@id": "https://clocal.co.uk/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://clocal.co.uk/#app",
+      "name": "CLocal",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "iOS, Android",
+      "url": "https://clocal.co.uk/",
+      "description": "Watch real neighbourhood video, get invites on the house, and find LocalGems on the map around you.",
+      "publisher": { "@id": "https://clocal.co.uk/#organization" }
+    }
+  ]
+}
+  </script>
 </head>
 <body>
   <div class="page-glow" aria-hidden="true"></div>
@@ -42,9 +121,16 @@
     <!-- HERO + WAITLIST (one first-viewport block) -->
     <section class="hero" id="early-access">
       <div class="hero-copy">
+        <!-- The location line is inside the h1 on purpose. The H1 is the
+             heading search engines weight hardest, and "Find hidden gems."
+             on its own said nothing about where, so the page competed for
+             a phrase with no place attached to it. Kept as a separate,
+             smaller span so the two big lines still read exactly as they
+             did; the full stop moved to the end of the sentence. -->
         <h1>
           <span class="hero-find">Find</span><br />
-          <span class="grad-text">hidden gems.</span>
+          <span class="grad-text">hidden gems</span>
+          <span class="hero-place">in South and East Belfast.</span>
         </h1>
         <p class="hero-lead">
           Video first discovery. Find local Hidden Gems. Support independent businesses and get rewarded for it, and meet local creators.

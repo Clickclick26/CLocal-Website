@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>CLocal Open Graph card</title>
+  <!--
+    Source for assets/social/og-card.png, the share image behind every
+    og:image / twitter:image on clocal.co.uk. 1200x630 because that is the
+    size Facebook, WhatsApp, LinkedIn and X all crop from; anything else
+    gets letterboxed or centre-cropped through the headline.
+
+    Same generator pattern as fb-cover.html in this folder, but built off
+    the CURRENT design-tokens.css, not the August palette: cream is true
+    white now and sage is deep navy, so this uses teal/turquoise washes on
+    white rather than the old green.
+
+    Re-render after editing:
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+        --headless --disable-gpu --hide-scrollbars \
+        --screenshot=assets/social/og-card.png --window-size=1200,630 \
+        assets/social/og-card.html
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      font-family: "Nunito", system-ui, sans-serif;
+      background: #ffffff;
+    }
+    .card {
+      position: relative;
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 85% 70% at 88% -10%, rgba(0, 255, 255, 0.30), transparent 58%),
+        radial-gradient(ellipse 70% 60% at 6% 108%, rgba(0, 128, 128, 0.16), transparent 60%),
+        #ffffff;
+    }
+    .copy {
+      position: absolute;
+      left: 88px;
+      top: 50%;
+      transform: translateY(-50%);
+      max-width: 760px;
+    }
+    .logo { height: 52px; width: auto; display: block; margin-bottom: 34px; }
+    h1 {
+      font-weight: 800;
+      font-size: 82px;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: #1a2e2e;
+    }
+    .grad {
+      background: linear-gradient(120deg, #008080 0%, #00b3b3 45%, #00ffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .lead {
+      margin-top: 26px;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: #5a7373;
+      max-width: 620px;
+    }
+    .place {
+      position: absolute;
+      left: 90px;
+      bottom: 58px;
+      font-family: "Caveat", cursive;
+      font-size: 38px;
+      color: #008080;
+    }
+    /* Teal arc in the bottom-right, the same soft geometry the site uses
+       behind its cards. Decorative only, sits under nothing. */
+    .arc {
+      position: absolute;
+      right: -160px;
+      bottom: -220px;
+      width: 620px;
+      height: 620px;
+      border-radius: 50%;
+      border: 56px solid rgba(0, 128, 128, 0.10);
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="arc"></div>
+    <div class="copy">
+      <img class="logo" src="../clocal-logo.png" alt="CLocal" />
+      <h1>Find <span class="grad">hidden gems</span><br />in Belfast.</h1>
+      <p class="lead">Real video from locals, not the same five search results.</p>
+    </div>
+    <div class="place">South &amp; East Belfast</div>
+  </div>
+</body>
+</html>
