@@ -1,16 +1,24 @@
-/* CLocal design tokens: source of truth from the landing page.
-   Colours, type, radii, shadows, gradients. Use as-is. */
+/* CLocal design tokens.
+
+   NOT LOADED BY ANY PAGE. styles.css is what the site actually serves; this
+   file is a reference copy. It previously claimed to be "source of truth",
+   which is wrong twice over: no page reads it, and the real source of truth
+   for brand colour is CLocal/constants/theme.ts in the app.
+
+   Brought back in line 2026-09-13. It had drifted badly: sage was still grass
+   green #77dd77 and cream was the pale mint #f4fbf8, both of which the app
+   dropped. styles.css had already moved to navy; only this file was stale. */
 
 :root {
   /* Brand */
   --clocal-teal: #008080;
-  --clocal-sage: #77dd77;
+  --clocal-sage: #1b3a5c; /* deep navy, was grass green */
   --clocal-turquoise: #00ffff;
 
   /* Neutrals */
   --clocal-ink: #1a2e2e;
   --clocal-muted: #5a7373;
-  --clocal-cream: #f4fbf8;
+  --clocal-cream: #ffffff; /* true white, was a mint tint */
   --clocal-white: #ffffff;
   --clocal-card: rgba(255, 255, 255, 0.82);
 
@@ -43,18 +51,18 @@
   --clocal-grad-cta: linear-gradient(135deg, #008080, #00b8b8);
   --clocal-grad-app-icon: linear-gradient(135deg, #008080, #00e0e0);
   --clocal-grad-page:
-    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(119, 221, 119, 0.28), transparent 55%),
+    radial-gradient(ellipse 90% 60% at 15% -10%, rgba(27, 58, 92, 0.28), transparent 55%),
     radial-gradient(ellipse 70% 50% at 90% 5%, rgba(0, 255, 255, 0.18), transparent 50%),
     radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0, 128, 128, 0.08), transparent 60%),
-    #f4fbf8;
+    #ffffff;
 
   /* Role accents */
   --clocal-role-consumer: #008080;
-  --clocal-role-creator: #77dd77;
+  --clocal-role-creator: #1b3a5c;
   --clocal-role-business: #00ffff;
 
   /* Washes */
-  --clocal-wash-sage: rgba(119, 221, 119, 0.35);
+  --clocal-wash-sage: rgba(27, 58, 92, 0.35);
   --clocal-wash-teal: rgba(0, 128, 128, 0.1);
   --clocal-wash-turquoise: rgba(0, 255, 255, 0.22);
 }
