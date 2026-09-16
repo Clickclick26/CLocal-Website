@@ -481,9 +481,11 @@ p {
 }
 
 .role-film .hero-film {
-  /* 4:5, not the homepage film's 16:9 - this one is cut for a phone feed. */
-  aspect-ratio: 4 / 5;
-  width: min(420px, 100%);
+  /* Landscape here. The 4:5 cut of this film is the one that goes out on
+     Facebook; on a page it sat as a narrow column with dead space either
+     side, so the page gets the 16:9 render instead. */
+  aspect-ratio: 16 / 9;
+  width: min(880px, 100%);
 }
 
 /* ---- Hero film -------------------------------------------------------
