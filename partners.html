@@ -62,6 +62,37 @@
       </p>
     </div>
 
+    <!-- The business film. Sits directly under the hero, before the photo
+         strip, because it makes the argument the three benefit cards below
+         then repeat in detail - and a 32 second video does it faster than
+         anyone reads three cards.
+
+         Same treatment as the homepage hero film: poster plus our own play
+         control, not autoplay. The pitch is carried by a voiceover and every
+         browser blocks sound until a real click, so an autoplay would run it
+         silently past somebody once and be gone. script.js handles it - the
+         same heroFilm block, which finds .hero-film wherever it appears. -->
+    <div class="role-film">
+      <div class="hero-film">
+        <video
+          id="vsl"
+          class="hero-film-video"
+          poster="assets/video/clocal-business-poster.jpg"
+          preload="metadata"
+          playsinline
+          controls
+        >
+          <source src="assets/video/clocal-business.mp4" type="video/mp4" />
+          Your browser cannot play this video. CLocal shows your business to
+          people nearby who are already deciding where to go.
+        </video>
+        <button class="hero-film-play" id="vsl-play" type="button">
+          <span class="hero-film-play-icon" aria-hidden="true"></span>
+          <span class="hero-film-play-text">Watch the film<span>32 seconds, sound on</span></span>
+        </button>
+      </div>
+    </div>
+
     <div class="role-photos">
       <img src="assets/partners/local-salon-bridal-hair-styling.jpg" alt="A local salon stylist doing bridal hair styling for a customer" loading="lazy" />
       <img src="assets/partners/local-cafe-espresso-table.jpg" alt="An espresso served at a local café table" loading="lazy" />

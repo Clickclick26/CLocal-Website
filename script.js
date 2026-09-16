@@ -546,13 +546,33 @@ if (supportForm && supportStatus) {
   // of buttons stacked on one another. They come back the moment it plays.
   video.controls = false;
 
+  // Show/hide the overlay on the element as well as via the class.
+  //
+  // Honest note on why this exists, because the comment that was here first
+  // was wrong. It claimed the CSS rule did not apply on partners.html. It does:
+  // tested with the transition removed, `.hero-film.is-playing .hero-film-play`
+  // computes to opacity 0 exactly as intended. What actually happened is that
+  // the preview pane throttles CSS transitions when it is not in front, so a
+  // 0.25s fade never finished and every reading came back as 1.
+  //
+  // Setting it on the element is kept anyway - it is one line, it makes the
+  // state independent of stylesheet ordering across two different page
+  // layouts, and pointer-events matters: without it the invisible overlay
+  // would still swallow clicks meant for the video controls underneath.
+  function setOverlay(visible) {
+    button.style.opacity = visible ? "1" : "0";
+    button.style.pointerEvents = visible ? "auto" : "none";
+  }
+
   function reveal() {
     film.classList.remove("is-playing");
+    setOverlay(true);
     video.controls = false;
   }
 
   button.addEventListener("click", function () {
     film.classList.add("is-playing");
+    setOverlay(false);
     var started = video.play();
     // Safari returns undefined rather than a promise on older versions.
     if (started && typeof started.catch === "function") {
@@ -570,6 +590,7 @@ if (supportForm && supportStatus) {
   video.addEventListener("ended", reveal);
   video.addEventListener("play", function () {
     film.classList.add("is-playing");
+    setOverlay(false);
     video.controls = true;
   });
 
