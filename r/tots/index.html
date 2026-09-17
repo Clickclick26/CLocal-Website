@@ -6,6 +6,24 @@
 <title>CLocal</title>
 <link rel="canonical" href="https://clocal.co.uk/">
 <meta http-equiv="refresh" content="0; url=/?utm_source=facebook&amp;utm_medium=group&amp;utm_campaign=northbelfasttots">
+<script>
+// Count the click before bouncing on. Sent as text/plain so it is a
+// "simple" CORS request with no preflight - a preflight plus POST does
+// not reliably finish in the moment before the redirect navigates away.
+// sendBeacon is built to survive unload; fetch+keepalive is the fallback.
+// Nothing is stored on the device, so this needs no consent banner.
+(function(){
+  var u="https://gapybapywpdogexibtgj.supabase.co/functions/v1/link-click";
+  var b=JSON.stringify({slug:"tots",campaign:"northbelfasttots"});
+  try{
+    if(navigator.sendBeacon){
+      navigator.sendBeacon(u,new Blob([b],{type:"text/plain;charset=UTF-8"}));
+    }else{
+      fetch(u,{method:"POST",headers:{"Content-Type":"text/plain;charset=UTF-8"},body:b,keepalive:true}).catch(function(){});
+    }
+  }catch(e){}
+})();
+</script>
 <script>location.replace("/?utm_source=facebook&utm_medium=group&utm_campaign=northbelfasttots");</script>
 </head>
 <body>
