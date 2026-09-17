@@ -23,7 +23,11 @@
   --turquoise: #00ffff;
   --ink: #1a2e2e;
   --muted: #5a7373;
-  --cream: #f4fbf8;
+  /* True white. Was the pale mint tint #f4fbf8. Matches Colors.cream in
+     CLocal/constants/theme.ts — Kathryn's call 2026-08-23 was to keep the
+     gradient nav bars but stop the background reading as tinted. The landing
+     page never got that change until 2026-09-13. */
+  --cream: #ffffff;
   --white: #ffffff;
   --card: rgba(255, 255, 255, 0.82);
   --shadow: 0 20px 50px rgba(0, 128, 128, 0.12);
@@ -174,6 +178,21 @@ p {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+}
+
+/* Google Play badge, sits in .hero-cta next to "Join the waitlist".
+   Built 17 Sep 2026, launched via the `hidden` attribute in index.html -
+   see the LIVE-SWITCH comment there. No visual work needed at launch,
+   just this sizing so Google's own badge image doesn't render oversized. */
+.play-badge {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.play-badge img {
+  display: block;
+  height: 54px;
+  width: auto;
 }
 
 .hand {
