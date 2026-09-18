@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex" />
+  <title>CLocal badge source</title>
+  <!--
+    Source for the "Find us on CLocal" badges businesses put on their own
+    websites. Rendered to PNG at 2x so they stay sharp on phones:
+
+      CH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      "$CH" --headless --disable-gpu --hide-scrollbars --default-background-color=00000000 --force-device-scale-factor=2 \
+        --window-size=180,48 --virtual-time-budget=4000 \
+        --screenshot=assets/badge/find-us-on-clocal.png "assets/badge/badge.html?v=light"
+      "$CH" --headless --disable-gpu --hide-scrollbars --default-background-color=00000000 --force-device-scale-factor=2 \
+        --window-size=180,48 --virtual-time-budget=4000 \
+        --screenshot=assets/badge/find-us-on-clocal-dark.png "assets/badge/badge.html?v=dark"
+
+    Output is 360x96, shown at 180x48. Same shape as an app store badge on
+    purpose: people already know what a rounded badge with "Find us on"
+    above a wordmark means, so it reads as a real listing, not an ad.
+
+    No handwriting font here - the brand's script face stays out of
+    anything this small.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 180px; height: 48px; overflow: hidden; background: transparent; }
+    .badge {
+      width: 180px; height: 48px; border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; font-family: "Nunito", system-ui, sans-serif;
+      background: #ffffff; border: 1.5px solid #cfe6e6;
+    }
+    .find { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #5a7373; line-height: 1; }
+    .mark { height: 20px; width: auto; display: block; }
+    .dark .badge { background: #008080; border-color: #008080; }
+    .dark .find { color: rgba(255, 255, 255, 0.85); }
+    .dark .mark { filter: brightness(0) invert(1); }
+  </style>
+</head>
+<body>
+  <div class="badge">
+    <span class="find">Find us on</span>
+    <img class="mark" src="clocal-logo.png" alt="CLocal" />
+  </div>
+  <script>
+    if (new URLSearchParams(location.search).get("v") === "dark") document.body.classList.add("dark");
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add CLocal to your website | CLocal</title>
+  <meta name="description" content="The Find us on CLocal badge for your website, with the code to paste in." />
+  <link rel="canonical" href="https://clocal.co.uk/badge.html" />
+  <!--
+    The page Paul sends businesses once they're on CLocal. It is a tool,
+    not something to rank, so it is noindex and stays out of the sitemap
+    (scripts/build_sitemap.py skips noindex pages on its own).
+
+    Why the badge links to https://clocal.co.uk/ and not the business's own
+    profile on www.clocal.app: the profile page (/business/<id>) is built
+    in the browser from Supabase with no server-rendered content, and
+    www.clocal.app's robots.txt blocks /business/ anyway. A link there
+    passes nothing to search. A link here lands on the site that is meant
+    to rank for Belfast searches, which is the whole reason for the badge.
+    Revisit once business profiles render for search engines.
+
+    No rel="nofollow" in the snippet on purpose. The link is only worth
+    having if it counts.
+
+    Badge images are rendered from assets/badge/badge.html.
+  -->
+  <meta name="robots" content="noindex, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CLocal" />
+  <meta property="og:title" content="Add CLocal to your website" />
+  <meta property="og:description" content="The Find us on CLocal badge for your website, with the code to paste in." />
+  <meta property="og:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="consent.js" defer></script>
+  <style>
+    .badge-option {
+      margin: 1.75rem 0 0;
+      padding: 1.25rem;
+      border-radius: var(--radius-md, 16px);
+      border: 1px solid rgba(0, 128, 128, 0.12);
+      background: rgba(255, 255, 255, 0.82);
+    }
+    .badge-option h2 { font-size: 1.15rem; margin: 0 0 0.25rem; }
+    .badge-option p { color: var(--muted, #5a7373); margin: 0 0 1rem; }
+    .badge-stage {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem; border-radius: 12px; margin-bottom: 1rem;
+    }
+    .badge-stage.on-light { background: #f3f6f6; }
+    .badge-stage.on-dark { background: #1a2e2e; }
+    .badge-stage img { display: block; width: 180px; height: 48px; }
+    .badge-code {
+      display: block; width: 100%; min-height: 7.25rem; resize: vertical;
+      font: 0.8rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #1a2e2e; background: #f3f6f6;
+      border: 1px solid rgba(0, 128, 128, 0.15); border-radius: 10px; padding: 0.75rem;
+    }
+    .badge-copy { margin-top: 0.75rem; }
+    .badge-help { margin-top: 2rem; }
+    .badge-help h2 { font-size: 1.15rem; margin: 0 0 0.5rem; }
+    .badge-help li { margin: 0 0 0.4rem; color: var(--muted, #5a7373); }
+  </style>
+</head>
+<body class="support-page">
+  <div class="page-glow" aria-hidden="true"></div>
+  <header class="nav">
+    <a class="nav-brand" href="/" aria-label="CLocal home">
+      <img class="brand-logo" src="assets/clocal-logo.png" alt="CLocal" width="140" height="40" />
+    </a>
+    <a class="btn btn-pill" href="partners.html">For businesses</a>
+  </header>
+
+  <main class="support-main">
+    <p class="hero-eyebrow">For businesses on CLocal</p>
+    <h1 class="support-title">Add CLocal to your website</h1>
+    <p class="support-lead">
+      Let your customers know where to find your videos. Pick the badge that suits your site, copy the code, and paste it in.
+    </p>
+
+    <section class="badge-option">
+      <h2>White badge</h2>
+      <p>For light websites.</p>
+      <div class="badge-stage on-light">
+        <img src="assets/badge/find-us-on-clocal.png" alt="Find us on CLocal" width="180" height="48" />
+      </div>
+      <label class="sr-only" for="code-light">Code for the white badge</label>
+      <textarea class="badge-code" id="code-light" readonly>&lt;a href="https://clocal.co.uk/" title="Find us on CLocal"&gt;&lt;img src="https://clocal.co.uk/assets/badge/find-us-on-clocal.png" alt="Find us on CLocal" width="180" height="48" style="border:0" /&gt;&lt;/a&gt;</textarea>
+      <button class="btn btn-pill badge-copy" type="button" data-copy="code-light">Copy code</button>
+    </section>
+
+    <section class="badge-option">
+      <h2>Teal badge</h2>
+      <p>For dark websites.</p>
+      <div class="badge-stage on-dark">
+        <img src="assets/badge/find-us-on-clocal-dark.png" alt="Find us on CLocal" width="180" height="48" />
+      </div>
+      <label class="sr-only" for="code-dark">Code for the teal badge</label>
+      <textarea class="badge-code" id="code-dark" readonly>&lt;a href="https://clocal.co.uk/" title="Find us on CLocal"&gt;&lt;img src="https://clocal.co.uk/assets/badge/find-us-on-clocal-dark.png" alt="Find us on CLocal" width="180" height="48" style="border:0" /&gt;&lt;/a&gt;</textarea>
+      <button class="btn btn-pill badge-copy" type="button" data-copy="code-dark">Copy code</button>
+    </section>
+
+    <section class="badge-help">
+      <h2>Where to paste it</h2>
+      <ul>
+        <li>Squarespace, Wix or Shopify: add a Code or Embed block and paste it in.</li>
+        <li>WordPress: add a Custom HTML block.</li>
+        <li>The footer of your site is a good spot, next to your Instagram and opening hours.</li>
+        <li>Instagram bio or Linktree: just add clocal.co.uk as a link.</li>
+      </ul>
+      <p class="hero-note">Stuck? Email hello@clocal.co.uk and we'll talk you through it.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><a href="/">← Back to CLocal</a></p>
+    <p>© <span id="year"></span> CLocal. All rights reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    // Copy buttons. Clipboard API where it exists; select-the-text fallback
+    // everywhere else, so the code is always one keystroke from copied.
+    document.querySelectorAll("[data-copy]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var box = document.getElementById(btn.getAttribute("data-copy"));
+        var done = function () {
+          btn.textContent = "Copied";
+          setTimeout(function () { btn.textContent = "Copy code"; }, 2000);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(box.value).then(done, function () { box.select(); });
+        } else {
+          box.select();
+          try { document.execCommand("copy"); done(); } catch (e) {}
+        }
+      });
+    });
+  </script>
+</body>
+</html>
