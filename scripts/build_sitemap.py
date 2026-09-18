@@ -25,7 +25,15 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 def pages():
     for p in sorted(ROOT.glob("*.html")):
         html = p.read_text(encoding="utf-8")
+        # Search Console's ownership file (google<token>.html). It ends in
+        # .html but is a one-line token, not a page.
+        if html.startswith("google-site-verification:"):
+            continue
         if re.search(r'name="robots"[^>]*noindex', html):
+            continue
+        # Redirect stubs (the merged BT postcode pages, 2026-09-18). A sitemap
+        # should only list the page a URL finally lands on, never the hop.
+        if re.search(r'http-equiv="refresh"', html, re.I):
             continue
         yield p
 

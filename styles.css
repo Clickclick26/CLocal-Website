@@ -2352,3 +2352,17 @@ p {
   .consent-actions { margin-left: 0; width: 100%; }
   .consent-btn { flex: 1 1 auto; }
 }
+
+/* Hand-off line under the partners page signature: points business searches
+   at www.clocal.app/belfast/business and businesses already on CLocal at
+   the badge page. Centred to sit under the signature line above it. */
+.partners-more {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 2rem;
+}
+.partners-more a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
