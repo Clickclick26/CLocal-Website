@@ -2364,3 +2364,17 @@ p {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
+
+/* Guide pages: the answer paragraph that opens each one, and the question
+   headings under "Questions people ask". The opening paragraph is set a
+   little larger because it is the part search engines and AI answers quote. */
+.guide-answer {
+  font-size: 1.08rem;
+  font-weight: 600;
+  line-height: 1.6;
+  margin: 0 0 0.5rem;
+}
+.guide-prose h3 {
+  font-size: 1rem;
+  margin: 1.1rem 0 0.35rem;
+}
