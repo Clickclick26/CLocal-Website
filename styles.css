@@ -180,21 +180,6 @@ p {
   gap: 0.75rem;
 }
 
-/* Google Play badge, sits in .hero-cta next to "Join the waitlist".
-   Built 17 Sep 2026, launched via the `hidden` attribute in index.html -
-   see the LIVE-SWITCH comment there. No visual work needed at launch,
-   just this sizing so Google's own badge image doesn't render oversized. */
-.play-badge {
-  display: inline-flex;
-  line-height: 0;
-}
-
-.play-badge img {
-  display: block;
-  height: 54px;
-  width: auto;
-}
-
 .hand {
   font-family: var(--hand);
   font-size: 1.55rem;
