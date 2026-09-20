@@ -59,9 +59,15 @@ jobs:
             -H 'Content-Type: application/json' -H 'Accept: application/json' \
             -H 'Origin: https://clocal.co.uk' -H 'Referer: https://clocal.co.uk/creators' \
             -d '{"_honey":"canary","_subject":"canary","name":"canary","email":"canary@example.com"}' || echo '{}')
-          echo "FormSubmit: $fs_body"
-          if ! echo "$fs_body" | grep -qi '"success"[[:space:]]*:[[:space:]]*"\?true'; then
-            fail="${fail}\n- FormSubmit did not report success — body: $fs_body"
+          echo "FormSubmit: $(echo "$fs_body" | head -c 300)"
+          if echo "$fs_body" | grep -qi 'challenge-platform\|Just a moment\|cf_chl'; then
+            # Cloudflare shows GitHub's runner IPs an interstitial. That says
+            # nothing about whether the form works from a real browser, so it is
+            # not a failure. Left noisy on purpose: if this line starts showing
+            # every day, this probe is worth replacing, not believing.
+            echo "FormSubmit: Cloudflare challenge from the runner IP — skipped, not a failure."
+          elif ! echo "$fs_body" | grep -qi '"success"[[:space:]]*:[[:space:]]*"\?true'; then
+            fail="${fail}\n- FormSubmit did not report success — body: $(echo "$fs_body" | tr -d '\n' | head -c 200)"
           fi
 
           # 3. Mailbox login for the confirmation emails. 200 = the login
@@ -74,7 +80,7 @@ jobs:
             -d '{"_probe":"smtp"}' || echo '{}')
           echo "SMTP login: $smtp_body"
           if ! echo "$smtp_body" | grep -q '"smtp"[[:space:]]*:[[:space:]]*"ok"'; then
-            fail="${fail}\n- Mailbox login FAILED, so waitlist confirmation emails are not being delivered — $smtp_body"
+            fail="${fail}\n- Mailbox login FAILED, so waitlist confirmation emails are not being delivered — $(echo "$smtp_body" | tr -d '\n' | head -c 300)"
           fi
 
           if [ -n "$fail" ]; then
