@@ -1,0 +1,136 @@
+name: Waitlist canary
+
+# Checks the waitlist pipeline every day and opens a GitHub issue (which
+# emails repo admins) if either path is down — so a silent break like the
+# 12 Aug → 30 Aug one gets noticed in a day, not weeks.
+#
+# It exercises everything the live form depends on:
+#   1. CRM ingest  (Supabase edge function)   — honeypot probe, writes nothing
+#   2. FormSubmit  (email to hello@clocal.co.uk) — _honey probe, sends nothing
+#   3. The mailbox login the confirmation emails use — _probe:"smtp", which
+#      logs in and hangs up, sending nothing
+#
+# Check 3 was added 20 Sep 2026 after this canary passed green for four days
+# while every confirmation email was being rejected (535 Authentication Failed
+# from 16 Sep). Checks 1 and 2 both set the honeypot, so the function returns
+# before it ever touches SMTP: a dead mailbox password looked perfectly healthy.
+# Nine people joined the waitlist in those four days and none of them heard
+# back. If a check here cannot fail when the real thing is broken, it is not a
+# check.
+#
+# No probe creates a contact or sends an email.
+
+on:
+  schedule:
+    - cron: "17 7 * * *" # 07:17 UTC daily
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe waitlist endpoints
+        id: probe
+        run: |
+          set -u
+          fail=""
+
+          # 1. CRM ingest — honeypot set, so the function early-returns {ok:true}
+          #    without touching the database. Expect HTTP 200.
+          crm=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 \
+            -X POST 'https://gapybapywpdogexibtgj.supabase.co/functions/v1/waitlist-ingest' \
+            -H 'Origin: https://clocal.co.uk' \
+            -H 'Content-Type: application/json' \
+            -d '{"_honey":"canary","name":"canary","email":"canary@example.com","postcode":"BT7 1NN","roles":["Creator"]}' || echo "000")
+          echo "CRM ingest: $crm"
+          if [ "$crm" != "200" ]; then
+            fail="${fail}\n- CRM ingest (Supabase) returned HTTP $crm (expected 200)"
+          fi
+
+          # 2. FormSubmit — _honey set, so it accepts and sends nothing.
+          #    Expect HTTP 200 and a JSON body with \"success\":\"true\".
+          #    The Referer header is required — FormSubmit's ajax endpoint uses
+          #    it to match the activated form, and returns success:false without it.
+          fs_body=$(curl -s --max-time 20 \
+            -X POST 'https://formsubmit.co/ajax/hello@clocal.co.uk' \
+            -H 'Content-Type: application/json' -H 'Accept: application/json' \
+            -H 'Origin: https://clocal.co.uk' -H 'Referer: https://clocal.co.uk/creators' \
+            -d '{"_honey":"canary","_subject":"canary","name":"canary","email":"canary@example.com"}' || echo '{}')
+          echo "FormSubmit: $fs_body"
+          if ! echo "$fs_body" | grep -qi '"success"[[:space:]]*:[[:space:]]*"\?true'; then
+            fail="${fail}\n- FormSubmit did not report success — body: $fs_body"
+          fi
+
+          # 3. Mailbox login for the confirmation emails. 200 = the login
+          #    works, 503 = it does not and every signup today is getting no
+          #    email back. Nothing is sent either way.
+          smtp_body=$(curl -s --max-time 45 \
+            -X POST 'https://gapybapywpdogexibtgj.supabase.co/functions/v1/waitlist-ingest' \
+            -H 'Origin: https://clocal.co.uk' \
+            -H 'Content-Type: application/json' \
+            -d '{"_probe":"smtp"}' || echo '{}')
+          echo "SMTP login: $smtp_body"
+          if ! echo "$smtp_body" | grep -q '"smtp"[[:space:]]*:[[:space:]]*"ok"'; then
+            fail="${fail}\n- Mailbox login FAILED, so waitlist confirmation emails are not being delivered — $smtp_body"
+          fi
+
+          if [ -n "$fail" ]; then
+            echo "status=fail" >> "$GITHUB_OUTPUT"
+            {
+              echo "body<<EOF"
+              echo -e "The daily waitlist canary failed:\n$fail\n\nLive form: https://clocal.co.uk/creators\nRun: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "status=ok" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open / update alert issue on failure
+        if: steps.probe.outputs.status == 'fail'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = "⚠️ Waitlist canary failing";
+            const body = process.env.PROBE_BODY;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: "open", labels: "canary",
+            });
+            if (existing.data.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ["canary"],
+                assignees: ["Clickclick26"],
+              });
+            }
+        env:
+          PROBE_BODY: ${{ steps.probe.outputs.body }}
+
+      - name: Close alert issue when healthy
+        if: steps.probe.outputs.status == 'ok'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: "open", labels: "canary",
+            });
+            for (const issue of open.data) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number,
+                body: "Canary passed again — closing.",
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number, state: "closed",
+              });
+            }
