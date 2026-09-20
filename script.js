@@ -312,8 +312,13 @@ if (form && status) {
     // field. Every other page had it open with Consumer pre-ticked; the home
     // page, the one the ads point at, did not (found 14 Sep 2026). Someone who
     // tells us nothing is a consumer, which is what ~95% of them are anyway.
-    if (!name || !email || !postcodeRaw) {
-      setStatus("Please fill in your name, email and postcode.", "error");
+    // Postcode is NOT required, since 20 Sep 2026. It was, and it is the field
+    // people quit on: a phone, a video ad, and a box asking where they live.
+    // The waitlist only needs a name and an email to tell someone it is their
+    // turn. A postcode that is given still has to look like a real UK one -
+    // see the check below - but a blank one is fine and stores as "".
+    if (!name || !email) {
+      setStatus("Please fill in your name and email.", "error");
       return;
     }
     if (roles.length === 0) roles.push("Consumer");
@@ -323,12 +328,12 @@ if (form && status) {
       return;
     }
 
-    if (!isValidUkPostcode(postcodeRaw)) {
-      setStatus("Please enter a UK postcode (e.g. BT7 1NN).", "error");
+    if (postcodeRaw && !isValidUkPostcode(postcodeRaw)) {
+      setStatus("That postcode doesn't look right (e.g. BT7 1NN). Leave it blank if you'd rather not say.", "error");
       return;
     }
 
-    const postcode = normalizePostcode(postcodeRaw);
+    const postcode = postcodeRaw ? normalizePostcode(postcodeRaw) : "";
     const newsletter = Boolean(newsletterBox && newsletterBox.checked);
     const referredBy = new URLSearchParams(window.location.search).get("ref") || "";
     // Ad/campaign attribution.

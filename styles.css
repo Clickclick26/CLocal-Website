@@ -537,8 +537,9 @@ p {
   /* Dark enough that white type clears AA on any frame underneath. */
   background: linear-gradient(
     180deg,
-    rgba(10, 30, 30, 0.34),
-    rgba(10, 30, 30, 0.62)
+    rgba(10, 30, 30, 0.34) 0%,
+    rgba(10, 30, 30, 0.5) 55%,
+    rgba(10, 30, 30, 0.82) 100%
   );
   transition: opacity 0.25s ease;
 }
@@ -569,13 +570,25 @@ p {
   border-color: transparent transparent transparent var(--teal);
 }
 
+/* The label sits along the bottom edge, NOT beside the play circle.
+   The poster frame has the film's own subtitle burned into the middle of
+   the image, so a centred label printed white-on-white over it and both
+   were unreadable (found on the live page 20 Sep 2026, on the exact page
+   the Facebook ads land on). Keep this pinned to the bottom: any caption
+   in the film sits in the middle band, never down here. */
 .hero-film-play-text {
-  display: grid;
-  gap: 2px;
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
   text-align: left;
   font-weight: 700;
-  font-size: 1.15rem;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  font-size: 1.05rem;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75);
 }
 
 .hero-film-play-text span {
