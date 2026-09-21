@@ -394,6 +394,55 @@ p {
   line-height: 1.45;
 }
 
+/* The brunch-voucher draw. It used to sit mid-sentence in .hero-form-lead,
+   where nobody noticed it; Kathryn asked for it to be clearer (21 Sep 2026).
+   Nunito, not the display face: Safira is unreadable below ~28px. */
+.prize-callout {
+  margin: 0.35rem 0 0.85rem;
+  padding: 0.8rem 1rem 0.85rem;
+  border-radius: 18px;
+  background: var(--white);
+  border: 1px solid rgba(0, 128, 128, 0.18);
+  border-left: 4px solid var(--teal);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-prize-link {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--teal);
+  text-decoration: none;
+}
+
+.hero-prize-link:hover {
+  text-decoration: underline;
+}
+
+.prize-tag {
+  margin: 0 0 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.prize-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.prize-body {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
 .hero-waitlist .invite-form {
   margin-top: 1rem;
 }
