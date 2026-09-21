@@ -395,27 +395,43 @@ p {
 }
 
 /* The brunch-voucher draw. It used to sit mid-sentence in .hero-form-lead,
-   where nobody noticed it; Kathryn asked for it to be clearer (21 Sep 2026).
-   Nunito, not the display face: Safira is unreadable below ~28px. */
-.prize-callout {
-  margin: 0.35rem 0 0.85rem;
-  padding: 0.8rem 1rem 0.85rem;
-  border-radius: 18px;
-  background: var(--white);
-  border: 1px solid rgba(0, 128, 128, 0.18);
-  border-left: 4px solid var(--teal);
-  box-shadow: var(--shadow-soft);
+   where nobody noticed it; Kathryn asked for it to be clearer, then to "really
+   stand out" in the app's coin gold (21 Sep 2026). The gold stops and the
+   brown text are RewardCoin in CLocal/components/rewards/RewardMarks.tsx.
+   The gradient stays on the light end of the coin: the brown text drops to
+   about 2.5:1 contrast on the darkest stop (#A67C3A), so that stop is the
+   border only. Nunito, not the display face: Safira is unreadable below ~28px. */
+:root {
+  --coin-light: #f7e7c1;
+  --coin-mid: #d4b06a;
+  --coin-dark: #a67c3a;
+  --coin-ink: #5c3f18;
 }
 
 .hero-prize-link {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--coin-light), var(--coin-mid));
+  border: 1px solid var(--coin-dark);
+  box-shadow: 0 8px 20px rgba(92, 67, 32, 0.22);
+  color: var(--coin-ink);
   font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--teal);
+  font-weight: 800;
   text-decoration: none;
 }
 
 .hero-prize-link:hover {
   text-decoration: underline;
+}
+
+.prize-callout {
+  margin: 0.35rem 0 0.85rem;
+  padding: 0.9rem 1.05rem 0.95rem;
+  border-radius: 18px;
+  background: linear-gradient(145deg, var(--coin-light) 0%, #e9cf94 55%, var(--coin-mid) 100%);
+  border: 1.5px solid var(--coin-dark);
+  box-shadow: 0 12px 28px rgba(92, 67, 32, 0.25), inset 0 1px 0 rgba(255, 248, 230, 0.7);
 }
 
 .prize-tag {
@@ -424,23 +440,23 @@ p {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--coin-ink);
 }
 
 .prize-title {
   margin: 0 0 0.25rem;
-  font-size: 1.12rem;
+  font-size: 1.2rem;
   font-weight: 800;
   line-height: 1.25;
-  color: var(--ink);
+  color: var(--coin-ink);
 }
 
 .prize-body {
   margin: 0;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.4;
-  color: var(--muted);
+  color: var(--coin-ink);
 }
 
 .hero-waitlist .invite-form {
