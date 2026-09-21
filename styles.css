@@ -2289,6 +2289,58 @@ p {
   }
 }
 
+/* SIGNUP MODAL — centred "you're on the list" confirmation (21 Sep 2026).
+   Replaces the small toast, which people missed and then re-submitted. Sits
+   above the cookie bar (z 9999). */
+.signup-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(26, 46, 46, 0.55);
+  animation: signup-fade 0.2s ease both;
+}
+body.signup-open { overflow: hidden; }
+.signup-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border-radius: 24px;
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  animation: signup-pop 0.32s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+.signup-tick {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: var(--clocal-grad-cta, linear-gradient(135deg, #008080, #00b8b8));
+  display: grid;
+  place-items: center;
+}
+.signup-tick svg { width: 40px; height: 40px; }
+.signup-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  color: var(--clocal-ink, #1a2e2e);
+}
+.signup-card p { margin: 0 0 0.75rem; line-height: 1.45; color: var(--clocal-ink, #1a2e2e); }
+.signup-lead { font-weight: 700; }
+.signup-mail { overflow-wrap: anywhere; }
+.signup-note { font-size: 0.85rem; color: var(--clocal-muted, #5a7373); }
+.signup-done { width: 100%; margin-top: 0.5rem; border: none; cursor: pointer; }
+.invite-form .btn:disabled { opacity: 0.75; cursor: default; }
+@keyframes signup-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes signup-pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .signup-modal, .signup-card { animation: none; }
+}
+
 /* Cookie consent bar (added 14 Sep 2026, see consent.js).
    Sits above the page but deliberately does not block it: a bar, not a
    modal, because a full overlay on a waitlist page costs more signups than

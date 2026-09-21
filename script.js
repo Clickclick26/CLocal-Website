@@ -109,6 +109,95 @@ function showSnackbar(message, kind) {
 }
 
 /**
+ * Big "you're in" confirmation, shown after a waitlist submit.
+ *
+ * Added 21 Sep 2026: a creator (Aimee) submitted the form several times
+ * because the only sign it worked was a small toast that hid after 6 seconds,
+ * sat under the cookie bar on phones, and the form emptied so it looked like
+ * nothing had happened. This one is centred, says the person's name and email
+ * back to them, and stays until they close it.
+ * @param {{ name: string, email: string, already?: boolean }} info
+ */
+function showSuccessModal(info) {
+  const previous = document.getElementById("signup-modal");
+  if (previous) previous.remove();
+  const opener = /** @type {HTMLElement | null} */ (document.activeElement);
+  const first = (info.name || "").split(/\s+/)[0];
+
+  const overlay = document.createElement("div");
+  overlay.id = "signup-modal";
+  overlay.className = "signup-modal";
+
+  const card = document.createElement("div");
+  card.className = "signup-card";
+  card.setAttribute("role", "dialog");
+  card.setAttribute("aria-modal", "true");
+  card.setAttribute("aria-labelledby", "signup-title");
+
+  const tick = document.createElement("div");
+  tick.className = "signup-tick";
+  tick.setAttribute("aria-hidden", "true");
+  tick.innerHTML =
+    '<svg viewBox="0 0 52 52"><path d="M14 27l8 8 16-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  const title = document.createElement("h2");
+  title.id = "signup-title";
+  title.textContent = info.already
+    ? "You're already on the list" + (first ? ", " + first : "")
+    : "You're on the list" + (first ? ", " + first : "") + "!";
+
+  const lead = document.createElement("p");
+  lead.className = "signup-lead";
+  lead.textContent = info.already
+    ? "We've already got you, so there's no need to sign up again."
+    : "That went through. There's nothing else to do, and no need to sign up again.";
+
+  const mail = document.createElement("p");
+  mail.className = "signup-mail";
+  mail.append("We'll email ");
+  const strong = document.createElement("strong");
+  strong.textContent = info.email;
+  mail.append(strong, " when your invite is ready.");
+
+  const note = document.createElement("p");
+  note.className = "signup-note";
+  note.textContent =
+    "Emails come from hello@clocal.co.uk. If you can't find one, check your junk folder.";
+
+  const done = document.createElement("button");
+  done.type = "button";
+  done.className = "btn btn-pill large signup-done";
+  done.textContent = "Done";
+
+  card.append(tick, title, lead, mail, note, done);
+  overlay.append(card);
+  document.body.append(overlay);
+  document.body.classList.add("signup-open");
+
+  function close() {
+    overlay.remove();
+    document.body.classList.remove("signup-open");
+    document.removeEventListener("keydown", onKey);
+    if (opener && opener.focus) opener.focus();
+  }
+  /** @param {KeyboardEvent} e */
+  function onKey(e) {
+    if (e.key === "Escape") close();
+    if (e.key === "Tab") {
+      // Only one control inside, so keep focus on it.
+      e.preventDefault();
+      done.focus();
+    }
+  }
+  done.addEventListener("click", close);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+  document.addEventListener("keydown", onKey);
+  done.focus();
+}
+
+/**
  * Waitlist submit — fires BOTH paths on every signup, in parallel:
  *   1. CRM ingest  → files a contact in ClickClick CRM (source=clocal-waitlist)
  *   2. FormSubmit  → emails hello@clocal.co.uk
@@ -333,6 +422,32 @@ if (form && status) {
       return;
     }
 
+    // Same person, same roles, already signed up in this browser: say so
+    // instead of sending a duplicate (this is what filled the inbox with
+    // repeat signups from people unsure it had worked).
+    const DONE_KEY = "clocal_waitlist_done";
+    const doneId = email.toLowerCase() + "|" + roles.slice().sort().join(",");
+    try {
+      const doneList = JSON.parse(localStorage.getItem(DONE_KEY) || "[]");
+      if (Array.isArray(doneList) && doneList.includes(doneId)) {
+        setStatus(SUCCESS_COPY, "ok");
+        showSuccessModal({ name, email, already: true });
+        form.reset();
+        updateRoleSummary();
+        return;
+      }
+    } catch {
+      // Storage blocked: fall through and submit as normal.
+    }
+
+    // One submit at a time. Without this, tapping the button again while
+    // "Sending…" showed sent a second and third signup.
+    if (form.dataset.sending === "1") return;
+    const submitBtn = /** @type {HTMLButtonElement | null} */ (
+      form.querySelector('button[type="submit"]')
+    );
+    const submitLabel = submitBtn ? submitBtn.textContent : "";
+
     const postcode = postcodeRaw ? normalizePostcode(postcodeRaw) : "";
     const newsletter = Boolean(newsletterBox && newsletterBox.checked);
     const referredBy = new URLSearchParams(window.location.search).get("ref") || "";
@@ -391,8 +506,30 @@ if (form && status) {
     if (newsletterValue) newsletterValue.value = newsletter ? "yes" : "no";
 
     function markSubmitted() {
-      setStatus(SUCCESS_COPY, "ok");
-      showSnackbar(SUCCESS_COPY, "ok");
+      form.dataset.sending = "";
+      setStatus("✓ " + SUCCESS_COPY, "ok");
+      showSuccessModal({ name, email });
+      try {
+        const doneList = JSON.parse(localStorage.getItem(DONE_KEY) || "[]");
+        const list = Array.isArray(doneList) ? doneList : [];
+        list.push(doneId);
+        localStorage.setItem(DONE_KEY, JSON.stringify(list.slice(-20)));
+      } catch {
+        // Storage blocked: the duplicate guard just won't remember.
+      }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "You're on the list ✓";
+        // Fresh typing means a new signup, so unlock the button again.
+        form.addEventListener(
+          "input",
+          () => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitLabel;
+          },
+          { once: true }
+        );
+      }
       // Meta Pixel: fire the standard Lead event on a real, confirmed signup.
       if (window.fbq) {
         window.fbq("track", "Lead", {
@@ -414,11 +551,21 @@ if (form && status) {
     }
 
     setStatus("Sending…", "ok");
+    form.dataset.sending = "1";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+    }
     const subject = form.dataset.formSubject || "CLocal waitlist";
     submitWaitlist({ name, email, postcode, roles, newsletter, referredBy, utm, subject })
       .then(markSubmitted)
       .catch((err) => {
         console.error("Waitlist submit failed:", err);
+        form.dataset.sending = "";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = submitLabel;
+        }
         setStatus(
           "Sorry, something went wrong sending that. Please try again or email hello@clocal.co.uk.",
           "error"
