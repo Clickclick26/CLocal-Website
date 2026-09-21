@@ -111,7 +111,7 @@ function showSnackbar(message, kind) {
 /**
  * Big "you're in" confirmation, shown after a waitlist submit.
  *
- * Added 21 Sep 2026: a creator (Aimee) submitted the form several times
+ * Added 21 Sep 2026: someone submitted the form several times
  * because the only sign it worked was a small toast that hid after 6 seconds,
  * sat under the cookie bar on phones, and the form emptied so it looked like
  * nothing had happened. This one is centred, says the person's name and email
