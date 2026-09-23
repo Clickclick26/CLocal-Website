@@ -408,23 +408,6 @@ p {
   --coin-ink: #5c3f18;
 }
 
-.hero-prize-link {
-  display: inline-block;
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--coin-light), var(--coin-mid));
-  border: 1px solid var(--coin-dark);
-  box-shadow: 0 8px 20px rgba(92, 67, 32, 0.22);
-  color: var(--coin-ink);
-  font-size: 0.95rem;
-  font-weight: 800;
-  text-decoration: none;
-}
-
-.hero-prize-link:hover {
-  text-decoration: underline;
-}
-
 .prize-callout {
   margin: 0.35rem 0 0.85rem;
   padding: 0.9rem 1.05rem 0.95rem;
