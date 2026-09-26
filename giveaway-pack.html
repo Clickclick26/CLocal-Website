@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLocal Giveaway Pack</title>
+  <meta name="description" content="Everything you need to post the CLocal brunch giveaway: the video, your link and a caption." />
+  <link rel="canonical" href="https://clocal.co.uk/giveaway-pack.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CLocal" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:url" content="https://clocal.co.uk/giveaway-pack.html" />
+  <meta property="og:title" content="CLocal Giveaway Pack" />
+  <meta property="og:description" content="Everything you need to post the CLocal brunch giveaway: the video, your link and a caption." />
+  <meta property="og:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CLocal: find hidden gems in Belfast" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="CLocal Giveaway Pack" />
+  <meta name="twitter:description" content="Everything you need to post the CLocal brunch giveaway: the video, your link and a caption." />
+  <meta name="twitter:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-16.png?v=2" sizes="16x16" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-192.png?v=2" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="support-page">
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="nav-brand" href="/" aria-label="CLocal home">
+      <img class="brand-logo" src="assets/clocal-logo.png" alt="CLocal" width="140" height="40" />
+    </a>
+    <a class="btn btn-pill" href="/#early-access">Join the waitlist</a>
+  </header>
+
+  <main class="support-main legal-main">
+    <h1>Giveaway pack</h1>
+    <p class="legal-meta">Brunch at General Merchants &middot; Entries close 11:59pm, Friday 10 October 2026</p>
+
+    <p>
+      Everything needed to post the giveaway is on this page. Nothing to edit and nothing to pay.
+      Any questions, <a href="mailto:hello@clocal.co.uk">hello@clocal.co.uk</a>.
+    </p>
+
+    <h2>1. The video</h2>
+    <p id="pack-for"></p>
+    <video
+      id="pack-video"
+      controls
+      playsinline
+      preload="metadata"
+      style="width:100%;max-width:320px;border-radius:18px;display:block;margin:0 0 14px;background:#0B2224"
+    ></video>
+    <p><a id="pack-download" href="#" download>Download the video</a></p>
+
+    <h2>2. Your link</h2>
+    <p>
+      Put this on the story as a link sticker. It is yours, so we can see how many people came
+      from your page.
+    </p>
+    <p><strong id="pack-link">clocal.co.uk</strong></p>
+
+    <h2>3. A caption, if it saves you a job</h2>
+    <p id="pack-caption" style="white-space:pre-line"></p>
+    <p>Change anything you like, or write your own.</p>
+
+    <h2>The prize</h2>
+    <p>
+      Brunch vouchers for General Merchants, Belfast. One winner, drawn at random from everyone
+      who joins the CLocal waitlist before the closing time. Every page promoting this shares the
+      same draw. <a href="/giveaway.html">Full rules</a>.
+    </p>
+
+    <h2>Who we are</h2>
+    <p>
+      CLocal is an app for finding good independent places near you, built in Belfast by
+      <strong>Clickclick Video Marketing Ltd</strong>, a company registered in Northern Ireland
+      (number NI707611), registered office Arthur House, 41 Arthur Street, Belfast, BT1 4GB.
+      You can see the app at <a href="/">clocal.co.uk</a> and reach a person at
+      <a href="mailto:hello@clocal.co.uk">hello@clocal.co.uk</a>.
+    </p>
+
+    <script>
+      /* One page for every partner. ?p=<their handle> swaps in their cut of the
+         video and their tracking link, so nobody is ever sent a bare .mp4 by a
+         stranger, which is indistinguishable from a phishing link. */
+      (function () {
+        var PACKS = {
+          belfastfoodiegirlofficial: {
+            name: "Ríona",
+            file: "brunch-giveaway-belfastfoodiegirl.mp4",
+          },
+        };
+        var p = new URLSearchParams(location.search).get("p") || "";
+        var pack = Object.prototype.hasOwnProperty.call(PACKS, p) ? PACKS[p] : null;
+        var link = pack ? "clocal.co.uk/r/gm-" + p : "clocal.co.uk";
+        var file =
+          "/assets/giveaway/" + (pack ? pack.file : "brunch-giveaway.mp4");
+
+        var v = document.getElementById("pack-video");
+        v.src = file;
+        var d = document.getElementById("pack-download");
+        d.href = file;
+
+        document.getElementById("pack-for").textContent = pack
+          ? "Made for @" + p + ", with your name on it beside ours."
+          : "";
+        document.getElementById("pack-link").textContent = link;
+        document.getElementById("pack-caption").textContent =
+          "GIVEAWAY, brunch vouchers for General Merchants.\n\n" +
+          "To enter: like this, follow me, and join the CLocal waitlist at " +
+          link +
+          "\n\nCloses Friday 10 October. 18+, full rules on the site.";
+      })();
+    </script>
+  </main>
+
+  <footer class="footer">
+    <p><a href="/">&larr; Back to CLocal</a> &middot; <a href="/privacy.html">Privacy Policy</a></p>
+    <p>&copy; <span id="year"></span> CLocal. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
