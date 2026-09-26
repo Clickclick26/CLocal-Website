@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>CLocal</title>
+<link rel="canonical" href="https://clocal.co.uk/">
+<meta http-equiv="refresh" content="0; url=/?utm_source=instagram&amp;utm_medium=giveaway&amp;utm_campaign=belfastgirlgang">
+<script>
+// Count the click before bouncing on.
+//
+// NOT sendBeacon. sendBeacon always sends cookies and cannot be told not
+// to, and a credentialed cross-origin request to the Supabase function is
+// rejected before it reaches the function - every click 503d and nothing
+// was recorded for the first 20 hours. Plain fetch with credentials:"omit"
+// goes straight through. keepalive lets it survive the redirect;
+// text/plain keeps it a simple request with no CORS preflight.
+// Nothing is stored on the device, so this needs no consent banner.
+(function(){
+  try{
+    fetch("https://gapybapywpdogexibtgj.supabase.co/functions/v1/link-click",{
+      method:"POST",keepalive:true,credentials:"omit",
+      headers:{"Content-Type":"text/plain;charset=UTF-8"},
+      body:JSON.stringify({slug:"gm-belfastgirlgang",campaign:"belfastgirlgang"})
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+<script>location.replace("/?utm_source=instagram&utm_medium=giveaway&utm_campaign=belfastgirlgang");</script>
+</head>
+<body>
+<p>Taking you to CLocal. <a href="/?utm_source=instagram&amp;utm_medium=giveaway&amp;utm_campaign=belfastgirlgang">Continue</a>.</p>
+</body>
+</html>
