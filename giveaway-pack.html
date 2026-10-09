@@ -43,7 +43,7 @@
 
   <main class="support-main legal-main">
     <h1>Giveaway pack</h1>
-    <p class="legal-meta">Brunch at General Merchants &middot; Entries close 11:59pm, Friday 10 October 2026</p>
+    <p class="legal-meta">Brunch at General Merchants &middot; Entries close 11:59pm, Friday 31 October 2026</p>
 
     <p>
       Everything needed to post the giveaway is on this page. Nothing to edit and nothing to pay.
@@ -158,10 +158,78 @@
             name: "Abi",
             file: "brunch-giveaway-abiihaddock.mp4",
           },
+
+          /* Organisations, added 9 Oct 2026. Different job from the creator
+             packs above: a creator's followers are being sold to by a stranger
+             and the prize is the only reason to stop, so that caption says
+             "like this, follow me". An organisation's people have been handed
+             it by their own society, landlord or community manager, so this
+             caption tells them what it is and gets out of the way. Asking a
+             students' union to say "follow me" would read as an advert and
+             lose us the thing that makes this work. */
+          "ormeaubaths": {
+            name: "Ormeau Baths",
+            file: "partner-ormeaubaths.mp4",
+            org: true,
+            audience: "members",
+          },
+          "glandore": {
+            name: "Glandore",
+            file: "partner-glandore.mp4",
+            org: true,
+            audience: "members",
+          },
+          "clockwise": {
+            name: "Clockwise",
+            file: "partner-clockwise.mp4",
+            org: true,
+            audience: "members",
+          },
+          "catalyst": {
+            name: "Catalyst",
+            file: "partner-catalyst.mp4",
+            org: true,
+            audience: "members",
+          },
+          "farsetlabs": {
+            name: "Farset Labs",
+            file: "partner-farsetlabs.mp4",
+            org: true,
+            audience: "members",
+          },
+          "studentroost": {
+            name: "Student Roost",
+            file: "partner-studentroost.mp4",
+            org: true,
+            audience: "residents",
+          },
+          "elmsbt9": {
+            name: "Elms BT9",
+            file: "partner-elmsbt9.mp4",
+            org: true,
+            audience: "residents",
+          },
+          "qubsocieties": {
+            name: "Queen's societies",
+            file: "partner-qubsocieties.mp4",
+            org: true,
+            audience: "students",
+          },
+          "belfastchamber": {
+            name: "Belfast Chamber",
+            file: "partner-belfastchamber.mp4",
+            org: true,
+            audience: "members",
+          },
         };
         var p = new URLSearchParams(location.search).get("p") || "";
         var pack = Object.prototype.hasOwnProperty.call(PACKS, p) ? PACKS[p] : null;
-        var link = pack ? "clocal.co.uk/r/gm-" + p : "clocal.co.uk";
+        // Organisations get a p- slug, creators keep the gm- one they were
+        // already given. Changing a creator's live link would break every
+        // post they have already made.
+        var link = pack
+          ? "clocal.co.uk/r/" + (pack.org ? "p-" : "gm-") + p
+          : "clocal.co.uk";
         var file =
           "/assets/giveaway/" + (pack ? pack.file : "brunch-giveaway.mp4");
 
@@ -171,14 +239,25 @@
         d.href = file;
 
         document.getElementById("pack-for").textContent = pack
-          ? "Made for @" + p + ", with your name on it beside ours."
+          ? pack.org
+            ? "Made for " + pack.name + ". Your name is in the first second of it."
+            : "Made for @" + p + ", with your name on it beside ours."
           : "";
         document.getElementById("pack-link").textContent = link;
-        document.getElementById("pack-caption").textContent =
-          "GIVEAWAY, brunch vouchers for General Merchants.\n\n" +
-          "To enter: like this, follow me, and join the CLocal waitlist at " +
-          link +
-          "\n\nCloses Friday 10 October. 18+, full rules on the site.";
+        document.getElementById("pack-caption").textContent = pack && pack.org
+          ? "Something for our " +
+            pack.audience +
+            ". CLocal is a new app for finding the good independent places " +
+            "round South and East Belfast, and they are giving away brunch " +
+            "vouchers for General Merchants while the waitlist is open.\n\n" +
+            "To enter, join the waitlist at " +
+            link +
+            "\n\nCloses Friday 31 October. 18+, full rules on the site. " +
+            "The draw is run by CLocal, not by us."
+          : "GIVEAWAY, brunch vouchers for General Merchants.\n\n" +
+            "To enter: like this, follow me, and join the CLocal waitlist at " +
+            link +
+            "\n\nCloses Friday 31 October. 18+, full rules on the site.";
       })();
     </script>
   </main>
