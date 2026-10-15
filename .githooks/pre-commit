@@ -28,4 +28,18 @@ echo "$staged" | grep -Eqi "$pattern" && {
 }
 
 [ "$blocked" = "1" ] && exit 1
+
+# Prize and positioning copy. Two mistakes have each shipped more than once:
+# wording that promises every member a voucher, and a fixed winner count when
+# there are several vouchers. scripts/check-prize-copy.js has the detail.
+copy_files=$(echo "$staged" | grep -Ei '\.(html|js|md|txt)$' | grep -v '^scripts/check-prize-copy\.js$')
+if [ -n "$copy_files" ] && command -v node >/dev/null 2>&1; then
+  # shellcheck disable=SC2086
+  node scripts/check-prize-copy.js $copy_files || {
+    echo "Blocked by scripts/check-prize-copy.js. Fix the copy, or add a"
+    echo "deliberate exception in that file if the check is wrong."
+    exit 1
+  }
+fi
+
 exit 0
