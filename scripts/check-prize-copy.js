@@ -10,10 +10,12 @@
  *    A partner whose members all turn up at General Merchants expecting
  *    brunch is a partner we never get a second ask from.
  *
- * 2. A fixed count of winners. There are SEVERAL vouchers and one VIP year.
- *    The rules page, the hero prize card and the partner pack all said "one
- *    winner" or "two winners" at once, which understated the odds on three
- *    public pages and made the rules page wrong about its own draw.
+ * 2. The wrong count of winners. The real structure is three voucher winners:
+ *    first prize is a year of VIP plus a brunch voucher, then two runners-up
+ *    take a voucher each. The rules page, the hero prize card and the partner
+ *    pack all said "one winner" or "two winners" at once, which understated
+ *    the odds on three public pages and made the rules page wrong about its
+ *    own draw.
  *
  * 3. "an app for finding independent places", which describes a directory.
  *    The two things that are ours are that it is video-first, and that you
@@ -53,9 +55,15 @@ const RULES = [
     why: 'Gives a prize without saying it is won. Add "prize draw" or "to be won".',
   },
   {
-    id: "fixed-winner-count",
-    re: /\b(one winner|two winners|both winners|a single winner|one person wins)\b/gi,
-    why: "There are several vouchers plus one VIP year. Do not state a winner count.",
+    id: "wrong-winner-count",
+    // The structure, confirmed by Kathryn 15 Oct 2026: THREE voucher winners.
+    // First prize is a year of VIP plus a voucher, then two runners-up take a
+    // voucher each. So "one person wins both" is correct and is not matched
+    // here; what is wrong is any wording that makes it one or two winners
+    // overall, which is what the rules page, the hero card and the partner
+    // pack all said at once while the auto-reply correctly said several.
+    re: /\b(one winner|two winners|both winners|a single winner|one person wins the vouchers|only one winner)\b/gi,
+    why: "Three people win a voucher and one of them also wins the VIP year. Do not reduce it to one or two winners.",
   },
   {
     id: "directory-positioning",
