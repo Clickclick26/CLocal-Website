@@ -257,7 +257,7 @@ async function submitWaitlist(payload) {
         _subject: payload.subject || "CLocal waitlist",
         _template: "table",
         _autoresponse:
-          "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). We'll email you again when it's your turn.",
+          "Thanks, you're on the CLocal waitlist for South and East Belfast. That also enters you for a chance to win one of several vouchers for brunch at General Merchants (18+, T&Cs apply). One thing worth doing now: follow @clocal_app on Instagram at https://www.instagram.com/clocal_app/ - it is where we announce the draw winners, and the rules ask entrants to be following us. We'll email you again when it's your turn.",
         name: payload.name,
         email: payload.email,
         postcode: payload.postcode,
