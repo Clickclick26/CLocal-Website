@@ -164,12 +164,35 @@ function showSuccessModal(info) {
   note.textContent =
     "Emails come from hello@clocal.co.uk. If you can't find one, check your junk folder.";
 
+  /* The follow ask, here and not on the form, because this is the one moment
+     someone has just said yes and nothing is being asked of them. It is also
+     a CONDITION of the draw now (see giveaway.html), so this is not a nudge
+     for a nudge's sake — somebody who skips it can win and then not be able
+     to claim. Primary button, with Done demoted to a plain link underneath,
+     because the whole point is that it should be the obvious next tap. */
+  const igWrap = document.createElement("div");
+  igWrap.className = "signup-ig";
+
+  const igLine = document.createElement("p");
+  igLine.className = "signup-ig-line";
+  igLine.textContent =
+    "One last thing. The draw needs you to be following us, and it is where you will see who wins.";
+
+  const ig = document.createElement("a");
+  ig.className = "btn btn-pill large signup-ig-btn";
+  ig.href = "https://www.instagram.com/clocal_app/";
+  ig.target = "_blank";
+  ig.rel = "noopener";
+  ig.textContent = "Follow @clocal_app";
+
+  igWrap.append(igLine, ig);
+
   const done = document.createElement("button");
   done.type = "button";
-  done.className = "btn btn-pill large signup-done";
-  done.textContent = "Done";
+  done.className = "signup-done-link";
+  done.textContent = "No thanks, I'm done";
 
-  card.append(tick, title, lead, mail, note, done);
+  card.append(tick, title, lead, mail, note, igWrap, done);
   overlay.append(card);
   document.body.append(overlay);
   document.body.classList.add("signup-open");

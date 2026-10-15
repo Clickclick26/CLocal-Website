@@ -2382,6 +2382,43 @@ body.signup-open { overflow: hidden; }
 .signup-mail { overflow-wrap: anywhere; }
 .signup-note { font-size: 0.85rem; color: var(--clocal-muted, #5a7373); }
 .signup-done { width: 100%; margin-top: 0.5rem; border: none; cursor: pointer; }
+
+/* The Instagram ask on the "you're on the list" card. Following is a condition
+   of the prize draw, so this is the primary action and Done is demoted to a
+   plain link under it. Ruled off so it reads as a separate, final step rather
+   than more of the confirmation copy. */
+.signup-ig {
+  width: 100%;
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(16, 49, 47, 0.14);
+}
+.signup-ig-line {
+  margin: 0 0 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--clocal-ink, #10312f);
+}
+.signup-ig-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+}
+.signup-done-link {
+  display: block;
+  width: 100%;
+  margin-top: 0.9rem;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--clocal-muted, #5a7373);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.signup-done-link:hover { color: var(--clocal-ink, #10312f); }
 .invite-form .btn:disabled { opacity: 0.75; cursor: default; }
 @keyframes signup-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes signup-pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
