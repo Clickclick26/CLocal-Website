@@ -62,15 +62,25 @@
     <p><a id="pack-download" href="#" download>Download the video</a></p>
 
     <h2>2. Your link</h2>
-    <p>
-      Put this on the story as a link sticker. It is yours, so we can see how many people came
-      from your page.
-    </p>
+    <p id="pack-link-how"></p>
     <p><strong id="pack-link">clocal.co.uk</strong></p>
 
     <h2>3. A caption, if it saves you a job</h2>
     <p id="pack-caption" style="white-space:pre-line"></p>
     <p>Change anything you like, or write your own.</p>
+
+    <!-- Email wording, orgs only. Added 15 Oct 2026: Glandore said yes and
+      then said they would send it out to everyone, meaning a member email,
+      and all this page had was a social caption with no subject line. Every
+      organisation on this list reaches its people by mailing list rather
+      than by story, so the caption alone was the wrong shape for all of
+      them. Creators do not see this section — they post, they do not mail. -->
+    <section id="pack-email" hidden>
+      <h2>4. If you are sending it by email</h2>
+      <p><strong>Subject:</strong> <span id="pack-email-subject"></span></p>
+      <p id="pack-email-body" style="white-space:pre-line"></p>
+      <p>Same as above, change whatever you like.</p>
+    </section>
 
     <h2>The prize</h2>
     <p>
@@ -81,7 +91,8 @@
 
     <h2>Who we are</h2>
     <p>
-      CLocal is an app for finding good independent places near you, built in Belfast by
+      CLocal is a video-first app for supporting the local businesses near you, and getting
+      rewarded for it. Built in Belfast by
       <strong>Clickclick Video Marketing Ltd</strong>, a company registered in Northern Ireland
       (number NI707611), registered office Arthur House, 41 Arthur Street, Belfast, BT1 4GB.
       You can see the app at <a href="/">clocal.co.uk</a> and reach a person at
@@ -250,6 +261,31 @@
             : "Made for @" + p + ", with your name on it beside ours."
           : "";
         document.getElementById("pack-link").textContent = link;
+        document.getElementById("pack-link-how").textContent = pack && pack.org
+          ? "Put this wherever you share it. It is yours, so we can see how many of your " +
+            pack.audience +
+            " came through."
+          : "Put this on the story as a link sticker. It is yours, so we can see how many " +
+            "people came from your page.";
+
+        // The email version. An org mails its people, so it needs a subject
+        // line and something that reads like a note from them, not a caption.
+        if (pack && pack.org) {
+          document.getElementById("pack-email").hidden = false;
+          document.getElementById("pack-email-subject").textContent =
+            "Win brunch at General Merchants, and a year of CLocal VIP";
+          document.getElementById("pack-email-body").textContent =
+            "Hi all,\n\n" +
+            "CLocal is a new video-first app for supporting the local businesses round " +
+            "South and East Belfast, and getting rewarded for it. It is not out yet, but " +
+            "the waitlist is open.\n\n" +
+            "They are giving away several brunch vouchers for General Merchants, and a " +
+            "year of their VIP free, to people who join before the end of the month.\n\n" +
+            "To enter, follow @clocal_app on Instagram and join the waitlist here:\n" +
+            link +
+            "\n\nCloses Friday 31 October. 18+, and the full rules are on their site. " +
+            "The draw is run by CLocal, not by us.";
+        }
         document.getElementById("pack-caption").textContent = pack && pack.org
           ? "Something for our " +
             pack.audience +
