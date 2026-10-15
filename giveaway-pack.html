@@ -230,13 +230,19 @@
         var link = pack
           ? "clocal.co.uk/r/" + (pack.org ? "p-" : "gm-") + p
           : "clocal.co.uk";
+        /* Cache-buster. The partner cuts get re-rendered to the SAME filename,
+           so a browser that has already loaded one keeps showing the old
+           version forever. Bump VERSION on every re-render and everyone picks
+           up the new file, including partners who have had the page open. */
+        var VERSION = "4";
         var file =
           "/assets/giveaway/" + (pack ? pack.file : "brunch-giveaway.mp4");
+        var fileV = file + "?v=" + VERSION;
 
         var v = document.getElementById("pack-video");
-        v.src = file;
+        v.src = fileV;
         var d = document.getElementById("pack-download");
-        d.href = file;
+        d.href = fileV;
 
         document.getElementById("pack-for").textContent = pack
           ? pack.org
