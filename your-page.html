@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your CLocal page</title>
+  <meta name="description" content="What a shop's page looks like on CLocal, and what you can do with it once it is yours." />
+  <link rel="canonical" href="https://clocal.co.uk/your-page.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CLocal" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:url" content="https://clocal.co.uk/your-page.html" />
+  <meta property="og:title" content="Your CLocal page" />
+  <meta property="og:description" content="What a shop's page looks like on CLocal, and what you can do with it once it is yours." />
+  <meta property="og:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="CLocal" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Your CLocal page" />
+  <meta name="twitter:description" content="What a shop's page looks like on CLocal, and what you can do with it once it is yours." />
+  <meta name="twitter:image" content="https://clocal.co.uk/assets/social/og-card.png" />
+  <link rel="icon" href="assets/favicon/favicon.ico?v=2" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-16.png?v=2" sizes="16x16" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-32.png?v=2" sizes="32x32" />
+  <link rel="icon" type="image/png" href="assets/favicon/favicon-192.png?v=2" sizes="192x192" />
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="support-page">
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="nav-brand" href="/" aria-label="CLocal home">
+      <img class="brand-logo" src="assets/clocal-logo.png" alt="CLocal" width="140" height="40" />
+    </a>
+  </header>
+
+  <main class="support-main legal-main">
+    <h1>This is what your page looks like</h1>
+    <p class="legal-meta">Two shops already on CLocal &middot; South and East Belfast</p>
+
+    <p>
+      CLocal is a video-first app for supporting the local businesses near you, and getting
+      rewarded for it. A shop posts a short video of what it has on that week, and people who go
+      get something back for it.
+    </p>
+    <p>
+      Here are two real ones. We made both of these for the shop, at no cost to them.
+    </p>
+
+    <!-- Both files are the cuts that are live on each shop's own CLocal page,
+      re-encoded at crf 28 so this page is not a 13MB download on a phone.
+      muted + playsinline so iOS will play them inline rather than going
+      fullscreen, and preload=metadata so opening the page does not pull both
+      videos down before anyone presses play. -->
+    <div class="shop-proof">
+      <figure class="shop-proof-item">
+        <video src="assets/shops/drip.mp4" poster="assets/shops/drip-cover.jpg"
+               controls muted playsinline preload="metadata"></video>
+        <figcaption><strong>Drip</strong>, Ormeau Road. Brunch, the L8 menu and what they pour in the evening.</figcaption>
+      </figure>
+      <figure class="shop-proof-item">
+        <video src="assets/shops/memento.mp4" poster="assets/shops/memento-cover.png"
+               controls muted playsinline preload="metadata"></video>
+        <figcaption><strong>Memento</strong>, a florist. Their own photography, their own offer.</figcaption>
+      </figure>
+    </div>
+
+    <h2>What you get</h2>
+    <ul>
+      <li>A page with your name, your photos and what you have on.</li>
+      <li>Short videos like the two above. We make the first one for you.</li>
+      <li>Offers you can put up and take down yourself, whenever you want.</li>
+      <li>People nearby see it when they are close enough to walk in.</li>
+    </ul>
+
+    <h2>What it costs</h2>
+    <p>
+      Nothing to list, and nothing to pay for the first video. We are opening in South and East
+      Belfast first, so the shops that come in now are the ones people see.
+    </p>
+
+    <h2>How to take your page over</h2>
+    <p>
+      There is already a page for you. Your email has a link in it that makes the page yours,
+      and it only works once. Open it, sign in, and the page is in your hands.
+    </p>
+    <p>
+      If you would rather the page came down, reply to that email and it comes down the same day.
+    </p>
+
+    <h2>Who we are</h2>
+    <p>
+      CLocal is built in Belfast by <strong>Clickclick Video Marketing Ltd</strong>, a company
+      registered in Northern Ireland (number NI707611), registered office Arthur House, 41 Arthur
+      Street, Belfast, BT1 4GB. You can reach a person at
+      <a href="mailto:hello@clocal.co.uk">hello@clocal.co.uk</a>.
+    </p>
+  </main>
+
+  <footer class="footer">
+    <p><a href="/">&larr; Back to CLocal</a> &middot; <a href="/privacy.html">Privacy Policy</a></p>
+    <p>&copy; <span id="year"></span> CLocal. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

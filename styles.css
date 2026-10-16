@@ -2515,3 +2515,32 @@ body.signup-open { overflow: hidden; }
   font-size: 1rem;
   margin: 1.1rem 0 0.35rem;
 }
+
+/* Side-by-side proof videos on your-page.html. Two portrait cuts, so they
+   need a hard max-width or a 1080x1920 file fills a desktop screen. Stacks
+   on a phone, which is where most shop owners will open this. */
+.shop-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 26px 0 34px;
+}
+.shop-proof-item {
+  flex: 1 1 240px;
+  max-width: 300px;
+  margin: 0;
+}
+.shop-proof-item video {
+  width: 100%;
+  border-radius: 18px;
+  display: block;
+  background: #0B2224;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+.shop-proof-item figcaption {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin-top: 10px;
+  opacity: 0.85;
+}
