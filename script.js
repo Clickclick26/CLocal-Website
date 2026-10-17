@@ -391,7 +391,35 @@ document.querySelectorAll("[data-role]").forEach((el) => {
   });
 });
 
+/**
+ * PostHog funnel event. window.posthog only exists once the visitor has
+ * pressed Allow on the consent bar (see consent.js), so a declined or
+ * undecided visitor sends nothing. Never pass a name, email or postcode.
+ * @param {string} event
+ * @param {Record<string, unknown>} [props]
+ */
+function track(event, props) {
+  try {
+    if (window.posthog && typeof window.posthog.capture === "function") {
+      window.posthog.capture(event, props || {});
+    }
+  } catch {
+    // An analytics failure must never break the page.
+  }
+}
+
+// Funnel step 2: any "Join the waitlist" button that jumps to the form.
+document.querySelectorAll('a[href="#early-access"], a[href="#join"]').forEach((el) => {
+  el.addEventListener("click", () => {
+    const section = el.closest("section, header, footer");
+    track("waitlist_cta_clicked", { location: section ? section.id || section.className : "" });
+  });
+});
+
 if (form && status) {
+  // Funnel step 3: first interaction with the form, once per page view.
+  form.addEventListener("focusin", () => track("waitlist_form_started"), { once: true });
+
   // FormSubmit _next lands here after a successful classic POST.
   if (new URLSearchParams(window.location.search).get("waitlist") === "ok") {
     setStatus(SUCCESS_COPY, "ok");
@@ -558,6 +586,18 @@ if (form && status) {
         window.fbq("track", "Lead", {
           content_name: "waitlist_signup",
           utm_source: utm.utm_source,
+          utm_campaign: utm.utm_campaign,
+          utm_content: utm.utm_content,
+        });
+      }
+      // Funnel step 4. Skipped for the honeypot path, which also lands here.
+      if (!(honey && honey.value)) {
+        track("waitlist_signup", {
+          roles,
+          has_postcode: Boolean(postcode),
+          newsletter,
+          utm_source: utm.utm_source,
+          utm_medium: utm.utm_medium,
           utm_campaign: utm.utm_campaign,
           utm_content: utm.utm_content,
         });

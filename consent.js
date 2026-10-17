@@ -8,8 +8,8 @@
  * it worse. Under UK PECR reg 6 non-essential tracking needs consent BEFORE it
  * runs, not after.
  *
- * So nothing tracking-related loads from the page markup any more. Both the
- * Pixel and Clarity live in here and only start once someone accepts. Decline
+ * So nothing tracking-related loads from the page markup any more. The Pixel,
+ * Clarity and PostHog live in here and only start once someone accepts. Decline
  * is a real decline: nothing loads, and we do not ask again.
  *
  * Trade-off Kathryn accepted knowingly: visitors who decline are invisible to
@@ -21,6 +21,27 @@
   var STORE_KEY = "clocal_consent";       // "granted" | "denied"
   var PIXEL_ID = "28558401590434489";
   var CLARITY_ID = "yi96ipan1c";
+
+  /* PostHog product analytics (added 17 Oct 2026).
+     ------------------------------------------------------------------
+     Clarity shows how one visitor moved around a page. It cannot answer
+     "of everyone who landed, how many pressed Join, started the form, and
+     finished it", which is the funnel the waitlist actually lives or dies
+     on. PostHog does that, from four events: $pageview (automatic),
+     waitlist_cta_clicked, waitlist_form_started and waitlist_signup (all
+     fired from script.js).
+
+     The project key is a public, client-side key by design (phc_...), so
+     it is safe in page source. Leave it blank and PostHog simply never
+     loads. EU cloud, because every visitor here is in the UK.
+
+     Same consent gate as the Pixel and Clarity: nothing loads until
+     someone presses Allow. No names, emails or postcodes are ever sent,
+     only which roles were ticked, whether a postcode was given, and the
+     campaign tags. Session recording stays off; Clarity already does
+     that job. */
+  var POSTHOG_KEY = "phc_BnLwDfTazgmgevJCQZnWebz47CLmKTmZHF7DGmnfzZ73";
+  var POSTHOG_HOST = "https://eu.i.posthog.com";
 
   /* Which version of the site a recording is of.
      ------------------------------------------------------------------
@@ -110,10 +131,27 @@
     return h === "clocal.co.uk" || h === "www.clocal.co.uk";
   }
 
+  function loadPostHog() {
+    if (!POSTHOG_KEY || (window.posthog && window.posthog.__loaded)) return;
+    /* eslint-disable */
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset identify get_distinct_id".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    /* eslint-enable */
+    window.posthog.init(POSTHOG_KEY, {
+      api_host: POSTHOG_HOST,
+      person_profiles: "identified_only",
+      capture_pageview: true,
+      autocapture: true,
+      disable_session_recording: true,
+    });
+    // Same version stamp as Clarity, so funnels can be split by page design.
+    try { window.posthog.register({ site_version: SITE_VERSION }); } catch (e) {}
+  }
+
   function startTracking() {
     if (!isRealSite()) return;
     loadMetaPixel();
     loadClarity();
+    loadPostHog();
   }
 
   // script.js fires a Lead event on signup. It checks window.fbq first, so a
