@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Drip and Memento | CLocal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  /* Unlisted share page: not in sitemap.xml, noindex. Link only. */
+  @font-face { font-family: "Safira March"; src: url("/assets/fonts/safira-march.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+  :root { --teal:#008080; --navy:#1b3a5c; --ink:#1a2e2e; --muted:#5a7373; --line:rgba(0,128,128,.2); }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:"Nunito",system-ui,sans-serif; color:var(--ink);
+    background: radial-gradient(ellipse 90% 40% at 10% -8%, rgba(27,58,92,.22), transparent 55%),
+                radial-gradient(ellipse 70% 35% at 95% 0%, rgba(0,255,255,.18), transparent 50%), #ffffff; }
+  .wrap { max-width:860px; margin:0 auto; padding:40px 16px 56px; display:flex; flex-direction:column; gap:28px; }
+  header img { height:34px; width:auto; display:block; }
+  h1 { font-family:"Safira March","Nunito",serif; font-weight:400; color:var(--navy); font-size:clamp(2.2rem,6vw,3.4rem); line-height:1.05; margin:0; }
+  .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+  @media (max-width:620px) { .grid { grid-template-columns:1fr; } }
+  figure { margin:0; background:#fff; border:1px solid var(--line); border-radius:22px; overflow:hidden; }
+  video { width:100%; aspect-ratio:9/16; background:#0f1f1f; display:block; object-fit:cover; }
+  figcaption { padding:14px 16px 16px; display:flex; flex-direction:column; gap:2px; }
+  figcaption strong { font-size:1.05rem; color:var(--navy); font-weight:800; }
+  figcaption span { color:var(--muted); font-size:.92rem; }
+  footer { border-top:1px solid var(--line); padding-top:16px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; color:var(--muted); font-size:.92rem; }
+  footer a { color:var(--teal); font-weight:800; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="/"><img src="/assets/clocal-logo.png" alt="CLocal"></a></header>
+  <h1>Drip and Memento</h1>
+  <div class="grid">
+    <figure>
+      <video controls playsinline preload="metadata" poster="drip.jpg" src="drip.mp4"></video>
+      <figcaption><strong>Drip</strong><span>Ormeau Road, Belfast</span></figcaption>
+    </figure>
+    <figure>
+      <video controls playsinline preload="metadata" poster="memento.jpg" src="memento.mp4"></video>
+      <figcaption><strong>Memento</strong><span>Florist, Belfast</span></figcaption>
+    </figure>
+  </div>
+  <footer><span>Launching soon in Belfast</span><a href="/">clocal.co.uk</a></footer>
+</div>
+</body>
+</html>
