@@ -2544,3 +2544,10 @@ body.signup-open { overflow: hidden; }
   margin-top: 10px;
   opacity: 0.85;
 }
+
+/* Google Play badge (black, like the store's own). Sized per place it sits. */
+.play-badge { display: inline-block; line-height: 0; }
+.play-badge img { height: 56px; width: auto; display: block; }
+header .play-badge img { height: 42px; }
+.who-card .play-badge img, .discover .play-badge img, .benefits-fomo .play-badge img { height: 50px; }
+.hero-waitlist .play-badge { margin: 4px 0 2px; }
