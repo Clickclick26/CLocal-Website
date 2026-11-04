@@ -2551,3 +2551,14 @@ body.signup-open { overflow: hidden; }
 header .play-badge img { height: 42px; }
 .who-card .play-badge img, .discover .play-badge img, .benefits-fomo .play-badge img { height: 50px; }
 .hero-waitlist .play-badge { margin: 4px 0 2px; }
+
+/* SEE IT: two shop videos */
+.see-it { position: relative; z-index: 1; padding: 4.5rem clamp(1rem, 4vw, 2.5rem); max-width: 900px; margin: 0 auto; text-align: center; }
+.see-it-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; margin: 0 auto 2rem; }
+@media (max-width: 620px) { .see-it-grid { grid-template-columns: 1fr; max-width: 360px; } }
+.see-it-card { margin: 0; background: #fff; border: 1px solid rgba(0, 128, 128, 0.2); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow-soft); text-align: left; }
+.see-it-card video { width: 100%; aspect-ratio: 9 / 16; background: #0f1f1f; display: block; object-fit: cover; }
+.see-it-card figcaption { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 2px; }
+.see-it-card figcaption strong { color: var(--accent); font-weight: 800; font-size: 1.05rem; }
+.see-it-card figcaption span { color: var(--muted); font-size: 0.92rem; }
+.see-it-note { color: var(--muted); font-size: 0.92rem; margin: 0.6rem 0 0; }
