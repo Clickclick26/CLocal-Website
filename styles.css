@@ -2562,3 +2562,13 @@ header .play-badge img { height: 42px; }
 .see-it-card figcaption strong { color: var(--accent); font-weight: 800; font-size: 1.05rem; }
 .see-it-card figcaption span { color: var(--muted); font-size: 0.92rem; }
 .see-it-note { color: var(--muted); font-size: 0.92rem; margin: 0.6rem 0 0; }
+
+/* Web app button, sits next to the Google Play badge (for iPhone and desktop visitors) */
+.web-app-btn { display: inline-flex; align-items: center; justify-content: center; height: 56px; padding: 0 22px; margin-left: 10px; border-radius: 10px; border: 2px solid #008080; background: #fff; color: #008080; font-weight: 800; font-size: 15px; text-decoration: none; vertical-align: top; box-sizing: border-box; }
+.web-app-btn:hover { background: #008080; color: #fff; }
+.who-card .web-app-btn, .discover .web-app-btn, .benefits-fomo .web-app-btn { height: 50px; }
+header .web-app-btn { height: 42px; padding: 0 16px; font-size: 14px; }
+@media (max-width: 560px) {
+  .web-app-btn { margin: 8px 0 0 0; }
+  header .web-app-btn { display: none; }
+}
