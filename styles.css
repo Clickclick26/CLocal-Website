@@ -2572,3 +2572,16 @@ header .web-app-btn { height: 42px; padding: 0 16px; font-size: 14px; }
   .web-app-btn { margin: 8px 0 0 0; }
   header .web-app-btn { display: none; }
 }
+
+/* Header fit on tablets: nothing in the nav may wrap onto two lines. */
+.nav-links a, header .web-app-btn { white-space: nowrap; }
+header .web-app-btn { flex-shrink: 0; margin-left: 0; }
+.nav .play-badge { flex-shrink: 0; }
+@media (max-width: 1240px) {
+  .nav { gap: 0.75rem; }
+  .nav-links { gap: 1rem; font-size: 0.9rem; }
+  .nav-links a:nth-child(1), .nav-links a:nth-child(4) { display: none; } /* The problem, Who it's for */
+}
+@media (max-width: 1080px) {
+  .nav-links a:nth-child(3) { display: none; } /* Hidden gems */
+}
