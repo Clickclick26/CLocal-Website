@@ -2593,6 +2593,10 @@ header .web-app-btn { flex-shrink: 0; margin-left: 0; }
   max-width: 1180px;
   margin: 0 auto;
 }
+.inside-title {
+  text-align: center;
+  margin: 0 auto;
+}
 .app-shots {
   display: flex;
   gap: 1.1rem;
