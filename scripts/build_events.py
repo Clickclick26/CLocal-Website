@@ -112,7 +112,8 @@ def when_text(ev):
     if e and e.date() == s.date():
         return f"{day}, {clock(s)} to {clock(e)}"
     if e:
-        return f"{day} {clock(s)} to {e.strftime('%A')} {e.day} {e.strftime('%B')} {clock(e)}"
+        # A run over several days: dates only, since the times vary.
+        return f"{day} to {e.strftime('%A')} {e.day} {e.strftime('%B')}"
     return f"{day}, {clock(s)}"
 
 
@@ -281,7 +282,8 @@ def event_page(ev, now):
     canonical = f"{SITE}/{name}"
     finished = is_finished(ev, now)
     place = place_text(ev)
-    title_bits = [ev["title"], ev.get("area") or None, short_date(ev)]
+    area_bit = ev.get("area") if ev.get("area") and ev["area"].lower() not in ev["title"].lower() else None
+    title_bits = [ev["title"], area_bit, short_date(ev)]
     title = ", ".join(b for b in title_bits if b) + " | CLocal"
     desc_when = when_text(ev)
     desc = f"{ev['title']}: {desc_when}" + (f", {place}" if place else "") + ". "
@@ -294,7 +296,10 @@ def event_page(ev, now):
     status = '      <p class="guide-answer">This event has finished. Browse <a href="events.html">what is on now</a>.</p>\n' if finished else ""
     img = (f'      <p style="margin-bottom:1.25rem"><img src="{esc(ev["image_url"])}" alt="{esc(ev["title"])} flyer" '
            f'style="max-width:100%;height:auto;border-radius:16px" loading="lazy" /></p>\n') if ev.get("image_url") else ""
-    cal = "" if finished else f'        <li><a href="{esc(google_calendar(ev))}" rel="noopener">Add it to Google Calendar</a></li>\n'
+    # A season of screenings is not one calendar entry, so only single-day events get the link.
+    s0, e0 = parse(ev["starts_at"]), parse(ev["ends_at"])
+    multiday = bool(e0 and e0.date() != s0.date() and e0 - s0 > timedelta(hours=12))
+    cal = "" if (finished or multiday) else f'        <li><a href="{esc(google_calendar(ev))}" rel="noopener">Add it to Google Calendar</a></li>\n'
     more = (f'      <h2>More on CLocal</h2>\n      <ul>\n'
             f'        <li><a href="{APP}/event/{ev["id"]}" rel="noopener">Say you are going, in the CLocal app</a></li>\n'
             f'{cal}'
@@ -328,7 +333,7 @@ def hub_page(events, now):
         title, h1, eyebrow = "Local events across the UK and Ireland | CLocal", "What's on near you", "Local events"
     else:
         title, h1, eyebrow = "What's on in Belfast and Northern Ireland | CLocal", "What's on in Belfast", "Events"
-    desc = ("Markets, food nights and other local events, with dates, places and a flyer for each. "
+    desc = ("Markets, food nights, film screenings and other local events, with dates and places for each. "
             "Say you are going in the CLocal app.")
     canonical = f"{SITE}/events.html"
     items = [{"@type": "ListItem", "position": i + 1, "url": f"{SITE}/{page_name(e)}", "name": e["title"]}
