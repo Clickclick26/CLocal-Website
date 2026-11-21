@@ -72,7 +72,7 @@ def creds():
 def fetch_events():
     url, key = creds()
     cols = ("id,title,description,location,starts_at,ends_at,image_url,category,"
-            "latitude,longitude,area,region")
+            "latitude,longitude,area,region,keywords")
     q = urllib.parse.urlencode({"select": cols, "status": "eq.published",
                                 "order": "starts_at.asc", "limit": "500"})
     req = urllib.request.Request(f"{url}/rest/v1/events?{q}",
@@ -274,6 +274,8 @@ def event_ld(ev, now):
         d["description"] = " ".join(ev["description"].split())
     if ev.get("image_url"):
         d["image"] = [ev["image_url"]]
+    if ev.get("keywords"):
+        d["keywords"] = ev["keywords"]  # the admin's hidden search words, also useful to Google
     return json.dumps(d, indent=2, ensure_ascii=False)
 
 
